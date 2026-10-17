@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <title>The Archives | The Cantina Club</title>
+  <style>
+    :root {
+      --bg: #101114;
+      --panel: #191b20;
+      --border: #34363d;
+      --text: #f5f1e8;
+      --muted: #a7a7ad;
+      --gold: #e5b965;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: min(1050px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    header {
+      background: #17181b;
+      border-bottom: 1px solid var(--border);
+      padding: 19px 0;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+    }
+
+    .brand span { color: var(--gold); }
+
+    .back { font-size: 13px; }
+
+    main { padding: 43px 0 65px; }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.1;
+      margin: 10px 0;
+    }
+
+    .intro {
+      color: var(--muted);
+      max-width: 650px;
+      margin-bottom: 30px;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 13px;
+      font: inherit;
+    }
+
+    .summary {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 15px 0;
+    }
+
+    .sets {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .set {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 19px;
+    }
+
+    .set h2 {
+      font-size: 17px;
+      margin: 5px 0;
+    }
+
+    .set p {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 7px 0 13px;
+    }
+
+    .tag {
+      color: var(--gold);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .details {
+      display: none;
+      border-top: 1px solid var(--border);
+      margin-top: 14px;
+      padding-top: 14px;
+      font-size: 13px;
+    }
+
+    .details.open { display: block; }
+
+    .details p { margin: 6px 0; }
+
+    .button {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid #705831;
+      border-radius: 6px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+    }
+
+    .button:hover { background: #30281c; }
+
+    .empty {
+      display: none;
+      color: var(--muted);
+      padding: 25px 0;
+    }
+
+    .notice {
+      margin-top: 27px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 23px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 580px) {
+      .filters, .sets { grid-template-columns: 1fr; }
+      main { padding-top: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-row">
+      <a class="brand" href="index.html">✦ THE CANTINA CLUB</a>
+      <a class="back" href="index.html">← Back to homepage</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="eyebrow">The collector's database</div>
+    <h1>The Archives</h1>
+    <p class="intro">
+      Explore physical Star Wars Topps releases by year and set.
+      Each release will eventually have its own checklist and individual
+      card records, including variations, autographs, parallels and more.
+    </p>
+
+    <div class="filters">
+      <select id="year-filter" aria-label="Filter by year">
+        <option value="all">All years</option>
+        <option value="1977">1977</option>
+      </select>
+      <input id="search" type="search"
+        placeholder="Search sets, series or card types..."
+        aria-label="Search sets">
+    </div>
+
+    <div class="summary" id="summary" aria-live="polite"></div>
+
+    <div class="sets" id="sets">
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars series 1 blue border cards">
+        <div class="tag">1977 · Trading cards</div>
+        <h2>1977 Topps Star Wars — Series 1</h2>
+        <p>Blue border · Cards #1–66</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p><strong>Release:</strong> 1977 Topps Star Wars</p>
+          <p><strong>Series:</strong> 1 of 5</p>
+          <p><strong>Checklist:</strong> 66 card numbers</p>
+          <p>The individual card checklist will be added in a later step.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars series 2 red border cards">
+        <div class="tag">1977 · Trading cards</div>
+        <h2>1977 Topps Star Wars — Series 2</h2>
+        <p>Red border · Cards #67–132</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p><strong>Series:</strong> 2 of 5</p>
+          <p><strong>Checklist:</strong> 66 card numbers</p>
+          <p>The individual card checklist will be added in a later step.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars series 3 yellow border cards">
+        <div class="tag">1977 · Trading cards</div>
+        <h2>1977 Topps Star Wars — Series 3</h2>
+        <p>Yellow border · Cards #133–198</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p><strong>Series:</strong> 3 of 5</p>
+          <p><strong>Checklist:</strong> 66 card numbers</p>
+          <p>The individual card checklist will be added in a later step.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars series 4 green border cards">
+        <div class="tag">1977 · Trading cards</div>
+        <h2>1977 Topps Star Wars — Series 4</h2>
+        <p>Green border · Cards #199–264</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p><strong>Series:</strong> 4 of 5</p>
+          <p><strong>Checklist:</strong> 66 card numbers</p>
+          <p>The individual card checklist will be added in a later step.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars series 5 orange border cards">
+        <div class="tag">1977 · Trading cards</div>
+        <h2>1977 Topps Star Wars — Series 5</h2>
+        <p>Orange border · Cards #265–330</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p><strong>Series:</strong> 5 of 5</p>
+          <p><strong>Checklist:</strong> 66 card numbers</p>
+          <p>The individual card checklist will be added in a later step.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars stickers series 1">
+        <div class="tag">1977 · Stickers</div>
+        <h2>1977 Topps Star Wars — Stickers Series 1</h2>
+        <p>Sticker checklist</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p>Sticker entries and their associated card references will be added separately.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars stickers series 2">
+        <div class="tag">1977 · Stickers</div>
+        <h2>1977 Topps Star Wars — Stickers Series 2</h2>
+        <p>Sticker checklist</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p>Sticker entries and their associated card references will be added separately.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars stickers series 3">
+        <div class="tag">1977 · Stickers</div>
+        <h2>1977 Topps Star Wars — Stickers Series 3</h2>
+        <p>Sticker checklist</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p>Sticker entries and their associated card references will be added separately.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars stickers series 4">
+        <div class="tag">1977 · Stickers</div>
+        <h2>1977 Topps Star Wars — Stickers Series 4</h2>
+        <p>Sticker checklist</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p>Sticker entries and their associated card references will be added separately.</p>
+        </div>
+      </article>
+
+      <article class="set" data-year="1977"
+        data-search="1977 topps star wars stickers series 5">
+        <div class="tag">1977 · Stickers</div>
+        <h2>1977 Topps Star Wars — Stickers Series 5</h2>
+        <p>Sticker checklist</p>
+        <button class="button" type="button">View set details</button>
+        <div class="details">
+          <p>Sticker entries and their associated card references will be added separately.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="empty" id="empty">
+      No sets match your search. Try another year or search term.
+    </div>
+
+    <div class="notice">
+      <strong>Archive status:</strong> This is the initial demonstration catalogue.
+      It is not a complete list of Star Wars Topps releases. More years and sets
+      will be added after their information has been checked.
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      The Cantina Club · Independent collector community
+    </div>
+  </footer>
+
+  <script>
+    const yearFilter = document.getElementById("year-filter");
+    const searchInput = document.getElementById("search");
+    const setCards = [...document.querySelectorAll(".set")];
+    const summary = document.getElementById("summary");
+    const empty = document.getElementById("empty");
+
+    function filterSets() {
+      const year = yearFilter.value;
+      const query = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+
+      setCards.forEach(card => {
+        const matchesYear = year === "all" || card.dataset.year === year;
+        const matchesText = (card.innerText + " " + card.dataset.search)
+          .toLowerCase().includes(query);
+        const show = matchesYear && matchesText;
+
+        card.hidden = !show;
+        if (show) visible++;
+      });
+
+      summary.textContent = visible + " starter set entries shown";
+      empty.style.display = visible ? "none" : "block";
+    }
+
+    yearFilter.addEventListener("change", filterSets);
+    searchInput.addEventListener("input", filterSets);
+
+    document.querySelectorAll(".set .button").forEach(button => {
+      button.addEventListener("click", () => {
+        const details = button.nextElementSibling;
+        details.classList.toggle("open");
+        button.textContent = details.classList.contains("open")
+          ? "Hide set details"
+          : "View set details";
+      });
+    });
+
+    filterSets();
+  </script>
+</body>
+</html>
