@@ -84,9 +84,9 @@
 <main>
   <h1>Cantina Club Admin</h1>
   <p class="muted">
-    Private submission review. Only approved card information is saved
-    to the approved archive table. The public page still needs to be
-    connected to that table.
+    Private submission review. Only approved card information and
+    deliberately published photos appear in the public archive.
+    Pending submission photos remain private.
   </p>
 
   <section id="login-panel" class="panel">
@@ -193,6 +193,7 @@
       console.error("Could not open private photo:", error);
       return null;
     }
+
     return data.signedUrl;
   }
 
@@ -201,6 +202,7 @@
     column.appendChild(makeElement("div", "photo-label", label));
 
     const url = await getPhotoUrl(path);
+
     if (url) {
       const img = makeElement("img");
       img.src = url;
@@ -219,6 +221,129 @@
     }
 
     container.appendChild(column);
+  }
+
+  function getExtension(path, mimeType) {
+    const match = String(path || "").match(/\.(jpg|jpeg|png|webp)$/i);
+    if (match) return match[1].toLowerCase();
+
+    if (mimeType === "image/png") return "png";
+    if (mimeType === "image/webp") return "webp";
+    return "jpg";
+  }
+
+  function getMimeType(extension, blobType) {
+    if (blobType && [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ].includes(blobType)) {
+      return blobType;
+    }
+
+    if (extension === "png") return "image/png";
+    if (extension === "webp") return "image/webp";
+    return "image/jpeg";
+  }
+
+  function safePathPart(value) {
+    return String(value || "")
+      .trim()
+      .replace(/[^a-zA-Z0-9_-]/g, "-");
+  }
+
+  async function copyApprovedPhoto(sourcePath, destinationPath) {
+    if (!sourcePath) return null;
+
+    // Download from the private bucket using the signed-in admin session.
+    const { data: file, error: downloadError } = await client.storage
+      .from("card-submissions")
+      .download(sourcePath);
+
+    if (downloadError) {
+      throw new Error("Could not read the private photo: " +
+        downloadError.message);
+    }
+
+    const extension = getExtension(sourcePath, file.type);
+    const contentType = getMimeType(extension, file.type);
+
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error("A photo exceeds the 10 MB public bucket limit.");
+    }
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(contentType)) {
+      throw new Error("Unsupported photo format.");
+    }
+
+    // This upload occurs only after the admin approves the card,
+    // or explicitly clicks Publish approved photos for an approved card.
+    const { error: uploadError } = await client.storage
+      .from("approved-card-images")
+      .upload(destinationPath, file, {
+        contentType,
+        upsert: true,
+        cacheControl: "3600"
+      });
+
+    if (uploadError) {
+      throw new Error("Could not publish photo: " + uploadError.message);
+    }
+
+    return destinationPath;
+  }
+
+  async function publishApprovedPhotos(item, cardNumber) {
+    if (!item.front_image_path && !item.back_image_path) {
+      throw new Error("This submission has no saved front or back photo.");
+    }
+
+    const setSlug = safePathPart(item.set_slug);
+    const safeNumber = safePathPart(cardNumber);
+
+    if (!setSlug || !safeNumber) {
+      throw new Error("The set name or card number is missing.");
+    }
+
+    const basePath = setSlug + "/card-" + safeNumber + "/" + item.id;
+
+    let frontPath = null;
+    let backPath = null;
+
+    if (item.front_image_path) {
+      const ext = getExtension(item.front_image_path);
+      frontPath = await copyApprovedPhoto(
+        item.front_image_path,
+        basePath + "-front." + ext
+      );
+    }
+
+    if (item.back_image_path) {
+      const ext = getExtension(item.back_image_path);
+      backPath = await copyApprovedPhoto(
+        item.back_image_path,
+        basePath + "-back." + ext
+      );
+    }
+
+    // Save the PUBLIC bucket paths on the approved record.
+    // These paths are not the private submission paths.
+    const update = {};
+    if (frontPath) update.front_image_path = frontPath;
+    if (backPath) update.back_image_path = backPath;
+
+    const { error: updateError } = await client
+      .from("approved_cards")
+      .update(update)
+      .eq("set_slug", item.set_slug)
+      .eq("card_number", String(cardNumber).trim());
+
+    if (updateError) {
+      throw new Error(
+        "Photos were uploaded, but the approved record could not be updated: " +
+        updateError.message
+      );
+    }
   }
 
   async function makeSubmissionCard(item) {
@@ -265,6 +390,7 @@
     form.appendChild(notesInput);
 
     const actions = makeElement("div", "actions");
+
     const saveButton = makeElement("button", "", "Save corrections");
     saveButton.type = "submit";
     actions.appendChild(saveButton);
@@ -280,6 +406,17 @@
     rejectButton.type = "button";
     rejectButton.disabled = !isPending;
     actions.appendChild(rejectButton);
+
+    // Approved submissions can be retried without resubmitting the card.
+    const publishButton = makeElement(
+      "button",
+      "secondary",
+      "Publish approved photos"
+    );
+    publishButton.type = "button";
+    publishButton.disabled = isPending ||
+      (!item.front_image_path && !item.back_image_path);
+    actions.appendChild(publishButton);
 
     const message = makeElement("p", "status");
     message.setAttribute("role", "status");
@@ -301,6 +438,8 @@
       saveButton.disabled = disabled;
       approveButton.disabled = disabled || !isPending;
       rejectButton.disabled = disabled || !isPending;
+      publishButton.disabled = disabled || isPending ||
+        (!item.front_image_path && !item.back_image_path);
     }
 
     async function saveCorrections() {
@@ -329,6 +468,20 @@
       });
 
       if (error) throw error;
+
+      // Approval is saved first. Only then are the images copied
+      // into the public bucket.
+      if (item.front_image_path || item.back_image_path) {
+        try {
+          await publishApprovedPhotos(item, number);
+        } catch (photoError) {
+          throw new Error(
+            "The card was approved, but its photos could not be published. " +
+            "Refresh submissions and use Publish approved photos to retry. " +
+            photoError.message
+          );
+        }
+      }
     }
 
     async function rejectSubmission() {
@@ -360,7 +513,8 @@
       } catch (error) {
         console.error("Admin action failed:", error);
         message.textContent =
-          "Action failed: " + (error.message || "Check permissions and try again.");
+          "Action failed: " +
+          (error.message || "Check permissions and try again.");
         saving = false;
         setButtonsDisabled(false);
       }
@@ -373,14 +527,24 @@
 
     approveButton.addEventListener("click", () => {
       if (!confirm(
-        "Approve this submission? Its corrected data will be saved " +
-        "to the approved archive table. The public website still needs " +
-        "to be connected to that table."
+        "Approve this submission and publish its photos to the public " +
+        "archive? Only approved photos will be copied to the public bucket."
       )) return;
 
       runAction(
         approveSubmission,
-        "Approved successfully. The approved record is saved in Supabase."
+        "Approved successfully. Approved photos have been published."
+      );
+    });
+
+    publishButton.addEventListener("click", () => {
+      if (!confirm(
+        "Publish or republish the photos for this already-approved card?"
+      )) return;
+
+      runAction(
+        () => publishApprovedPhotos(item, numberInput.value.trim()),
+        "Approved photos published successfully."
       );
     });
 
