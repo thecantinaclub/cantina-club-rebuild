@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cantina Club — Admin Review</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0c1018;
+      color: #f0f2f6;
+      font: 16px/1.5 Arial, sans-serif;
+    }
+    main { max-width: 1000px; margin: auto; }
+    h1, h2 { color: #e4c16f; }
+    .panel, .submission {
+      margin: 18px 0;
+      padding: 20px;
+      border: 1px solid #424c60;
+      border-radius: 10px;
+      background: #141923;
+    }
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: bold;
+    }
+    input, textarea {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #424c60;
+      border-radius: 6px;
+      background: #0c1018;
+      color: #f0f2f6;
+      font: inherit;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    button {
+      margin: 12px 8px 0 0;
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 6px;
+      background: #e4c16f;
+      color: #141923;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button.secondary {
+      border: 1px solid #424c60;
+      background: #252b38;
+      color: #f0f2f6;
+    }
+    button.reject { background: #6f3038; color: white; }
+    button:disabled { opacity: .5; cursor: wait; }
+    .hidden { display: none !important; }
+    .muted { color: #a8b0c0; }
+    .status { margin-top: 12px; overflow-wrap: anywhere; }
+    .photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .photos img {
+      display: block;
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      background: #080a0e;
+      border: 1px solid #424c60;
+      border-radius: 6px;
+    }
+    .photo-label { margin-bottom: 6px; color: #e4c16f; }
+    .submission-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .actions { margin-top: 18px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Cantina Club Admin</h1>
+  <p class="muted">
+    Private submission review. Changes are saved to Supabase.
+    Approval does not yet publish changes to the public archive.
+  </p>
+
+  <section id="login-panel" class="panel">
+    <h2>Admin login</h2>
+    <form id="login-form">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password"
+        autocomplete="current-password" required>
+
+      <button type="submit">Sign in</button>
+    </form>
+    <p id="login-status" class="status" role="status"></p>
+  </section>
+
+  <section id="admin-panel" class="hidden">
+    <div class="panel">
+      <span id="signed-in" class="muted"></span>
+      <button id="refresh-button" type="button">Refresh submissions</button>
+      <button id="logout-button" type="button" class="secondary">
+        Sign out
+      </button>
+      <p id="list-status" class="status" role="status"></p>
+    </div>
+    <div id="submissions"></div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+(() => {
+  const loginPanel = document.getElementById("login-panel");
+  const adminPanel = document.getElementById("admin-panel");
+  const loginForm = document.getElementById("login-form");
+  const loginStatus = document.getElementById("login-status");
+  const listStatus = document.getElementById("list-status");
+  const submissionsContainer = document.getElementById("submissions");
+
+  if (!window.supabase ||
+      !window.CANTINA_SUPABASE_URL ||
+      !window.CANTINA_SUPABASE_KEY) {
+    loginStatus.textContent =
+      "Configuration missing. Check supabase-config.js.";
+    return;
+  }
+
+  const client = window.supabase.createClient(
+    window.CANTINA_SUPABASE_URL,
+    window.CANTINA_SUPABASE_KEY
+  );
+
+  let loading = false;
+
+  function makeElement(tag, className, text) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  }
+
+  function showSignedOut(message = "") {
+    loginPanel.classList.remove("hidden");
+    adminPanel.classList.add("hidden");
+    submissionsContainer.replaceChildren();
+    loginStatus.textContent = message;
+  }
+
+  function showSignedIn(user) {
+    loginPanel.classList.add("hidden");
+    adminPanel.classList.remove("hidden");
+    document.getElementById("signed-in").textContent =
+      "Signed in as " + user.email;
+  }
+
+  function formatDate(value) {
+    if (!value) return "Unknown date";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+      ? value
+      : date.toLocaleString();
+  }
+
+  function addField(form, key, value) {
+    const safeKey = String(key);
+    const label = makeElement("label", "", safeKey);
+    const isLong = String(value ?? "").length > 100 ||
+      /notes|information|details/i.test(safeKey);
+
+    const input = makeElement(isLong ? "textarea" : "input");
+    input.name = safeKey;
+    input.value = value == null ? "" : String(value);
+    input.dataset.fieldKey = safeKey;
+
+    form.appendChild(label);
+    form.appendChild(input);
+  }
+
+  async function getPhotoUrl(path) {
+    if (!path) return null;
+
+    const { data, error } = await client.storage
+      .from("card-submissions")
+      .createSignedUrl(path, 3600);
+
+    if (error) {
+      console.error("Could not open private photo:", error);
+      return null;
+    }
+    return data.signedUrl;
+  }
+
+  async function addPhoto(photos, label, path) {
+    const column = makeElement("div");
+    column.appendChild(makeElement("div", "photo-label", label));
+
+    const url = await getPhotoUrl(path);
+    if (url) {
+      const img = makeElement("img");
+      img.src = url;
+      img.alt = label;
+      img.loading = "lazy";
+      column.appendChild(img);
+      const link = makeElement("a", "", "Open full-size photo");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      column.appendChild(link);
+    } else {
+      column.appendChild(makeElement("p", "muted",
+        "Photo unavailable or permission denied."));
+    }
+
+    photos.appendChild(column);
+  }
+
+  async function makeSubmissionCard(item) {
+    const card = makeElement("article", "submission");
+    const header = makeElement("div", "submission-header");
+    header.appendChild(makeElement("h2", "",
+      "Card #" + item.card_number));
+    header.appendChild(makeElement("span", "muted",
+      item.status + " · " + formatDate(item.created_at)));
+    card.appendChild(header);
+
+    card.appendChild(makeElement("p", "muted",
+      "Set: " + item.set_slug +
+      " · Submission ID: " + item.id));
+
+    const photos = makeElement("div", "photos");
+    card.appendChild(photos);
+
+    await addPhoto(photos, "Front photo", item.front_image_path);
+    await addPhoto(photos, "Back photo", item.back_image_path);
+
+    const form = makeElement("form");
+    const data = item.submitted_data &&
+      typeof item.submitted_data === "object"
+      ? item.submitted_data
+      : {};
+
+    // The card number is editable separately and saved to its database column.
+    const numberLabel = makeElement("label", "", "Card number");
+    const numberInput = makeElement("input");
+    numberInput.name = "card_number";
+    numberInput.value = item.card_number || "";
+    numberInput.required = true;
+    form.appendChild(numberLabel);
+    form.appendChild(numberInput);
+
+    const fieldHeading = makeElement("h3", "", "Submitted card information");
+    form.appendChild(fieldHeading);
+
+    Object.keys(data).forEach(key => addField(form, key, data[key]));
+
+    const notesLabel = makeElement("label", "", "Admin notes");
+    const notesInput = makeElement("textarea");
+    notesInput.name = "admin_notes";
+    notesInput.value = item.admin_notes || "";
+    form.appendChild(notesLabel);
+    form.appendChild(notesInput);
+
+    const actions = makeElement("div", "actions");
+    const saveButton = makeElement("button", "", "Save corrections");
+    saveButton.type = "submit";
+    actions.appendChild(saveButton);
+
+    const approveButton = makeElement("button", "", "Approve");
+    approveButton.type = "button";
+    approveButton.disabled = item.status !== "pending";
+    actions.appendChild(approveButton);
+
+    const rejectButton = makeElement("button", "reject", "Reject");
+    rejectButton.type = "button";
+    rejectButton.disabled = item.status !== "pending";
+    actions.appendChild(rejectButton);
+
+    const message = makeElement("p", "status");
+    message.setAttribute("role", "status");
+    form.appendChild(actions);
+    form.appendChild(message);
+    card.appendChild(form);
+
+    async function saveSubmission(newStatus) {
+      if (loading) return;
+      loading = true;
+      saveButton.disabled = true;
+      approveButton.disabled = true;
+      rejectButton.disabled = true;
+      message.textContent = "Saving…";
+
+      try {
+        const updatedData = {};
+        form.querySelectorAll("[data-field-key]").forEach(input => {
+          updatedData[input.dataset.fieldKey] = input.value;
+        });
+
+        const payload = {
+          card_number: numberInput.value.trim(),
+          submitted_data: updatedData,
+          admin_notes: notesInput.value.trim()
+        };
+
+        if (newStatus) {
+          payload.status = newStatus;
+          payload.reviewed_at = new Date().toISOString();
+        }
+
+        const { error } = await client
+          .from("card_submissions")
+          .update(payload)
+          .eq("id", item.id);
+
+        if (error) throw error;
+
+        message.textContent = newStatus
+          ? "Saved. Submission status: " + newStatus + "."
+          : "Corrections saved.";
+
+        if (newStatus) {
+          await loadSubmissions();
+        }
+      } catch (error) {
+        console.error("Could not save submission:", error);
+        message.textContent =
+          "Save failed. Check the browser console or Supabase permissions.";
+        saveButton.disabled = false;
+        approveButton.disabled = item.status !== "pending";
+        rejectButton.disabled = item.status !== "pending";
+      } finally {
+        loading = false;
+      }
+    }
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      saveSubmission(null);
+    });
+
+    approveButton.addEventListener("click", () => {
+      if (confirm(
+        "Approve this submission? Corrections will be saved, " +
+        "but the public archive will not update automatically yet."
+      )) {
+        saveSubmission("approved");
+      }
+    });
+
+    rejectButton.addEventListener("click", () => {
+      if (confirm("Reject this submission?")) {
+        saveSubmission("rejected");
+      }
+    });
+
+    return card;
+  }
+
+  async function loadSubmissions() {
+    if (loading) return;
+    loading = true;
+    listStatus.textContent = "Loading submissions…";
+    submissionsContainer.replaceChildren();
+
+    try {
+      const { data, error } = await client
+        .from("card_submissions")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      if (!data.length) {
+        listStatus.textContent = "No submissions found.";
+        return;
+      }
+
+      listStatus.textContent =
+        data.length + " submission(s) found.";
+
+      for (const item of data) {
+        const card = await makeSubmissionCard(item);
+        submissionsContainer.appendChild(card);
+      }
+    } catch (error) {
+      console.error("Could not load submissions:", error);
+      listStatus.textContent =
+        "Could not load submissions. Confirm you are signed in " +
+        "with the registered admin account and that admin permissions are set.";
+    } finally {
+      loading = false;
+    }
+  }
+
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    loginStatus.textContent = "Signing in…";
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      loginStatus.textContent =
+        "Sign-in failed. Check your email and password.";
+      return;
+    }
+
+    showSignedIn(data.user);
+    await loadSubmissions();
+  });
+
+  document.getElementById("refresh-button").addEventListener(
+    "click", loadSubmissions
+  );
+
+  document.getElementById("logout-button").addEventListener(
+    "click", async () => {
+      await client.auth.signOut();
+      showSignedOut("You have signed out.");
+    }
+  );
+
+  client.auth.getSession().then(async ({ data, error }) => {
+    if (error || !data.session) {
+      showSignedOut();
+      return;
+    }
+
+    showSignedIn(data.session.user);
+    await loadSubmissions();
+  });
+})();
+</script>
+</body>
+</html>
