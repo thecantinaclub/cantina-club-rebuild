@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1977 Topps Star Wars Series 4 | The Cantina Club</title>
+<style>
+:root {
+  --bg: #090b10;
+  --panel: #141923;
+  --panel2: #1b2230;
+  --gold: #e4c16f;
+  --text: #f0f2f6;
+  --muted: #a8b0c0;
+  --line: #303849;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+header {
+  border-bottom: 1px solid var(--line);
+  padding: 20px;
+  background: #0d1119;
+}
+.wrap { max-width: 1100px; margin: auto; }
+.brand {
+  color: var(--gold);
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 1.15rem;
+}
+.tagline { color: var(--muted); font-size: .78rem; letter-spacing: 2px; }
+nav { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; }
+nav a { color: var(--text); font-size: .9rem; }
+main { max-width: 1100px; margin: auto; padding: 28px 20px 60px; }
+.eyebrow {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: .78rem;
+  font-weight: bold;
+}
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin: 8px 0; }
+h2 { margin-top: 30px; }
+.intro { color: var(--muted); max-width: 760px; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.stat, .tools, .card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.stat { padding: 16px; }
+.stat strong { display: block; color: var(--gold); font-size: 1.5rem; }
+.stat span { color: var(--muted); font-size: .85rem; }
+.tools { padding: 16px; margin: 20px 0; }
+input, select {
+  background: #0c1018;
+  color: var(--text);
+  border: 1px solid #424c60;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  font-size: 1rem;
+}
+.filters { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+.results { color: var(--muted); font-size: .9rem; margin: 12px 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+.card { overflow: hidden; }
+.cardtop {
+  padding: 14px 16px;
+  background: var(--panel2);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.number { color: var(--gold); font-size: 1.15rem; font-weight: bold; }
+.pill {
+  border: 1px solid #655737;
+  color: var(--gold);
+  border-radius: 99px;
+  padding: 3px 8px;
+  font-size: .72rem;
+  white-space: nowrap;
+}
+.cardbody { padding: 16px; }
+.card h3 { margin: 0 0 10px; font-size: 1.08rem; }
+.placeholder {
+  border: 1px dashed #485267;
+  border-radius: 8px;
+  color: var(--muted);
+  min-height: 76px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 14px;
+  font-size: .85rem;
+}
+.cardphotos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.cardphoto {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0c1018;
+}
+.cardphoto-label {
+  padding: 5px 8px;
+  color: var(--gold);
+  font-size: .78rem;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+.cardphoto img {
+  display: block;
+  width: 100%;
+  height: 230px;
+  object-fit: contain;
+  background: #0c1018;
+}
+.cardphoto .missing-photo {
+  min-height: 100px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 8px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+details { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; }
+summary { cursor: pointer; color: var(--gold); font-size: .9rem; }
+dl { display: grid; grid-template-columns: 105px 1fr; gap: 6px 10px; font-size: .85rem; margin-bottom: 0; }
+dt { color: var(--muted); }
+dd { margin: 0; overflow-wrap: anywhere; }
+.empty { color: var(--muted); padding: 24px; text-align: center; }
+footer {
+  border-top: 1px solid var(--line);
+  padding: 24px 20px;
+  color: var(--muted);
+  text-align: center;
+  font-size: .82rem;
+}
+@media (max-width: 540px) {
+  .filters { grid-template-columns: 1fr; }
+  nav { gap: 12px; }
+  dl { grid-template-columns: 90px 1fr; }
+  .cardphoto img { height: 190px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="index.html">THE CANTINA CLUB</a>
+    <div class="tagline">A GALAXY OF CARDS</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="archives.html">The Archives</a>
+      <a href="index.html#sketch-vault">Sketch Vault</a>
+      <a href="index.html#cantina">The Cantina</a>
+      <a href="index.html#trading-post">Trading Post</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <p><a href="1977-topps-star-wars.html">← Back to 1977 Topps Star Wars</a></p>
+
+  <div class="eyebrow">1977 · Topps · Series 4</div>
+  <h1>Green Border</h1>
+
+  <p class="intro">
+    The fourth series of the original 1977 Topps Star Wars trading cards.
+    Browse cards #199–264 and search their documented details. Approved card
+    photos and corrections appear here after publication.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><strong>66</strong><span>Numbered cards</span></div>
+    <div class="stat"><strong>Green</strong><span>Border colour</span></div>
+    <div class="stat"><strong>1977</strong><span>Release year</span></div>
+  </div>
+
+  <section class="tools">
+    <div class="filters">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search card number, title, character, actor, location…"
+        aria-label="Search cards"
+      >
+      <select id="backFilter" aria-label="Filter by card back">
+        <option value="">All back types</option>
+        <option value="Puzzle — Small">Puzzle — Small</option>
+        <option value="Puzzle — Large">Puzzle — Large</option>
+        <option value="Story Summary">Story Summary</option>
+        <option value="Movie Facts">Movie Facts</option>
+      </select>
+    </div>
+    <div class="results" id="results" aria-live="polite">Loading checklist…</div>
+  </section>
+
+  <div class="cards" id="cards"></div>
+
+  <p class="intro">
+    Checklist data is based on the current Cantina Club working catalogue.
+    Empty fields mean information has not been entered here; they do not
+    necessarily mean the card has no such feature.
+  </p>
+</main>
+
+<footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
+
+<script src="database/1977%20Topps%20Star%20Wars/series4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="card-submission.js"></script>
+<script>
+const cards = (window.series4Cards || []).map(card => ({
+  number: Number(String(card.card).replace("#", "")),
+  title: card.title,
+  characters: card.characters,
+  droids: card.droids,
+  creatures: card.creatures,
+  vehicles: card.vehiclesSpaceships,
+  location: card.location,
+  back: card.back,
+  backInfo: card.backInformation,
+  set: card.set,
+  series: card.series,
+  border: card.border,
+  type: card.cardType,
+  media: card.media,
+  variations: card.variations,
+  error: card.errors,
+  frontImagePath: "",
+  backImagePath: "",
+  frontImageUrl: "",
+  backImageUrl: ""
+}));
+
+const cardsEl = document.getElementById("cards");
+const searchEl = document.getElementById("search");
+const backFilterEl = document.getElementById("backFilter");
+const resultsEl = document.getElementById("results");
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[ch]);
+}
+
+function field(label, value) {
+  if (value === null || value === undefined || value === "") {
+    return "";
+  }
+  return `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`;
+}
+
+function photoMarkup(url, label) {
+  if (!url) {
+    return `
+      <div class="cardphoto">
+        <div class="cardphoto-label">${esc(label)}</div>
+        <div class="missing-photo">No approved ${esc(label.toLowerCase())} photo yet</div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="cardphoto">
+      <div class="cardphoto-label">${esc(label)}</div>
+      <a href="${esc(url)}" target="_blank" rel="noopener noreferrer"
+         aria-label="Open full-size card ${esc(label.toLowerCase())}">
+        <img src="${esc(url)}"
+             alt="1977 Topps Star Wars Series 4 card ${esc(label.toLowerCase())}"
+             loading="lazy"
+             onerror="this.style.display='none'; this.parentElement.parentElement.insertAdjacentHTML('beforeend','<div class=&quot;missing-photo&quot;>Photo could not be loaded</div>');">
+      </a>
+    </div>
+  `;
+}
+
+function render() {
+  const query = searchEl.value.trim().toLowerCase();
+  const backFilter = backFilterEl.value;
+
+  const shown = cards.filter(card => {
+    const searchable = [
+      card.number,
+      card.title,
+      card.characters,
+      card.droids,
+      card.creatures,
+      card.vehicles,
+      card.location,
+      card.back,
+      card.backInfo,
+      card.set,
+      card.series,
+      card.border,
+      card.type,
+      card.media,
+      card.variations,
+      card.error
+    ].join(" ").toLowerCase();
+
+    return searchable.includes(query) &&
+      (!backFilter || card.back === backFilter);
+  });
+
+  resultsEl.textContent = `Showing ${shown.length} of ${cards.length} cards`;
+
+  if (!cards.length) {
+    cardsEl.innerHTML = `
+      <div class="empty">
+        The Series 4 database could not be loaded. Check that
+        database/1977 Topps Star Wars/series4.js exists in the repository
+        and defines window.series4Cards.
+      </div>
+    `;
+    resultsEl.textContent = "Unable to load card database";
+    return;
+  }
+
+  if (!shown.length) {
+    cardsEl.innerHTML = `
+      <div class="empty">
+        No cards match your search. Try another term or clear the filter.
+      </div>
+    `;
+    return;
+  }
+
+  cardsEl.innerHTML = shown.map(card => {
+    const hasPhotos = Boolean(card.frontImageUrl || card.backImageUrl);
+
+    const photos = hasPhotos
+      ? `<div class="cardphotos">
+           ${photoMarkup(card.frontImageUrl, "Front")}
+           ${photoMarkup(card.backImageUrl, "Back")}
+         </div>`
+      : `<div class="placeholder">
+           No approved photos yet
+         </div>`;
+
+    return `
+      <article class="card">
+        <div class="cardtop">
+          <span class="number">#${esc(card.number)}</span>
+          <span class="pill">${esc(card.back || "Back not recorded")}</span>
+        </div>
+
+        <div class="cardbody">
+          <h3>${esc(card.title)}</h3>
+          ${photos}
+
+          <details>
+            <summary>View card details</summary>
+            <dl>
+              ${field("Set", card.set)}
+              ${field("Series", card.series ? "Series " + card.series : "")}
+              ${field("Border", card.border)}
+              ${field("Card type", card.type)}
+              ${field("Media", card.media)}
+              ${field("Characters / actors", card.characters)}
+              ${field("Droids", card.droids)}
+              ${field("Creatures", card.creatures)}
+              ${field("Vehicles", card.vehicles)}
+              ${field("Location", card.location)}
+              ${field("Variations", card.variations)}
+              ${field("Back type", card.back)}
+              ${field("Back information", card.backInfo)}
+              ${field("Data note", card.error)}
+            </dl>
+          </details>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+searchEl.addEventListener("input", render);
+backFilterEl.addEventListener("change", render);
+
+render();
+
+(async function loadApprovedChanges() {
+  try {
+    if (
+      !window.supabase ||
+      !window.CANTINA_SUPABASE_URL ||
+      !window.CANTINA_SUPABASE_KEY
+    ) {
+      console.error("Cantina Club: Supabase configuration is missing.");
+      return;
+    }
+
+    const client = window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
+
+    const { data, error } = await client
+      .from("approved_cards")
+      .select("card_number, card_data, front_image_path, back_image_path")
+      .eq("set_slug", "1977-topps-star-wars-series-4");
+
+    if (error) throw error;
+
+    (data || []).forEach(record => {
+      const number = Number(
+        String(record.card_number).replace("#", "").trim()
+      );
+
+      const card = cards.find(item => item.number === number);
+      if (!card) return;
+
+      const approved = record.card_data || {};
+
+      if (approved.title?.trim()) {
+        card.title = approved.title.trim();
+      }
+
+      if (approved.characters?.trim()) {
+        card.characters = approved.characters.trim();
+      }
+
+      if (approved.actor?.trim()) {
+        const actor = approved.actor.trim();
+        if (!String(card.characters || "").includes(actor)) {
+          card.characters = card.characters
+            ? `${card.characters} — Actor: ${actor}`
+            : `Actor: ${actor}`;
+        }
+      }
+
+      if (approved.set_name?.trim()) {
+        card.set = approved.set_name.trim();
+      }
+
+      if (approved.card_type?.trim()) {
+        card.type = approved.card_type.trim();
+      }
+
+      if (approved.back_type?.trim()) {
+        card.back = approved.back_type.trim();
+      }
+
+      if (approved.parallel?.trim()) {
+        card.variations = approved.parallel.trim();
+      }
+
+      if (approved.serial_number?.trim()) {
+        card.variations = [
+          card.variations,
+          `Serial: ${approved.serial_number.trim()}`
+        ].filter(Boolean).join(" — ");
+      }
+
+      if (approved.notes?.trim()) {
+        card.error = approved.notes.trim();
+      }
+
+      card.frontImagePath = record.front_image_path || "";
+      card.backImagePath = record.back_image_path || "";
+
+      if (card.frontImagePath) {
+        card.frontImageUrl = client.storage
+          .from("approved-card-images")
+          .getPublicUrl(card.frontImagePath).data.publicUrl;
+      }
+
+      if (card.backImagePath) {
+        card.backImageUrl = client.storage
+          .from("approved-card-images")
+          .getPublicUrl(card.backImagePath).data.publicUrl;
+      }
+    });
+
+    render();
+  } catch (error) {
+    console.error("Could not load approved Series 4 card data and photos:", error);
+  }
+})();
+</script>
+</body>
+</html>
