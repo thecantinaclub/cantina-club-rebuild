@@ -335,7 +335,92 @@ function render() {
 searchEl.addEventListener("input", render);
 backFilterEl.addEventListener("change", render);
 
+
 render();
+
+// Load approved changes only. Pending submissions remain private.
+(async function loadApprovedChanges() {
+  try {
+    if (!window.supabase ||
+        !window.CANTINA_SUPABASE_URL ||
+        !window.CANTINA_SUPABASE_KEY) {
+      return;
+    }
+
+    const client = window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
+
+    const { data, error } = await client
+      .from("approved_cards")
+      .select("card_number, card_data")
+      .eq("set_slug", "1977-topps-star-wars-series-1");
+
+    if (error) throw error;
+
+    (data || []).forEach(record => {
+      const number = Number(
+        String(record.card_number).replace("#", "").trim()
+      );
+
+      const card = cards.find(item => item.number === number);
+      if (!card) return;
+
+      const approved = record.card_data || {};
+
+      // Only apply fields that contain approved, non-empty values.
+      if (approved.title?.trim()) {
+        card.title = approved.title.trim();
+      }
+
+      if (approved.characters?.trim()) {
+        card.characters = approved.characters.trim();
+      }
+
+      if (approved.actor?.trim()) {
+        const actor = approved.actor.trim();
+        if (!String(card.characters || "").includes(actor)) {
+          card.characters = card.characters
+            ? `${card.characters} — Actor: ${actor}`
+            : `Actor: ${actor}`;
+        }
+      }
+
+      if (approved.set_name?.trim()) {
+        card.set = approved.set_name.trim();
+      }
+
+      if (approved.card_type?.trim()) {
+        card.type = approved.card_type.trim();
+      }
+
+      if (approved.back_type?.trim()) {
+        card.back = approved.back_type.trim();
+      }
+
+      if (approved.parallel?.trim()) {
+        card.variations = approved.parallel.trim();
+      }
+
+      if (approved.serial_number?.trim()) {
+        card.variations = [
+          card.variations,
+          `Serial: ${approved.serial_number.trim()}`
+        ].filter(Boolean).join(" — ");
+      }
+
+      if (approved.notes?.trim()) {
+        card.error = approved.notes.trim();
+      }
+    });
+
+    render();
+  } catch (error) {
+    console.error("Could not load approved card changes:", error);
+  }
+})();
 </script>
+
 </body>
 </html>
