@@ -23,11 +23,7 @@
       border-radius: 10px;
       background: #141923;
     }
-    label {
-      display: block;
-      margin: 12px 0 5px;
-      font-weight: bold;
-    }
+    label { display: block; margin: 12px 0 5px; font-weight: bold; }
     input, textarea {
       display: block;
       width: 100%;
@@ -88,8 +84,9 @@
 <main>
   <h1>Cantina Club Admin</h1>
   <p class="muted">
-    Private submission review. Changes are saved to Supabase.
-    Approval does not yet publish changes to the public archive.
+    Private submission review. Only approved card information is saved
+    to the approved archive table. The public page still needs to be
+    connected to that table.
   </p>
 
   <section id="login-panel" class="panel">
@@ -97,11 +94,9 @@
     <form id="login-form">
       <label for="email">Email</label>
       <input id="email" type="email" autocomplete="username" required>
-
       <label for="password">Password</label>
       <input id="password" type="password"
         autocomplete="current-password" required>
-
       <button type="submit">Sign in</button>
     </form>
     <p id="login-status" class="status" role="status"></p>
@@ -144,8 +139,6 @@
     window.CANTINA_SUPABASE_KEY
   );
 
-  let loading = false;
-
   function makeElement(tag, className, text) {
     const el = document.createElement(tag);
     if (className) el.className = className;
@@ -164,7 +157,7 @@
     loginPanel.classList.add("hidden");
     adminPanel.classList.remove("hidden");
     document.getElementById("signed-in").textContent =
-      "Signed in as " + user.email;
+      "Signed in as " + (user.email || "admin");
   }
 
   function formatDate(value) {
@@ -176,15 +169,14 @@
   }
 
   function addField(form, key, value) {
-    const safeKey = String(key);
-    const label = makeElement("label", "", safeKey);
+    const label = makeElement("label", "", key);
     const isLong = String(value ?? "").length > 100 ||
-      /notes|information|details/i.test(safeKey);
-
+      /notes|information|details/i.test(key);
     const input = makeElement(isLong ? "textarea" : "input");
-    input.name = safeKey;
+
+    input.name = key;
     input.value = value == null ? "" : String(value);
-    input.dataset.fieldKey = safeKey;
+    input.dataset.fieldKey = key;
 
     form.appendChild(label);
     form.appendChild(input);
@@ -204,7 +196,7 @@
     return data.signedUrl;
   }
 
-  async function addPhoto(photos, label, path) {
+  async function addPhoto(container, label, path) {
     const column = makeElement("div");
     column.appendChild(makeElement("div", "photo-label", label));
 
@@ -215,6 +207,7 @@
       img.alt = label;
       img.loading = "lazy";
       column.appendChild(img);
+
       const link = makeElement("a", "", "Open full-size photo");
       link.href = url;
       link.target = "_blank";
@@ -225,12 +218,13 @@
         "Photo unavailable or permission denied."));
     }
 
-    photos.appendChild(column);
+    container.appendChild(column);
   }
 
   async function makeSubmissionCard(item) {
     const card = makeElement("article", "submission");
     const header = makeElement("div", "submission-header");
+
     header.appendChild(makeElement("h2", "",
       "Card #" + item.card_number));
     header.appendChild(makeElement("span", "muted",
@@ -238,22 +232,20 @@
     card.appendChild(header);
 
     card.appendChild(makeElement("p", "muted",
-      "Set: " + item.set_slug +
-      " · Submission ID: " + item.id));
+      "Set: " + item.set_slug));
 
     const photos = makeElement("div", "photos");
     card.appendChild(photos);
-
     await addPhoto(photos, "Front photo", item.front_image_path);
     await addPhoto(photos, "Back photo", item.back_image_path);
 
     const form = makeElement("form");
     const data = item.submitted_data &&
-      typeof item.submitted_data === "object"
+      typeof item.submitted_data === "object" &&
+      !Array.isArray(item.submitted_data)
       ? item.submitted_data
       : {};
 
-    // The card number is editable separately and saved to its database column.
     const numberLabel = makeElement("label", "", "Card number");
     const numberInput = makeElement("input");
     numberInput.name = "card_number";
@@ -262,9 +254,7 @@
     form.appendChild(numberLabel);
     form.appendChild(numberInput);
 
-    const fieldHeading = makeElement("h3", "", "Submitted card information");
-    form.appendChild(fieldHeading);
-
+    form.appendChild(makeElement("h3", "", "Submitted card information"));
     Object.keys(data).forEach(key => addField(form, key, data[key]));
 
     const notesLabel = makeElement("label", "", "Admin notes");
@@ -279,14 +269,16 @@
     saveButton.type = "submit";
     actions.appendChild(saveButton);
 
+    const isPending = item.status === "pending";
+
     const approveButton = makeElement("button", "", "Approve");
     approveButton.type = "button";
-    approveButton.disabled = item.status !== "pending";
+    approveButton.disabled = !isPending;
     actions.appendChild(approveButton);
 
     const rejectButton = makeElement("button", "reject", "Reject");
     rejectButton.type = "button";
-    rejectButton.disabled = item.status !== "pending";
+    rejectButton.disabled = !isPending;
     actions.appendChild(rejectButton);
 
     const message = makeElement("p", "status");
@@ -295,79 +287,112 @@
     form.appendChild(message);
     card.appendChild(form);
 
-    async function saveSubmission(newStatus) {
-      if (loading) return;
-      loading = true;
-      saveButton.disabled = true;
-      approveButton.disabled = true;
-      rejectButton.disabled = true;
+    let saving = false;
+
+    function getEditedData() {
+      const updatedData = {};
+      form.querySelectorAll("[data-field-key]").forEach(input => {
+        updatedData[input.dataset.fieldKey] = input.value;
+      });
+      return updatedData;
+    }
+
+    function setButtonsDisabled(disabled) {
+      saveButton.disabled = disabled;
+      approveButton.disabled = disabled || !isPending;
+      rejectButton.disabled = disabled || !isPending;
+    }
+
+    async function saveCorrections() {
+      const { error } = await client
+        .from("card_submissions")
+        .update({
+          card_number: numberInput.value.trim(),
+          submitted_data: getEditedData(),
+          admin_notes: notesInput.value.trim()
+        })
+        .eq("id", item.id)
+        .eq("status", "pending");
+
+      if (error) throw error;
+    }
+
+    async function approveSubmission() {
+      const number = numberInput.value.trim();
+      if (!number) throw new Error("Card number is required.");
+
+      const { error } = await client.rpc("approve_card_submission", {
+        p_submission_id: item.id,
+        p_card_number: number,
+        p_card_data: getEditedData(),
+        p_admin_notes: notesInput.value.trim()
+      });
+
+      if (error) throw error;
+    }
+
+    async function rejectSubmission() {
+      const { error } = await client
+        .from("card_submissions")
+        .update({
+          status: "rejected",
+          card_number: numberInput.value.trim(),
+          submitted_data: getEditedData(),
+          admin_notes: notesInput.value.trim(),
+          reviewed_at: new Date().toISOString()
+        })
+        .eq("id", item.id)
+        .eq("status", "pending");
+
+      if (error) throw error;
+    }
+
+    async function runAction(action, successMessage) {
+      if (saving) return;
+      saving = true;
+      setButtonsDisabled(true);
       message.textContent = "Saving…";
 
       try {
-        const updatedData = {};
-        form.querySelectorAll("[data-field-key]").forEach(input => {
-          updatedData[input.dataset.fieldKey] = input.value;
-        });
-
-        const payload = {
-          card_number: numberInput.value.trim(),
-          submitted_data: updatedData,
-          admin_notes: notesInput.value.trim()
-        };
-
-        if (newStatus) {
-          payload.status = newStatus;
-          payload.reviewed_at = new Date().toISOString();
-        }
-
-        const { error } = await client
-          .from("card_submissions")
-          .update(payload)
-          .eq("id", item.id);
-
-        if (error) throw error;
-
-        message.textContent = newStatus
-          ? "Saved. Submission status: " + newStatus + "."
-          : "Corrections saved.";
-
-        if (newStatus) {
-          await loadSubmissions();
-        }
+        await action();
+        message.textContent = successMessage;
+        await loadSubmissions();
       } catch (error) {
-        console.error("Could not save submission:", error);
+        console.error("Admin action failed:", error);
         message.textContent =
-          "Save failed. Check the browser console or Supabase permissions.";
-        saveButton.disabled = false;
-        approveButton.disabled = item.status !== "pending";
-        rejectButton.disabled = item.status !== "pending";
-      } finally {
-        loading = false;
+          "Action failed: " + (error.message || "Check permissions and try again.");
+        saving = false;
+        setButtonsDisabled(false);
       }
     }
 
     form.addEventListener("submit", event => {
       event.preventDefault();
-      saveSubmission(null);
+      runAction(saveCorrections, "Corrections saved.");
     });
 
     approveButton.addEventListener("click", () => {
-      if (confirm(
-        "Approve this submission? Corrections will be saved, " +
-        "but the public archive will not update automatically yet."
-      )) {
-        saveSubmission("approved");
-      }
+      if (!confirm(
+        "Approve this submission? Its corrected data will be saved " +
+        "to the approved archive table. The public website still needs " +
+        "to be connected to that table."
+      )) return;
+
+      runAction(
+        approveSubmission,
+        "Approved successfully. The approved record is saved in Supabase."
+      );
     });
 
     rejectButton.addEventListener("click", () => {
-      if (confirm("Reject this submission?")) {
-        saveSubmission("rejected");
-      }
+      if (!confirm("Reject this submission?")) return;
+      runAction(rejectSubmission, "Submission rejected.");
     });
 
     return card;
   }
+
+  let loading = false;
 
   async function loadSubmissions() {
     if (loading) return;
@@ -388,18 +413,16 @@
         return;
       }
 
-      listStatus.textContent =
-        data.length + " submission(s) found.";
+      listStatus.textContent = data.length + " submission(s) found.";
 
       for (const item of data) {
-        const card = await makeSubmissionCard(item);
-        submissionsContainer.appendChild(card);
+        const submissionCard = await makeSubmissionCard(item);
+        submissionsContainer.appendChild(submissionCard);
       }
     } catch (error) {
       console.error("Could not load submissions:", error);
       listStatus.textContent =
-        "Could not load submissions. Confirm you are signed in " +
-        "with the registered admin account and that admin permissions are set.";
+        "Could not load submissions. Check the admin permissions.";
     } finally {
       loading = false;
     }
@@ -437,6 +460,12 @@
       showSignedOut("You have signed out.");
     }
   );
+
+  client.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_OUT" || !session) {
+      showSignedOut();
+    }
+  });
 
   client.auth.getSession().then(async ({ data, error }) => {
     if (error || !data.session) {
