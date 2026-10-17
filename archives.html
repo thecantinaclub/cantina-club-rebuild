@@ -2,401 +2,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101114">
-  <title>The Archives | The Cantina Club</title>
-  <style>
-    :root {
-      --bg: #101114;
-      --panel: #191b20;
-      --border: #34363d;
-      --text: #f5f1e8;
-      --muted: #a7a7ad;
-      --gold: #e5b965;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Archives | The Cantina Club</title>
 
-    * { box-sizing: border-box; }
+<style>
+:root {
+  --bg: #090b10;
+  --panel: #121620;
+  --panel-light: #191f2b;
+  --gold: #e9bd68;
+  --text: #f3f0e8;
+  --muted: #a6adbb;
+  --border: #303746;
+}
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, sans-serif;
-      line-height: 1.6;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    a { color: var(--gold); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
 
-    .container {
-      width: min(1050px, calc(100% - 32px));
-      margin: auto;
-    }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-    header {
-      background: #17181b;
-      border-bottom: 1px solid var(--border);
-      padding: 19px 0;
-    }
+header {
+  border-bottom: 1px solid var(--border);
+  background: #0d1017;
+}
 
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 22px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
 
-    .brand {
-      color: var(--text);
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-    }
+.brand {
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
 
-    .brand span { color: var(--gold); }
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: normal;
+}
 
-    .back { font-size: 13px; }
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 13px;
+}
 
-    main { padding: 43px 0 65px; }
+nav a:hover,
+.back-link:hover {
+  color: var(--gold);
+}
 
-    .eyebrow {
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 11px;
-      font-weight: 750;
-    }
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 45px 20px 70px;
+}
 
-    h1 {
-      font-size: clamp(34px, 5vw, 52px);
-      line-height: 1.1;
-      margin: 10px 0;
-    }
+.eyebrow {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
 
-    .intro {
-      color: var(--muted);
-      max-width: 650px;
-      margin-bottom: 30px;
-    }
+h1 {
+  margin: 8px 0;
+  font-size: clamp(32px, 6vw, 48px);
+  line-height: 1.15;
+}
 
-    .filters {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
+.intro {
+  color: var(--muted);
+  max-width: 650px;
+  margin-bottom: 30px;
+}
 
-    input, select {
-      width: 100%;
-      background: var(--panel);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 13px;
-      font: inherit;
-    }
+.set-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
 
-    .summary {
-      color: var(--muted);
-      font-size: 13px;
-      margin: 15px 0;
-    }
+.set-heading {
+  padding: 26px;
+  background: linear-gradient(120deg, #1b2230, #11151e);
+  border-bottom: 1px solid var(--border);
+}
 
-    .sets {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 13px;
-    }
+.set-heading h2 {
+  margin: 0 0 5px;
+  font-size: 25px;
+}
 
-    .set {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 19px;
-    }
+.set-heading p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 14px;
+}
 
-    .set h2 {
-      font-size: 17px;
-      margin: 5px 0;
-    }
+.set-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
 
-    .set p {
-      color: var(--muted);
-      font-size: 13px;
-      margin: 7px 0 13px;
-    }
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: #e0e4eb;
+  font-size: 11px;
+}
 
-    .tag {
-      color: var(--gold);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+.section {
+  padding: 22px 26px 8px;
+}
 
-    .details {
-      display: none;
-      border-top: 1px solid var(--border);
-      margin-top: 14px;
-      padding-top: 14px;
-      font-size: 13px;
-    }
+.section h3 {
+  margin: 0 0 5px;
+  color: var(--gold);
+  font-size: 16px;
+}
 
-    .details.open { display: block; }
+.section-description {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
 
-    .details p { margin: 6px 0; }
+.series-list {
+  display: grid;
+  gap: 10px;
+  padding-bottom: 20px;
+}
 
-    .button {
-      background: transparent;
-      color: var(--gold);
-      border: 1px solid #705831;
-      border-radius: 6px;
-      padding: 9px 12px;
-      cursor: pointer;
-      font: inherit;
-      font-size: 12px;
-    }
+.series {
+  background: #0e121a;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+}
 
-    .button:hover { background: #30281c; }
+.series summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 15px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
 
-    .empty {
-      display: none;
-      color: var(--muted);
-      padding: 25px 0;
-    }
+.series summary::-webkit-details-marker {
+  display: none;
+}
 
-    .notice {
-      margin-top: 27px;
-      padding: 15px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--muted);
-      font-size: 12px;
-    }
+.series summary:hover {
+  background: var(--panel-light);
+}
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 23px 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
+.series-name {
+  font-weight: bold;
+}
 
-    @media (max-width: 580px) {
-      .filters, .sets { grid-template-columns: 1fr; }
-      main { padding-top: 30px; }
-    }
-  </style>
+.series-info {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: normal;
+  margin-top: 3px;
+}
+
+.series-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.range {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.arrow {
+  color: var(--gold);
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+.series[open] .arrow {
+  transform: rotate(90deg);
+}
+
+.series-content {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.series-content p {
+  margin: 0 0 12px;
+}
+
+.status {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 11px;
+  border: 1px solid #67532f;
+  border-radius: 4px;
+  padding: 3px 7px;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 520px) {
+  .header-inner {
+    align-items: flex-start;
+  }
+
+  nav {
+    gap: 12px;
+  }
+
+  .set-heading,
+  .section {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .series summary {
+    padding: 13px 11px;
+  }
+
+  .range {
+    font-size: 11px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <div class="container header-row">
-      <a class="brand" href="index.html">✦ THE CANTINA CLUB</a>
-      <a class="back" href="index.html">← Back to homepage</a>
-    </div>
-  </header>
 
-  <main class="container">
-    <div class="eyebrow">The collector's database</div>
-    <h1>The Archives</h1>
-    <p class="intro">
-      Explore physical Star Wars Topps releases by year and set.
-      Each release will eventually have its own checklist and individual
-      card records, including variations, autographs, parallels and more.
-    </p>
+<header>
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      THE CANTINA CLUB
+      <small>A GALAXY OF CARDS</small>
+    </a>
 
-    <div class="filters">
-      <select id="year-filter" aria-label="Filter by year">
-        <option value="all">All years</option>
-        <option value="1977">1977</option>
-      </select>
-      <input id="search" type="search"
-        placeholder="Search sets, series or card types..."
-        aria-label="Search sets">
-    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="archives.html">The Archives</a>
+      <a href="index.html#sketch-vault">Sketch Vault</a>
+      <a href="index.html#cantina">The Cantina</a>
+      <a href="index.html#trading-post">Trading Post</a>
+    </nav>
+  </div>
+</header>
 
-    <div class="summary" id="summary" aria-live="polite"></div>
+<main>
+  <div class="eyebrow">The Collection</div>
+  <h1>The Archives</h1>
 
-    <div class="sets" id="sets">
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars series 1 blue border cards">
-        <div class="tag">1977 · Trading cards</div>
-        <h2>1977 Topps Star Wars — Series 1</h2>
-        <p>Blue border · Cards #1–66</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p><strong>Release:</strong> 1977 Topps Star Wars</p>
-          <p><strong>Series:</strong> 1 of 5</p>
-          <p><strong>Checklist:</strong> 66 card numbers</p>
-          <p>The individual card checklist will be added in a later step.</p>
-        </div>
-      </article>
+  <p class="intro">
+    Explore Star Wars Topps releases, from vintage trading cards
+    to modern collectibles. Each set has its own series and
+    individual cards.
+  </p>
 
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars series 2 red border cards">
-        <div class="tag">1977 · Trading cards</div>
-        <h2>1977 Topps Star Wars — Series 2</h2>
-        <p>Red border · Cards #67–132</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p><strong>Series:</strong> 2 of 5</p>
-          <p><strong>Checklist:</strong> 66 card numbers</p>
-          <p>The individual card checklist will be added in a later step.</p>
-        </div>
-      </article>
+  <section class="set-card">
+    <div class="set-heading">
+      <h2>1977 Topps Star Wars</h2>
+      <p>The original Star Wars trading card release</p>
 
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars series 3 yellow border cards">
-        <div class="tag">1977 · Trading cards</div>
-        <h2>1977 Topps Star Wars — Series 3</h2>
-        <p>Yellow border · Cards #133–198</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p><strong>Series:</strong> 3 of 5</p>
-          <p><strong>Checklist:</strong> 66 card numbers</p>
-          <p>The individual card checklist will be added in a later step.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars series 4 green border cards">
-        <div class="tag">1977 · Trading cards</div>
-        <h2>1977 Topps Star Wars — Series 4</h2>
-        <p>Green border · Cards #199–264</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p><strong>Series:</strong> 4 of 5</p>
-          <p><strong>Checklist:</strong> 66 card numbers</p>
-          <p>The individual card checklist will be added in a later step.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars series 5 orange border cards">
-        <div class="tag">1977 · Trading cards</div>
-        <h2>1977 Topps Star Wars — Series 5</h2>
-        <p>Orange border · Cards #265–330</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p><strong>Series:</strong> 5 of 5</p>
-          <p><strong>Checklist:</strong> 66 card numbers</p>
-          <p>The individual card checklist will be added in a later step.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars stickers series 1">
-        <div class="tag">1977 · Stickers</div>
-        <h2>1977 Topps Star Wars — Stickers Series 1</h2>
-        <p>Sticker checklist</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p>Sticker entries and their associated card references will be added separately.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars stickers series 2">
-        <div class="tag">1977 · Stickers</div>
-        <h2>1977 Topps Star Wars — Stickers Series 2</h2>
-        <p>Sticker checklist</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p>Sticker entries and their associated card references will be added separately.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars stickers series 3">
-        <div class="tag">1977 · Stickers</div>
-        <h2>1977 Topps Star Wars — Stickers Series 3</h2>
-        <p>Sticker checklist</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p>Sticker entries and their associated card references will be added separately.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars stickers series 4">
-        <div class="tag">1977 · Stickers</div>
-        <h2>1977 Topps Star Wars — Stickers Series 4</h2>
-        <p>Sticker checklist</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p>Sticker entries and their associated card references will be added separately.</p>
-        </div>
-      </article>
-
-      <article class="set" data-year="1977"
-        data-search="1977 topps star wars stickers series 5">
-        <div class="tag">1977 · Stickers</div>
-        <h2>1977 Topps Star Wars — Stickers Series 5</h2>
-        <p>Sticker checklist</p>
-        <button class="button" type="button">View set details</button>
-        <div class="details">
-          <p>Sticker entries and their associated card references will be added separately.</p>
-        </div>
-      </article>
+      <div class="set-meta">
+        <span class="tag">1977</span>
+        <span class="tag">Trading Cards</span>
+        <span class="tag">Stickers</span>
+      </div>
     </div>
 
-    <div class="empty" id="empty">
-      No sets match your search. Try another year or search term.
+    <div class="section">
+      <h3>Trading Cards</h3>
+      <p class="section-description">
+        Five series, organized by their original border colors.
+      </p>
+
+      <div class="series-list">
+
+        <details class="series">
+          <summary>
+            <span class="series-name">
+              Series 1 — Blue Border
+              <span class="series-info">1977 Topps Star Wars</span>
+            </span>
+            <span class="series-right">
+              <span class="range">#1–66</span>
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>
+              The first series of the original 1977 Topps Star Wars
+              trading cards.
+            </p>
+            <span class="status">Card checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">
+              Series 2 — Red Border
+              <span class="series-info">1977 Topps Star Wars</span>
+            </span>
+            <span class="series-right">
+              <span class="range">#67–132</span>
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>
+              The second series of the original 1977 Topps Star Wars
+              trading cards.
+            </p>
+            <span class="status">Card checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">
+              Series 3 — Yellow Border
+              <span class="series-info">1977 Topps Star Wars</span>
+            </span>
+            <span class="series-right">
+              <span class="range">#133–198</span>
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>
+              The third series of the original 1977 Topps Star Wars
+              trading cards.
+            </p>
+            <span class="status">Card checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">
+              Series 4 — Green Border
+              <span class="series-info">1977 Topps Star Wars</span>
+            </span>
+            <span class="series-right">
+              <span class="range">#199–264</span>
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>
+              The fourth series of the original 1977 Topps Star Wars
+              trading cards.
+            </p>
+            <span class="status">Card checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">
+              Series 5 — Orange Border
+              <span class="series-info">1977 Topps Star Wars</span>
+            </span>
+            <span class="series-right">
+              <span class="range">#265–330</span>
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>
+              The fifth series of the original 1977 Topps Star Wars
+              trading cards.
+            </p>
+            <span class="status">Card checklist coming soon</span>
+          </div>
+        </details>
+
+      </div>
     </div>
 
-    <div class="notice">
-      <strong>Archive status:</strong> This is the initial demonstration catalogue.
-      It is not a complete list of Star Wars Topps releases. More years and sets
-      will be added after their information has been checked.
+    <div class="section">
+      <h3>Stickers</h3>
+      <p class="section-description">
+        The sticker series belonging to this release.
+      </p>
+
+      <div class="series-list">
+
+        <details class="series">
+          <summary>
+            <span class="series-name">Sticker Series 1</span>
+            <span class="series-right">
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>Browse the stickers from Series 1.</p>
+            <span class="status">Sticker checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">Sticker Series 2</span>
+            <span class="series-right">
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>Browse the stickers from Series 2.</p>
+            <span class="status">Sticker checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">Sticker Series 3</span>
+            <span class="series-right">
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>Browse the stickers from Series 3.</p>
+            <span class="status">Sticker checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">Sticker Series 4</span>
+            <span class="series-right">
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>Browse the stickers from Series 4.</p>
+            <span class="status">Sticker checklist coming soon</span>
+          </div>
+        </details>
+
+        <details class="series">
+          <summary>
+            <span class="series-name">Sticker Series 5</span>
+            <span class="series-right">
+              <span class="arrow">›</span>
+            </span>
+          </summary>
+          <div class="series-content">
+            <p>Browse the stickers from Series 5.</p>
+            <span class="status">Sticker checklist coming soon</span>
+          </div>
+        </details>
+
+      </div>
     </div>
-  </main>
+  </section>
+</main>
 
-  <footer>
-    <div class="container">
-      The Cantina Club · Independent collector community
-    </div>
-  </footer>
+<footer>
+  THE CANTINA CLUB · A GALAXY OF CARDS
+</footer>
 
-  <script>
-    const yearFilter = document.getElementById("year-filter");
-    const searchInput = document.getElementById("search");
-    const setCards = [...document.querySelectorAll(".set")];
-    const summary = document.getElementById("summary");
-    const empty = document.getElementById("empty");
-
-    function filterSets() {
-      const year = yearFilter.value;
-      const query = searchInput.value.trim().toLowerCase();
-      let visible = 0;
-
-      setCards.forEach(card => {
-        const matchesYear = year === "all" || card.dataset.year === year;
-        const matchesText = (card.innerText + " " + card.dataset.search)
-          .toLowerCase().includes(query);
-        const show = matchesYear && matchesText;
-
-        card.hidden = !show;
-        if (show) visible++;
-      });
-
-      summary.textContent = visible + " starter set entries shown";
-      empty.style.display = visible ? "none" : "block";
-    }
-
-    yearFilter.addEventListener("change", filterSets);
-    searchInput.addEventListener("input", filterSets);
-
-    document.querySelectorAll(".set .button").forEach(button => {
-      button.addEventListener("click", () => {
-        const details = button.nextElementSibling;
-        details.classList.toggle("open");
-        button.textContent = details.classList.contains("open")
-          ? "Hide set details"
-          : "View set details";
-      });
-    });
-
-    filterSets();
-  </script>
 </body>
 </html>
