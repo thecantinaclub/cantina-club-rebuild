@@ -1,7 +1,22 @@
 
 (() => {
   const BUCKET = "card-submissions";
-  const SET_SLUG = "1977-topps-star-wars-series-1";
+
+const PAGE_PATH = window.location.pathname.toLowerCase();
+
+const SERIES_MATCH = PAGE_PATH.match(
+  /1977-topps-star-wars-series-(\d+)/
+);
+
+const SERIES_NUMBER = SERIES_MATCH
+  ? Number(SERIES_MATCH[1])
+  : 1;
+
+const SET_SLUG =
+  `1977-topps-star-wars-series-${SERIES_NUMBER}`;
+
+const SET_NAME =
+  `1977 Topps Star Wars — Series ${SERIES_NUMBER}`;
   const MAX_FILE_SIZE = 10 * 1024 * 1024;
   const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -34,12 +49,20 @@
 
     // Read the existing checklist without changing it.
     function getCardRecord(number) {
-      if (typeof series1Cards === "undefined") return null;
+  const currentCards = window[`series${SERIES_NUMBER}Cards`];
 
-      return series1Cards.find(
-        card => String(card.card).replace("#", "").trim() === String(number)
-      ) || null;
-    }
+  if (!Array.isArray(currentCards)) {
+    console.error(
+      `Card database for Series ${SERIES_NUMBER} was not found.`
+    );
+    return null;
+  }
+
+  return currentCards.find(
+    card =>
+      String(card.card).replace("#", "").trim() === String(number)
+  ) || null;
+}
 
     const style = document.createElement("style");
     style.textContent = `
