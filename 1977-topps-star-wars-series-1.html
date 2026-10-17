@@ -148,8 +148,10 @@ footer {
 
 <main>
   <p><a href="1977-topps-star-wars.html">← Back to 1977 Topps Star Wars</a></p>
+
   <div class="eyebrow">1977 · Topps · Series 1</div>
   <h1>Blue Border</h1>
+
   <p class="intro">
     The first series of the original 1977 Topps Star Wars trading cards.
     Browse cards #1–66 and search their documented details. Card images
@@ -164,7 +166,12 @@ footer {
 
   <section class="tools">
     <div class="filters">
-      <input id="search" type="search" placeholder="Search card number, title, character, actor, location…" aria-label="Search cards">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search card number, title, character, actor, location…"
+        aria-label="Search cards"
+      >
       <select id="backFilter" aria-label="Filter by card back">
         <option value="">All back types</option>
         <option value="Puzzle — Small">Puzzle — Small</option>
@@ -177,97 +184,37 @@ footer {
   </section>
 
   <div class="cards" id="cards"></div>
-  <p class="intro">Checklist data is based on the current Cantina Club working catalogue. Empty fields mean information has not been entered here; they do not necessarily mean the card has no such feature.</p>
+
+  <p class="intro">
+    Checklist data is based on the current Cantina Club working catalogue.
+    Empty fields mean information has not been entered here; they do not
+    necessarily mean the card has no such feature.
+  </p>
 </main>
 
 <footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
 
-<script>
-const rawCards = [
-["Luke Skywalker","Luke Skywalker (Mark Hamill)","","","","Death Star","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["See-Threepio and Artoo-Detoo","C-3PO (Anthony Daniels), R2-D2 (Kenny Baker)","C-3PO, R2-D2","","","Tatooine — Sandcrawler","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["The little droid, Artoo-Detoo","R2-D2 (Kenny Baker)","R2-D2","","","Tatooine","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Space pirate Han Solo","Han Solo (Harrison Ford)","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Princess Leia Organa","Princess Leia Organa (Carrie Fisher)","","","","Yavin 4 — Rebel base, war room","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Ben (Obi-Wan) Kenobi","Ben / Obi-Wan Kenobi (Alec Guinness)","","","","Tatooine","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["The villainous Darth Vader","Darth Vader (David Prowse), Moradmin Bast (Leslie Schofield)","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Grand Moff Tarkin","Grand Moff Tarkin (Peter Cushing)","","","","Death Star","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Rebels defend their starship!","Rebel personnel","","","","Tantive IV","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Princess Leia - captured!","Princess Leia Organa (Carrie Fisher), Darth Vader (David Prowse), Commander Daine Jir (Al Lampert)","","","","Tantive IV","Story Summary","Story Summary #8"],
-["Artoo is imprisoned by the Jawas","R2-D2 (Kenny Baker), Jawas","R2-D2","","","Tatooine","Puzzle — Small","\"Millennium Falcon Cockpit\" puzzle — #31 Sighting the Death Star"],
-["The droids are reunited!","C-3PO (Anthony Daniels), R2-D2 (Kenny Baker)","C-3PO, R2-D2","","","Tatooine","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["A sale on droids!","C-3PO (Anthony Daniels), R2-D2 (Kenny Baker)","C-3PO, R2-D2","","","Tatooine — Lars homestead","Story Summary","Story Summary #4"],
-["Luke checks out his new droid","Luke Skywalker (Mark Hamill), Jawas","R2-D2, R5-D4","","","Tatooine — Lars homestead","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Artoo-Detoo is left behind!","R2-D2 (Kenny Baker)","R2-D2","","","Tatooine — Lars homestead","Movie Facts","Movie Facts"],
-["Jawas of Tatooine","Jawas","","","","Tatooine","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Lord Vader threatens Princess Leia!","Darth Vader (David Prowse), Princess Leia Organa (Carrie Fisher)","","","","Death Star — Detention Block 2187","Story Summary","Story Summary #3"],
-["Artoo-Detoo is missing!","R2-D2 (Kenny Baker)","R2-D2","","","Tatooine — Lars homestead","Movie Facts","Movie Facts"],
-["Searching for the little droid","Luke Skywalker (Mark Hamill)","R2-D2","","","Tatooine","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Hunted by the Sandpeople!","Luke Skywalker (Mark Hamill), Tusken Raider","","","","Tatooine","Puzzle — Small","\"Millennium Falcon Cockpit\" puzzle — #31 Sighting the Death Star"],
-["The Tusken Raiders","Tusken Raiders","","","","Tatooine","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Rescued by Ben Kenobi","Ben / Obi-Wan Kenobi (Alec Guinness), Luke Skywalker (Mark Hamill)","","","","Tatooine","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["See-Threepio is injured!","C-3PO (Anthony Daniels)","C-3PO","","","Tatooine","Movie Facts","Movie Facts"],
-["Stormtroopers seek the droids!","Stormtroopers","C-3PO, R2-D2","Dewback","","Tatooine","Movie Facts","Movie Facts"],
-["Luke rushes to save his loved ones","Luke Skywalker (Mark Hamill)","","","Landspeeder","Tatooine — Lars homestead","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["A horrified Luke sees his family killed","Luke Skywalker (Mark Hamill)","","","","Tatooine — Lars homestead","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Some repairs for See-Threepio","C-3PO (Anthony Daniels)","C-3PO","","","Tatooine — Ben Kenobi's hut","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Luke agrees to join Ben Kenobi","Luke Skywalker (Mark Hamill), Ben / Obi-Wan Kenobi (Alec Guinness)","","","","Tatooine — Ben Kenobi's hut","Movie Facts","Movie Facts"],
-["Stopped by stormtroopers","Luke Skywalker (Mark Hamill), Ben / Obi-Wan Kenobi (Alec Guinness), C-3PO (Anthony Daniels), R2-D2 (Kenny Baker), Stormtroopers","C-3PO, R2-D2","","Landspeeder","Tatooine — Mos Eisley","Story Summary","Story Summary #5"],
-["Han in the Millennium Falcon","Han Solo (Harrison Ford)","","","Millennium Falcon","Millennium Falcon","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Sighting the Death Star","Han Solo (Harrison Ford), Chewbacca (Peter Mayhew)","","","Millennium Falcon","Millennium Falcon","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Lord Vader's Guards","Stormtroopers","","","","Death Star","Story Summary","Story Summary #6"],
-["The droids in the Control Room","C-3PO (Anthony Daniels), R2-D2 (Kenny Baker)","C-3PO, R2-D2","","","Tatooine — Lars homestead","Movie Facts","Movie Facts"],
-["See-Threepio diverts the guards","C-3PO (Anthony Daniels)","C-3PO","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Luke and Han as stormtroopers","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford)","","","","Death Star","Movie Facts","Movie Facts"],
-["Blast of the laser rifle!","","","","","Death Star","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Cornered in the labyrinth","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford), Chewbacca (Peter Mayhew), Princess Leia Organa (Carrie Fisher)","","","","Death Star — corridor near trash compactor","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Luke and Han in the refuse room","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford), Chewbacca (Peter Mayhew), Princess Leia Organa (Carrie Fisher)","","","","Death Star — trash compactor","Movie Facts","Movie Facts"],
-["Steel walls close in on our heroes!","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford), Chewbacca (Peter Mayhew), Princess Leia Organa (Carrie Fisher)","","","","Death Star — trash compactor","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Droids rescue their masters!","C-3PO (Anthony Daniels), R2-D2 (Kenny Baker)","C-3PO, R2-D2","","","Death Star","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Facing the deadly chasm","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford), Chewbacca (Peter Mayhew), Princess Leia Organa (Carrie Fisher)","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Stormtroopers attack!","Stormtroopers","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Luke prepares to swing across the chasm","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford), Princess Leia Organa (Carrie Fisher), Chewbacca (Peter Mayhew)","","","","Death Star","Movie Facts","Movie Facts"],
-["Han and Chewie shoot it out!","Han Solo (Harrison Ford), Chewbacca (Peter Mayhew)","","","","Death Star","Story Summary","Story Summary #2"],
-["The light sabre","Ben / Obi-Wan Kenobi (Alec Guinness), Darth Vader (David Prowse)","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["A desperate moment for Ben","Ben / Obi-Wan Kenobi (Alec Guinness), Darth Vader (David Prowse)","","","","Death Star","Story Summary","Story Summary #9"],
-["Luke prepares for the battle","Luke Skywalker (Mark Hamill)","","","","Yavin 4 — Rebel base","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Artoo-Detoo is loaded aboard","C-3PO (Anthony Daniels), R2-D2 (Kenny Baker)","C-3PO, R2-D2","","","Yavin 4 — Rebel base","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["The rebels monitor the raid","Rebel personnel","","","","Yavin 4 — Rebel base, war room","Story Summary","Story Summary #10"],
-["Rebel leaders wonder about their fate!","Rebel leaders","","","","Yavin 4 — Rebel base, war room","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["See-Threepio and Princess Leia","C-3PO (Anthony Daniels), Princess Leia Organa (Carrie Fisher)","C-3PO","","","Yavin 4 — Rebel base, war room","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Who will win the final Star War?","Rebel personnel","","","","Yavin 4 — Rebel base, war room","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Battle in outer space!","","","","X-wing, TIE fighter","Space — Battle of Yavin","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["The victors receive their reward","Luke Skywalker (Mark Hamill), Han Solo (Harrison Ford), Princess Leia Organa (Carrie Fisher), Chewbacca (Peter Mayhew)","","","","Yavin 4 — Rebel base, medal ceremony","Movie Facts","Movie Facts"],
-["Han, Chewie and Luke","Han Solo (Harrison Ford), Chewbacca (Peter Mayhew), Luke Skywalker (Mark Hamill)","","","","Yavin 4 — Rebel base, medal ceremony","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["A day of rejoicing!","Rebel personnel","","","","Yavin 4 — Rebel base, medal ceremony","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Mark Hamill as Luke Skywalker","Luke Skywalker (Mark Hamill)","","","","","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Harrison Ford as Han Solo","Han Solo (Harrison Ford)","","","","","Movie Facts","Movie Facts"],
-["Alec Guinness as Ben Kenobi","Ben / Obi-Wan Kenobi (Alec Guinness)","","","","Tatooine","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Peter Cushing as Grand Moff Tarkin","Grand Moff Tarkin (Peter Cushing)","","","","Death Star","Puzzle — Small",'"Millennium Falcon Cockpit" puzzle — #31 Sighting the Death Star'],
-["Mark Hamill in Control Room","Luke Skywalker (Mark Hamill)","","","","Death Star — control room","Story Summary","Story Summary #7"],
-["Lord Vader's stormtroopers","Stormtroopers","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["May the Force be with you!","Luke Skywalker (Mark Hamill)","","","","","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Governor of Imperial Outlands","Grand Moff Tarkin (Peter Cushing), Darth Vader (David Prowse)","","","","Death Star","Puzzle — Large",'"Hildebrandt movie poster" puzzle'],
-["Carrie Fisher and Mark Hamill","Princess Leia Organa (Carrie Fisher), Luke Skywalker (Mark Hamill)","","","","Death Star","Story Summary","Story Summary #1"],
-["Amazing robot See-Threepio","C-3PO (Anthony Daniels), Luke Skywalker (Mark Hamill), Ben / Obi-Wan Kenobi (Alec Guinness)","C-3PO","","","Tatooine","Story Summary","Story Summary #11"]
-];
+<!-- Load the original card database before the page script. -->
+<script src="database/1977%20Topps%20Star%20Wars/series1.js"></script>
 
-const cards = rawCards.map((r, i) => ({
-  number: i + 1,
-  title: r[0],
-  characters: r[1],
-  droids: r[2],
-  creatures: r[3],
-  vehicles: r[4],
-  location: r[5],
-  back: r[6],
-  backInfo: r[7],
-  series: "1",
-  border: "Blue",
-  media: "A New Hope (Movie)",
-  type: "Base",
-  variations: "VAR 1 (*) / VAR 2 (**) next to copyright ©",
-  error: i === 32 ? "Title/image error noted in the source data: the image shows C-3PO and R2-D2 on Luke's farm on Tatooine, not in a control room." : ""
+<script>
+const cards = (window.series1Cards || []).map(card => ({
+  number: Number(String(card.card).replace("#", "")),
+  title: card.title,
+  characters: card.characters,
+  droids: card.droids,
+  creatures: card.creatures,
+  vehicles: card.vehiclesSpaceships,
+  location: card.location,
+  back: card.back,
+  backInfo: card.backInformation,
+  set: card.set,
+  series: card.series,
+  border: card.border,
+  type: card.cardType,
+  media: card.media,
+  variations: card.variations,
+  error: card.errors
 }));
 
 const cardsEl = document.getElementById("cards");
@@ -276,49 +223,95 @@ const backFilterEl = document.getElementById("backFilter");
 const resultsEl = document.getElementById("results");
 
 function esc(value) {
-  return String(value || "").replace(/[&<>"']/g, ch => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   })[ch]);
 }
 
 function field(label, value) {
-  if (!value) return "";
+  if (value === null || value === undefined || value === "") {
+    return "";
+  }
+
   return `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`;
 }
 
 function render() {
   const query = searchEl.value.trim().toLowerCase();
   const backFilter = backFilterEl.value;
+
   const shown = cards.filter(card => {
     const searchable = [
-      card.number, card.title, card.characters, card.droids, card.creatures,
-      card.vehicles, card.location, card.back, card.backInfo
+      card.number,
+      card.title,
+      card.characters,
+      card.droids,
+      card.creatures,
+      card.vehicles,
+      card.location,
+      card.back,
+      card.backInfo,
+      card.set,
+      card.series,
+      card.border,
+      card.type,
+      card.media,
+      card.variations,
+      card.error
     ].join(" ").toLowerCase();
-    return searchable.includes(query) && (!backFilter || card.back === backFilter);
+
+    return searchable.includes(query) &&
+      (!backFilter || card.back === backFilter);
   });
 
   resultsEl.textContent = `Showing ${shown.length} of ${cards.length} cards`;
 
+  if (!cards.length) {
+    cardsEl.innerHTML = `
+      <div class="empty">
+        The card database could not be loaded. Check that
+        database/1977 Topps Star Wars/series1.js exists in the repository
+        and that its filename and folder capitalization are correct.
+      </div>
+    `;
+    resultsEl.textContent = "Unable to load card database";
+    return;
+  }
+
   if (!shown.length) {
-    cardsEl.innerHTML = '<div class="empty">No cards match your search. Try another term or clear the filter.</div>';
+    cardsEl.innerHTML = `
+      <div class="empty">
+        No cards match your search. Try another term or clear the filter.
+      </div>
+    `;
     return;
   }
 
   cardsEl.innerHTML = shown.map(card => `
     <article class="card">
       <div class="cardtop">
-        <span class="number">#${card.number}</span>
-        <span class="pill">${esc(card.back)}</span>
+        <span class="number">#${esc(card.number)}</span>
+        <span class="pill">${esc(card.back || "Back not recorded")}</span>
       </div>
+
       <div class="cardbody">
         <h3>${esc(card.title)}</h3>
-        <div class="placeholder">Card image placeholder<br>Photos can be added later</div>
+
+        <div class="placeholder">
+          Card image placeholder<br>
+          Photos can be added later
+        </div>
+
         <details>
           <summary>View card details</summary>
           <dl>
-            ${field("Set", "1977 Topps Star Wars")}
-            ${field("Series", "Series 1")}
-            ${field("Border", "Blue")}
+            ${field("Set", card.set)}
+            ${field("Series", "Series " + card.series)}
+            ${field("Border", card.border)}
             ${field("Card type", card.type)}
             ${field("Media", card.media)}
             ${field("Characters / actors", card.characters)}
@@ -327,6 +320,7 @@ function render() {
             ${field("Vehicles", card.vehicles)}
             ${field("Location", card.location)}
             ${field("Variations", card.variations)}
+            ${field("Back type", card.back)}
             ${field("Back information", card.backInfo)}
             ${field("Data note", card.error)}
           </dl>
@@ -338,8 +332,8 @@ function render() {
 
 searchEl.addEventListener("input", render);
 backFilterEl.addEventListener("change", render);
+
 render();
-<script src="database/1977%20Topps%20Star%20Wars/series1.js"></script>
 </script>
 </body>
 </html>
