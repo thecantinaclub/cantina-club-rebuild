@@ -78,6 +78,27 @@
       flex-wrap: wrap;
     }
     .actions { margin-top: 18px; }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
+      border-bottom: 1px solid #424c60;
+    }
+    .count {
+      display: inline-block;
+      padding: 3px 10px;
+      border: 1px solid #424c60;
+      border-radius: 20px;
+      color: #f0f2f6;
+      font-size: 14px;
+    }
+    .empty {
+      padding: 14px 0;
+      color: #a8b0c0;
+    }
   </style>
 </head>
 <body>
@@ -111,7 +132,30 @@
       </button>
       <p id="list-status" class="status" role="status"></p>
     </div>
-    <div id="submissions"></div>
+
+    <section aria-labelledby="pending-heading">
+      <div class="section-heading">
+        <h2 id="pending-heading">Pending submissions</h2>
+        <span id="pending-count" class="count">0</span>
+      </div>
+      <div id="pending-submissions"></div>
+    </section>
+
+    <section aria-labelledby="approved-heading">
+      <div class="section-heading">
+        <h2 id="approved-heading">Approved submissions</h2>
+        <span id="approved-count" class="count">0</span>
+      </div>
+      <div id="approved-submissions"></div>
+    </section>
+
+    <section aria-labelledby="rejected-heading">
+      <div class="section-heading">
+        <h2 id="rejected-heading">Rejected submissions</h2>
+        <span id="rejected-count" class="count">0</span>
+      </div>
+      <div id="rejected-submissions"></div>
+    </section>
   </section>
 </main>
 
@@ -124,7 +168,21 @@
   const loginForm = document.getElementById("login-form");
   const loginStatus = document.getElementById("login-status");
   const listStatus = document.getElementById("list-status");
-  const submissionsContainer = document.getElementById("submissions");
+
+  const sections = {
+    pending: {
+      container: document.getElementById("pending-submissions"),
+      count: document.getElementById("pending-count")
+    },
+    approved: {
+      container: document.getElementById("approved-submissions"),
+      count: document.getElementById("approved-count")
+    },
+    rejected: {
+      container: document.getElementById("rejected-submissions"),
+      count: document.getElementById("rejected-count")
+    }
+  };
 
   if (!window.supabase ||
       !window.CANTINA_SUPABASE_URL ||
@@ -146,10 +204,17 @@
     return el;
   }
 
+  function clearSubmissions() {
+    Object.values(sections).forEach(section => {
+      section.container.replaceChildren();
+      section.count.textContent = "0";
+    });
+  }
+
   function showSignedOut(message = "") {
     loginPanel.classList.remove("hidden");
     adminPanel.classList.add("hidden");
-    submissionsContainer.replaceChildren();
+    clearSubmissions();
     loginStatus.textContent = message;
   }
 
@@ -255,7 +320,6 @@
   async function copyApprovedPhoto(sourcePath, destinationPath) {
     if (!sourcePath) return null;
 
-    // Download from the private bucket using the signed-in admin session.
     const { data: file, error: downloadError } = await client.storage
       .from("card-submissions")
       .download(sourcePath);
@@ -276,8 +340,6 @@
       throw new Error("Unsupported photo format.");
     }
 
-    // This upload occurs only after the admin approves the card,
-    // or explicitly clicks Publish approved photos for an approved card.
     const { error: uploadError } = await client.storage
       .from("approved-card-images")
       .upload(destinationPath, file, {
@@ -326,8 +388,6 @@
       );
     }
 
-    // Save the PUBLIC bucket paths on the approved record.
-    // These paths are not the private submission paths.
     const update = {};
     if (frontPath) update.front_image_path = frontPath;
     if (backPath) update.back_image_path = backPath;
@@ -350,7 +410,7 @@
     const card = makeElement("article", "submission");
     const header = makeElement("div", "submission-header");
 
-    header.appendChild(makeElement("h2", "",
+    header.appendChild(makeElement("h3", "",
       "Card #" + item.card_number));
     header.appendChild(makeElement("span", "muted",
       item.status + " · " + formatDate(item.created_at)));
@@ -407,11 +467,8 @@
     rejectButton.disabled = !isPending;
     actions.appendChild(rejectButton);
 
-    // Approved submissions can be retried without resubmitting the card.
     const publishButton = makeElement(
-      "button",
-      "secondary",
-      "Publish approved photos"
+      "button", "secondary", "Publish approved photos"
     );
     publishButton.type = "button";
     publishButton.disabled = isPending ||
@@ -469,8 +526,6 @@
 
       if (error) throw error;
 
-      // Approval is saved first. Only then are the images copied
-      // into the public bucket.
       if (item.front_image_path || item.back_image_path) {
         try {
           await publishApprovedPhotos(item, number);
@@ -562,7 +617,7 @@
     if (loading) return;
     loading = true;
     listStatus.textContent = "Loading submissions…";
-    submissionsContainer.replaceChildren();
+    clearSubmissions();
 
     try {
       const { data, error } = await client
@@ -572,17 +627,41 @@
 
       if (error) throw error;
 
-      if (!data.length) {
-        listStatus.textContent = "No submissions found.";
-        return;
+      const grouped = {
+        pending: [],
+        approved: [],
+        rejected: []
+      };
+
+      for (const item of data || []) {
+        const status = String(item.status || "").toLowerCase();
+        if (grouped[status]) {
+          grouped[status].push(item);
+        }
       }
 
-      listStatus.textContent = data.length + " submission(s) found.";
+      for (const status of ["pending", "approved", "rejected"]) {
+        const section = sections[status];
+        section.count.textContent = String(grouped[status].length);
 
-      for (const item of data) {
-        const submissionCard = await makeSubmissionCard(item);
-        submissionsContainer.appendChild(submissionCard);
+        if (grouped[status].length === 0) {
+          section.container.appendChild(
+            makeElement("p", "empty", "No " + status + " submissions.")
+          );
+          continue;
+        }
+
+        for (const item of grouped[status]) {
+          const submissionCard = await makeSubmissionCard(item);
+          section.container.appendChild(submissionCard);
+        }
       }
+
+      listStatus.textContent =
+        (data || []).length + " total submission(s): " +
+        grouped.pending.length + " pending, " +
+        grouped.approved.length + " approved, " +
+        grouped.rejected.length + " rejected.";
     } catch (error) {
       console.error("Could not load submissions:", error);
       listStatus.textContent =
