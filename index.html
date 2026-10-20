@@ -1,901 +1,394 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101114">
-  <meta name="description" content="The Cantina Club — a community and archive for Star Wars Topps trading card collectors.">
-  <title>The Cantina Club | A Galaxy of Cards</title>
-  <style>
-    :root {
-      --bg: #101114;
-      --panel: #191b20;
-      --panel-light: #22252c;
-      --border: #34363d;
-      --text: #f5f1e8;
-      --muted: #a7a7ad;
-      --gold: #e5b965;
-      --gold-dark: #a77b32;
-      --green: #829b79;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    button, input { font: inherit; }
-
-    button, a { -webkit-tap-highlight-color: transparent; }
-
-    .container {
-      width: min(1160px, calc(100% - 36px));
-      margin: 0 auto;
-    }
-
-    .topbar {
-      background: #17181b;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .topbar-inner {
-      min-height: 82px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      border: 1px solid var(--gold-dark);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: var(--gold);
-      font-size: 25px;
-      flex-shrink: 0;
-    }
-
-    .brand-name {
-      font-size: 18px;
-      font-weight: 850;
-      letter-spacing: 1.6px;
-      line-height: 1.3;
-    }
-
-    .brand-tag {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 10px 16px;
-      font-weight: 650;
-      font-size: 13px;
-      cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .button:hover { transform: translateY(-1px); }
-
-    .button-gold {
-      background: var(--gold);
-      color: #17130c;
-      border-color: var(--gold);
-    }
-
-    .button-gold:hover { background: #f1cb7d; }
-
-    .button-outline {
-      background: transparent;
-      color: var(--text);
-    }
-
-    .button-outline:hover { border-color: var(--gold); }
-
-    .nav {
-      border-bottom: 1px solid var(--border);
-      background: #141518;
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      gap: 29px;
-      min-height: 48px;
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }
-
-    .nav a {
-      color: #c8c6c0;
-      font-size: 13px;
-      white-space: nowrap;
-      padding: 14px 0;
-    }
-
-    .nav a:hover { color: var(--gold); }
-
-    .hero {
-      padding: 64px 0 54px;
-      background:
-        radial-gradient(ellipse at 78% 20%, #57402744, transparent 40%),
-        radial-gradient(ellipse at 10% 100%, #313d3544, transparent 42%),
-        #141518;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 44px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 750;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: clamp(38px, 5.5vw, 65px);
-      line-height: 1.08;
-      letter-spacing: -2px;
-      margin: 15px 0 20px;
-      max-width: 650px;
-    }
-
-    h1 span { color: var(--gold); }
-
-    .hero-copy {
-      color: #c2c0bc;
-      font-size: 16px;
-      max-width: 570px;
-      margin-bottom: 27px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 11px;
-    }
-
-    .hero-note {
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .hero-art {
-      min-height: 285px;
-      border: 1px solid #625039;
-      border-radius: 12px;
-      background:
-        radial-gradient(ellipse at 50% 35%, #b38a4a30, transparent 48%),
-        linear-gradient(145deg, #29251f, #17181c 60%, #252c27);
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-art::before {
-      content: "";
-      position: absolute;
-      width: 210px;
-      height: 210px;
-      border: 1px solid #d9b77735;
-      border-radius: 50%;
-      right: -35px;
-      top: 28px;
-      box-shadow: 0 0 0 24px #d9b7770b,
-                  0 0 0 48px #d9b77708;
-    }
-
-    .art-label, .art-bottom { position: relative; z-index: 1; }
-
-    .art-label {
-      color: var(--gold);
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    .art-title {
-      font-size: 30px;
-      font-weight: 800;
-      line-height: 1.2;
-      max-width: 290px;
-      margin-top: 10px;
-    }
-
-    .art-bottom {
-      color: #d0c6b4;
-      font-size: 12px;
-      border-top: 1px solid #6b5b43;
-      padding-top: 15px;
-    }
-
-    .search-wrap {
-      margin-top: 32px;
-      max-width: 690px;
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #202126;
-      border: 1px solid #47413a;
-      border-radius: 8px;
-      padding: 7px 8px 7px 15px;
-    }
-
-    .search-box input {
-      flex: 1;
-      min-width: 0;
-      border: none;
-      outline: none;
-      color: var(--text);
-      background: transparent;
-      padding: 9px 0;
-      font-size: 14px;
-    }
-
-    .search-box input::placeholder { color: #929198; }
-
-    #search-results {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 9px;
-    }
-
-    section { padding: 52px 0; }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 18px;
-      margin-bottom: 23px;
-    }
-
-    .section-heading h2 {
-      font-size: clamp(24px, 3vw, 32px);
-      letter-spacing: -.7px;
-      line-height: 1.2;
-      margin: 6px 0 0;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      margin: 8px 0 0;
-      font-size: 13px;
-    }
-
-    .text-link {
-      color: var(--gold);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .text-link:hover { text-decoration: underline; }
-
-    .section-alt {
-      background: #151619;
-      border-top: 1px solid #282a30;
-      border-bottom: 1px solid #282a30;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
-
-    .feature-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 21px;
-      min-height: 210px;
-      transition: border-color .2s, transform .2s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--gold-dark);
-      transform: translateY(-3px);
-    }
-
-    .feature-icon {
-      font-size: 27px;
-      margin-bottom: 20px;
-      color: var(--gold);
-    }
-
-    .feature-card h3 {
-      font-size: 17px;
-      margin: 0 0 8px;
-    }
-
-    .feature-card p {
-      color: var(--muted);
-      font-size: 13px;
-      margin: 0;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .collectible {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      overflow: hidden;
-    }
-
-    .card-visual {
-      aspect-ratio: 3 / 3.6;
-      padding: 14px;
-      display: flex;
-      align-items: end;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(150deg, #344253, #181c24 72%);
-    }
-
-    .card-visual::before {
-      content: "";
-      position: absolute;
-      width: 160px;
-      height: 160px;
-      border: 1px solid #ffffff24;
-      border-radius: 50%;
-      top: 16%;
-      right: -48px;
-    }
-
-    .card-visual::after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      height: 130px;
-      border: 1px solid #ffffff19;
-      transform: rotate(28deg);
-      top: 20%;
-      left: 18%;
-    }
-
-    .card-visual.sketch {
-      background: linear-gradient(145deg, #554439, #22201f 75%);
-    }
-
-    .card-visual.autograph {
-      background: linear-gradient(145deg, #39493d, #1a201d 75%);
-    }
-
-    .card-visual.vintage {
-      background: linear-gradient(145deg, #50647b, #252b3b 75%);
-    }
-
-    .card-placeholder {
-      position: relative;
-      z-index: 1;
-      border-left: 3px solid var(--gold);
-      padding-left: 10px;
-    }
-
-    .card-placeholder small {
-      display: block;
-      color: #dfcfae;
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    .card-placeholder strong {
-      display: block;
-      font-size: 20px;
-      line-height: 1.2;
-      margin-top: 4px;
-    }
-
-    .card-info { padding: 14px; }
-
-    .card-info h3 {
-      font-size: 14px;
-      margin: 0 0 5px;
-    }
-
-    .card-info p {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .tag {
-      display: inline-block;
-      color: var(--gold);
-      border: 1px solid #705831;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 9px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-    }
-
-    .community-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .community-panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 24px;
-    }
-
-    .community-panel h3 {
-      font-size: 19px;
-      margin: 0 0 7px;
-    }
-
-    .community-panel > p {
-      font-size: 13px;
-      color: var(--muted);
-      margin: 0 0 20px;
-    }
-
-    .activity-item {
-      display: flex;
-      gap: 13px;
-      padding: 14px 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .activity-symbol {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      color: var(--gold);
-      background: #383023;
-    }
-
-    .activity-item strong {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 3px;
-    }
-
-    .activity-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .join-banner {
-      background: linear-gradient(115deg, #32291d, #20221f 75%);
-      border: 1px solid #645137;
-      border-radius: 12px;
-      padding: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .join-banner h2 {
-      margin: 0 0 7px;
-      font-size: 27px;
-    }
-
-    .join-banner p {
-      color: #c7c0b4;
-      margin: 0;
-      font-size: 13px;
-      max-width: 600px;
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .notice {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 13px;
-    }
-
-    @media (max-width: 850px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-      .hero-art { min-height: 220px; }
-      .feature-grid, .card-grid { grid-template-columns: repeat(2, 1fr); }
-      .nav-inner { gap: 22px; }
-    }
-
-    @media (max-width: 520px) {
-      .container { width: min(100% - 26px, 1160px); }
-      .topbar-inner { min-height: 72px; }
-      .brand-mark { width: 39px; height: 39px; }
-      .brand-name { font-size: 14px; letter-spacing: 1px; }
-      .brand-tag { font-size: 8px; letter-spacing: 1px; }
-      .header-actions .button { padding: 8px 10px; font-size: 11px; }
-      .hero { padding: 44px 0 38px; }
-      h1 { letter-spacing: -1px; }
-      section { padding: 39px 0; }
-      .feature-grid { gap: 10px; }
-      .feature-card { padding: 15px; min-height: 195px; }
-      .card-grid { gap: 10px; }
-      .card-info { padding: 10px; }
-      .card-placeholder strong { font-size: 16px; }
-      .community-grid { grid-template-columns: 1fr; }
-      .section-heading { align-items: start; }
-      .join-banner { padding: 22px; align-items: start; flex-direction: column; }
-      .search-box .button { padding: 9px 11px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101010">
+
+    <title>The Archives | The Cantina Club</title>
+
+    <meta
+        name="description"
+        content="Explore The Cantina Club's Star Wars Topps trading card archive."
+    >
+
+    <style>
+        :root {
+            --background: #101010;
+            --surface: #191919;
+            --surface-light: #222222;
+            --gold: #d5ad55;
+            --gold-light: #f0d58e;
+            --text: #f4f0e6;
+            --muted: #b5b0a5;
+            --border: rgba(213, 173, 85, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    ellipse at top,
+                    rgba(213, 173, 85, 0.08),
+                    transparent 55%
+                ),
+                var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .site-header {
+            border-bottom: 1px solid var(--border);
+            background: rgba(16, 16, 16, 0.96);
+        }
+
+        .header-inner {
+            width: min(1120px, 92%);
+            min-height: 92px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand-name {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+        }
+
+        .brand-tagline {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+        }
+
+        .main-nav a {
+            color: var(--muted);
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--gold-light);
+        }
+
+        .main-nav a.active {
+            font-weight: 700;
+        }
+
+        main {
+            width: min(1000px, 92%);
+            margin: 0 auto;
+        }
+
+        .intro {
+            padding: 86px 0 46px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--gold);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.5rem, 6vw, 4.4rem);
+            line-height: 1.08;
+            letter-spacing: 0.04em;
+        }
+
+        .intro-description {
+            max-width: 620px;
+            margin: 22px auto 0;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .gold-line {
+            width: 76px;
+            height: 3px;
+            margin: 28px auto 0;
+            background: var(--gold);
+        }
+
+        .categories {
+            padding: 12px 0 100px;
+        }
+
+        .section-heading {
+            margin: 0 0 28px;
+            color: var(--gold-light);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 620px);
+            justify-content: center;
+        }
+
+        .category-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 42px 34px 38px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(213, 173, 85, 0.08),
+                    transparent 48%
+                ),
+                var(--surface);
+            text-align: center;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            background-color: var(--surface-light);
+        }
+
+        .category-icon {
+            display: grid;
+            width: 84px;
+            height: 84px;
+            margin-bottom: 25px;
+            place-items: center;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            color: var(--gold-light);
+            font-size: 2.7rem;
+            line-height: 1;
+        }
+
+        .category-card h2 {
+            margin: 0;
+            color: var(--text);
+            font-size: clamp(1.35rem, 3vw, 1.8rem);
+            line-height: 1.3;
+        }
+
+        .category-card p {
+            max-width: 440px;
+            margin: 16px 0 28px;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        .category-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 46px;
+            padding: 11px 23px;
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            background: var(--gold);
+            color: #17130b;
+            font-size: 0.9rem;
+            font-weight: 800;
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .category-link:hover {
+            background: transparent;
+            color: var(--gold-light);
+        }
+
+        .future-note {
+            margin: 32px auto 0;
+            color: #8f897d;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .site-footer {
+            padding: 27px 4%;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .site-footer p {
+            margin: 5px 0;
+        }
+
+        .footer-brand {
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+
+        @media (max-width: 700px) {
+            .header-inner {
+                padding: 20px 0;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .brand {
+                align-items: center;
+                text-align: center;
+            }
+
+            .main-nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px 22px;
+            }
+
+            .intro {
+                padding: 60px 0 35px;
+            }
+
+            .categories {
+                padding-bottom: 65px;
+            }
+
+            .category-card {
+                padding: 32px 22px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .brand-tagline {
+                font-size: 0.62rem;
+            }
+
+            .main-nav {
+                gap: 10px 15px;
+            }
+
+            .main-nav a {
+                font-size: 0.82rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="index.html" aria-label="The Cantina Club home">
+                <span class="brand-name">THE CANTINA CLUB</span>
+                <span class="brand-tagline">A Galaxy of Cards</span>
+            </a>
 
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a class="brand" href="#home" aria-label="The Cantina Club home">
-        <div class="brand-mark">✦</div>
-        <div>
-          <div class="brand-name">THE CANTINA CLUB</div>
-          <div class="brand-tag">A GALAXY OF CARDS</div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a class="active" href="index.html" aria-current="page">Home</a>
+                <a href="archives.html">The Archives</a>
+                <a href="#coming-soon">Sketch Vault</a>
+                <a href="#coming-soon">The Cantina</a>
+                <a href="#coming-soon">The Trading Post</a>
+            </nav>
         </div>
-      </a>
-      <div class="header-actions">
-        <a class="button button-outline" href="#cantina">Member area</a>
-        <a class="button button-gold" href="#join">Join the club</a>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <nav class="nav" aria-label="Main navigation">
-    <div class="container nav-inner">
-      <a href="#home">Home</a>
-      <a href="archives.html">The Archives</a>
-      <a href="#sketch-vault">Sketch Vault</a>
-      <a href="#cantina">The Cantina</a>
-      <a href="#trading-post">The Trading Post</a>
-    </div>
-  </nav>
+    <main>
+        <section class="intro" aria-labelledby="page-title">
+            <p class="eyebrow">The Cantina Club</p>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Your seat is waiting</div>
-          <h1>Every card has <span>a story.</span></h1>
-          <p class="hero-copy">
-            Discover the cards. Preserve the rare finds. Meet the collectors.
-            Welcome to the meeting place for Star Wars Topps card enthusiasts.
-          </p>
-          <div class="hero-buttons">
-            <a class="button button-gold" href="archives.html">Explore the Archives →</a>
-            <a class="button button-outline" href="#cantina">Enter the Cantina</a>
-          </div>
-          <div class="search-wrap">
-            <form class="search-box" id="search-form">
-              <span aria-hidden="true">⌕</span>
-              <input id="site-search" type="search"
-                placeholder="Search cards, sets, characters, artists..."
-                aria-label="Search sample cards">
-              <button class="button button-gold" type="submit">Search</button>
-            </form>
-            <div id="search-results" aria-live="polite">
-              Search the sample cards below. The full archive will be built later.
-            </div>
-          </div>
-        </div>
+            <h1 id="page-title">The Archives</h1>
 
-        <div class="hero-art">
-          <div>
-            <div class="art-label">THE COLLECTOR'S HANGOUT</div>
-            <div class="art-title">Pull up a chair.<br>Show us your cards.</div>
-          </div>
-          <div class="art-bottom">
-            A community built by collectors, for collectors.<br>
-            From vintage classics to one-of-a-kind sketches.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="archives">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Explore</div>
-            <h2>Choose your corner of the galaxy</h2>
-            <p>Five destinations. One home for collectors.</p>
-          </div>
-        </div>
-        <div class="feature-grid">
-          <a class="feature-card" href="archives.html">
-            <div class="feature-icon">▤</div>
-            <h3>The Archives</h3>
-            <p>Explore sets, checklists, card numbers, autographs, parallels and more.</p>
-          </a>
-          <a class="feature-card" href="#sketch-vault">
-            <div class="feature-icon">✎</div>
-            <h3>Sketch Vault</h3>
-            <p>Discover unique sketch cards, their artists, characters and sets.</p>
-          </a>
-          <a class="feature-card" href="#cantina">
-            <div class="feature-icon">♙</div>
-            <h3>The Cantina</h3>
-            <p>Meet collectors, display your collection, discuss cards and earn ranks.</p>
-          </a>
-          <a class="feature-card" href="#trading-post">
-            <div class="feature-icon">⇄</div>
-            <h3>The Trading Post</h3>
-            <p>Find wanted cards, share available cards and meet potential trade partners.</p>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-alt" id="sketch-vault">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Worth a closer look</div>
-            <h2>Discover the collection</h2>
-            <p>Examples of the kinds of cards the archive will cover.</p>
-          </div>
-          <a class="text-link" href="#archives">Explore the archive →</a>
-        </div>
-
-        <div class="card-grid" id="sample-cards">
-          <article class="collectible" data-search="1977 vintage luke skywalker base card original">
-            <div class="card-visual vintage">
-              <div class="card-placeholder">
-                <small>Vintage collection</small>
-                <strong>1977<br>Series One</strong>
-              </div>
-            </div>
-            <div class="card-info">
-              <span class="tag">Vintage</span>
-              <h3>Classic Topps cards</h3>
-              <p>Explore the earliest releases.</p>
-            </div>
-          </article>
-
-          <article class="collectible" data-search="sketch original artwork artist 1/1 unique drawing">
-            <div class="card-visual sketch">
-              <div class="card-placeholder">
-                <small>One of a kind</small>
-                <strong>Sketch<br>Archive</strong>
-              </div>
-            </div>
-            <div class="card-info">
-              <span class="tag">Unique artwork</span>
-              <h3>Sketch cards</h3>
-              <p>One original artwork per record.</p>
-            </div>
-          </article>
-
-          <article class="collectible" data-search="autograph signed actor performer signature">
-            <div class="card-visual autograph">
-              <div class="card-placeholder">
-                <small>Signed collection</small>
-                <strong>Authentic<br>Autographs</strong>
-              </div>
-            </div>
-            <div class="card-info">
-              <span class="tag">Autographs</span>
-              <h3>Signed cards</h3>
-              <p>Record the actor, character and set.</p>
-            </div>
-          </article>
-
-          <article class="collectible" data-search="numbered parallel serial limited edition modern card">
-            <div class="card-visual">
-              <div class="card-placeholder">
-                <small>Limited editions</small>
-                <strong>Numbered<br>Parallels</strong>
-              </div>
-            </div>
-            <div class="card-info">
-              <span class="tag">Limited</span>
-              <h3>Rare variations</h3>
-              <p>Document parallel types and serial numbers.</p>
-            </div>
-          </article>
-        </div>
-        <p class="notice">These are design placeholders, not photographs or verified records of actual cards.</p>
-      </div>
-    </section>
-
-    <section id="cantina">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">More than a checklist</div>
-            <h2>There's room at the table</h2>
-            <p>A place for collectors to share knowledge and build connections.</p>
-          </div>
-        </div>
-
-        <div class="community-grid">
-          <div class="community-panel">
-            <h3>The Cantina community</h3>
-            <p>Your collector profile will bring your collection and activity together.</p>
-            <div class="activity-item">
-              <div class="activity-symbol">♙</div>
-              <div>
-                <strong>Member profiles and collections</strong>
-                <span>Show what you collect and what you're looking for.</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-symbol">✦</div>
-              <div>
-                <strong>Ranks and achievements</strong>
-                <span>Earn recognition by helping improve the archive.</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-symbol">☏</div>
-              <div>
-                <strong>Posts and private messages</strong>
-                <span>Discuss cards and contact other collectors.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="community-panel" id="trading-post">
-            <h3>The Trading Post</h3>
-            <p>Help collectors find cards and connect with one another.</p>
-            <div class="activity-item">
-              <div class="activity-symbol">⌕</div>
-              <div>
-                <strong>Cards wanted</strong>
-                <span>Share your collecting goals and missing cards.</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-symbol">⇄</div>
-              <div>
-                <strong>Cards available</strong>
-                <span>List cards you're considering trading.</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-symbol">✉</div>
-              <div>
-                <strong>Contact collectors</strong>
-                <span>Discuss potential purchases and trades privately.</span>
-              </div>
-            </div>
-            <p class="notice">Trading will be between members and at their own risk.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-alt" id="join">
-      <div class="container">
-        <div class="join-banner">
-          <div>
-            <div class="eyebrow">The club is taking shape</div>
-            <h2>Help build the archive.</h2>
-            <p>
-              The goal is a shared resource for collectors worldwide:
-              more cards documented, more sketches identified, and more
-              knowledge preserved for the community.
+            <p class="intro-description">
+                A galaxy of Star Wars Topps cards, brought together in one
+                growing archive. Choose a category to begin exploring.
             </p>
-          </div>
-          <a class="button button-gold" href="#archives">Explore the site</a>
-        </div>
-        <p class="notice">
-          Member registration, card submissions, messaging and trading are
-          planned features. They are not active in this first homepage.
-        </p>
-      </div>
-    </section>
-  </main>
 
-  <footer>
-    <div class="container footer-inner">
-      <span>© The Cantina Club · A community for collectors</span>
-      <span>Independent fan community · Not affiliated with Lucasfilm or Topps</span>
-    </div>
-  </footer>
+            <div class="gold-line" aria-hidden="true"></div>
+        </section>
 
-  <script>
-    const searchForm = document.getElementById("search-form");
-    const searchInput = document.getElementById("site-search");
-    const searchResults = document.getElementById("search-results");
-    const cards = [...document.querySelectorAll("#sample-cards .collectible")];
+        <section class="categories" aria-labelledby="category-heading">
+            <h2 class="section-heading" id="category-heading">
+                Explore the Archive
+            </h2>
 
-    searchForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const query = searchInput.value.trim().toLowerCase();
+            <div class="category-grid">
+                <a class="category-card" href="archives.html">
+                    <div class="category-icon" aria-hidden="true">▤</div>
 
-      if (!query) {
-        cards.forEach(card => card.hidden = false);
-        searchResults.textContent =
-          "Showing all sample categories. The complete searchable archive will come later.";
-        return;
-      }
+                    <h2>Official Topps Card Sets</h2>
 
-      let matches = 0;
-      cards.forEach(card => {
-        const text = (card.innerText + " " + card.dataset.search).toLowerCase();
-        const found = text.includes(query);
-        card.hidden = !found;
-        if (found) matches++;
-      });
+                    <p>
+                        Explore official Star Wars Topps trading card sets,
+                        organized by release and series.
+                    </p>
 
-      searchResults.textContent = matches
-        ? matches + " matching sample " + (matches === 1 ? "category" : "categories") +
-          ". This search currently covers examples only, not a complete card database."
-        : "No sample categories matched. The full card database has not been added yet.";
-      document.getElementById("sample-cards").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  </script>
+                    <span class="category-link">
+                        Browse Card Sets <span aria-hidden="true">→</span>
+                    </span>
+                </a>
+            </div>
+
+            <p class="future-note" id="coming-soon">
+                More archive categories and Cantina Club features will be
+                introduced as the collection grows.
+            </p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="footer-brand">THE CANTINA CLUB</p>
+        <p>A Galaxy of Cards</p>
+        <p>Built by collectors, for collectors.</p>
+    </footer>
 </body>
 </html>
