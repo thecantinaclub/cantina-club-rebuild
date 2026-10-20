@@ -166,6 +166,48 @@ footer {
   .header-inner { align-items: flex-start; }
   nav { gap: 12px; }
 }
+  .archive-year {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  align-self: start;
+}
+
+.archive-year h2 {
+  color: var(--gold);
+  font-size: 24px;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.archive-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+
+.archive-entry:last-child {
+  border-bottom: none;
+}
+
+.archive-entry strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.archive-entry span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.archive-entry:hover strong {
+  color: var(--gold);
+}
 </style>
 </head>
 <body>
@@ -193,19 +235,329 @@ footer {
     Choose a set to explore its subsets and individual card checklists.
   </p>
 
-  <section class="catalogue">
-    <a class="set-card" href="1977-topps-star-wars.html">
-      <div class="set-info">
-        <div class="set-year">1977</div>
-<h2>Star Wars</h2>
-        <p>
-  The original Star Wars trading card release, organized
-  into five color-coded series.
-</p>
-        <div class="set-link">Explore this set <span>→</span></div>
-      </div>
-    </a>
-  </section>
+  
+<section class="catalogue" style="display:block;">
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+
+    <!-- 2026 -->
+    <div class="archive-year">
+      <h2>2026</h2>
+      <a class="archive-entry" href="#"><strong>Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Galaxy</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2025 -->
+    <div class="archive-year">
+      <h2>2025</h2>
+      <a class="archive-entry" href="#"><strong>Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Galaxy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Hyperspace</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Meiyo</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Smugglers Outpost</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2024 -->
+    <div class="archive-year">
+      <h2>2024</h2>
+      <a class="archive-entry" href="#"><strong>Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Galaxy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Sapphire</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Black</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galactic Antiquities</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>High-Tek</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Hyperspace</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2023 -->
+    <div class="archive-year">
+      <h2>2023</h2>
+      <a class="archive-entry" href="#"><strong>Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Flagship</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Black</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galaxy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Finest</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>High Tek</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Sapphire Return of the Jedi 40th Anniversary</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Signature Series</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Obi-Wan Kenobi</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2022 -->
+    <div class="archive-year">
+      <h2>2022</h2>
+      <a class="archive-entry" href="#"><strong>Chrome Galaxy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Black</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Book of Boba Fett Season 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Finest</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Mandalorian Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Signature Series</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2021 -->
+    <div class="archive-year">
+      <h2>2021</h2>
+      <a class="archive-entry" href="#"><strong>Chrome Galaxy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Bounty Hunters</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Legacy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Stellar Signatures</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Signature Series</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Battle Plans</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2020 -->
+    <div class="archive-year">
+      <h2>2020</h2>
+      <a class="archive-entry" href="#"><strong>Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Stellar Signatures</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Mandalorian — The Journey of the Child</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Mandalorian Season 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Rise of Skywalker Series 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Rise of Skywalker Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Black &amp; White Return of the Jedi</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Women of Star Wars</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Perspectives: Resistance vs. The First Order</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Authentics Blind Pack</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Authentics Blind Pack Auto</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2019 -->
+    <div class="archive-year">
+      <h2>2019</h2>
+      <a class="archive-entry" href="#"><strong>Journey to The Rise of Skywalker</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Rise of Skywalker</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Black &amp; White The Empire Strikes Back</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Resistance</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Legacy</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Skywalker Saga</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Stellar Signatures</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Authentics Autographs Blind Pack</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Authentics Autographs Blind Pack Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Resistance Surprise Packs</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2018 -->
+    <div class="archive-year">
+      <h2>2018</h2>
+      <a class="archive-entry" href="#"><strong>The Last Jedi Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Solo: A Star Wars Story</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galactic Files</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 8</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Finest Star Wars</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Archive Signature Series</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Black &amp; White A New Hope</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Stellar Signatures</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2017 -->
+    <div class="archive-year">
+      <h2>2017</h2>
+      <a class="archive-entry" href="#"><strong>Journey to The Last Jedi</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Last Jedi Series 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Rogue One Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>40th Anniversary</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galactic Files Reborn</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>High Tek</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Stellar Signatures</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2016 -->
+    <div class="archive-year">
+      <h2>2016</h2>
+      <a class="archive-entry" href="#"><strong>The Force Awakens Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Rogue One: Series 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Rogue One: Mission Briefing</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Attack of the Clones 3D Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Evolution</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>High Tek</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Force Awakens Chrome</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Card Trader - Physical Trading Cards</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2015 -->
+    <div class="archive-year">
+      <h2>2015</h2>
+      <a class="archive-entry" href="#"><strong>Rebels</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Journey to The Force Awakens</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Force Awakens Series 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>High Tek</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Masterwork</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Revenge of the Sith 3D Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Perspectives: Jedi vs. Sith</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Illustrated: The Empire Strikes Back</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2014 -->
+    <div class="archive-year">
+      <h2>2014</h2>
+      <a class="archive-entry" href="#"><strong>Return of the Jedi 3D Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Perspectives</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2013 -->
+    <div class="archive-year">
+      <h2>2013</h2>
+      <a class="archive-entry" href="#"><strong>Galactic Files Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Illustrated: A New Hope</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Jedi Legacy</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2012 -->
+    <div class="archive-year">
+      <h2>2012</h2>
+      <a class="archive-entry" href="#"><strong>Galactic Files Series 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 7</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2011 -->
+    <div class="archive-year">
+      <h2>2011</h2>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 6</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2010 -->
+    <div class="archive-year">
+      <h2>2010</h2>
+      <a class="archive-entry" href="#"><strong>The Empire Strikes Back 3D Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Clone Wars: Rise of the Bounty Hunters</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 5</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2009 -->
+    <div class="archive-year">
+      <h2>2009</h2>
+      <a class="archive-entry" href="#"><strong>The Clone Wars Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 4</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2008 -->
+    <div class="archive-year">
+      <h2>2008</h2>
+      <a class="archive-entry" href="#"><strong>Topps The Clone Wars</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2007 -->
+    <div class="archive-year">
+      <h2>2007</h2>
+      <a class="archive-entry" href="#"><strong>30th Anniversary</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2006 -->
+    <div class="archive-year">
+      <h2>2006</h2>
+      <a class="archive-entry" href="#"><strong>Evolution: Update Edition</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2005 -->
+    <div class="archive-year">
+      <h2>2005</h2>
+      <a class="archive-entry" href="#"><strong>Revenge of the Sith</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Revenge of the Sith Widevision</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2004 -->
+    <div class="archive-year">
+      <h2>2004</h2>
+      <a class="archive-entry" href="#"><strong>Clone Wars</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Heritage</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2002 -->
+    <div class="archive-year">
+      <h2>2002</h2>
+      <a class="archive-entry" href="#"><strong>Attack of the Clones</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Attack of the Clones Widevision</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2001 -->
+    <div class="archive-year">
+      <h2>2001</h2>
+      <a class="archive-entry" href="#"><strong>Evolution</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 2000 -->
+    <div class="archive-year">
+      <h2>2000</h2>
+      <a class="archive-entry" href="#"><strong>Episode I 3D Widevision</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1999 -->
+    <div class="archive-year">
+      <h2>1999</h2>
+      <a class="archive-entry" href="#"><strong>Episode I Widevision Series 1</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Episode I Widevision Series 2</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Chrome Archives</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1997 -->
+    <div class="archive-year">
+      <h2>1997</h2>
+      <a class="archive-entry" href="#"><strong>Trilogy: The Complete Story</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Trilogy Special Edition</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Vehicles</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1996 -->
+    <div class="archive-year">
+      <h2>1996</h2>
+      <a class="archive-entry" href="#"><strong>Return of the Jedi Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Shadows of the Empire</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>3Di Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Finest</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1995 -->
+    <div class="archive-year">
+      <h2>1995</h2>
+      <a class="archive-entry" href="#"><strong>Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>The Empire Strikes Back Widevision</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 3</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>MasterVisions</strong><span>Star Wars card set</span></a>
+      <a class="archive-entry" href="#"><strong>Caps</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1994 -->
+    <div class="archive-year">
+      <h2>1994</h2>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 2</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1993 -->
+    <div class="archive-year">
+      <h2>1993</h2>
+      <a class="archive-entry" href="#"><strong>Galaxy Series 1</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1983 -->
+    <div class="archive-year">
+      <h2>1983</h2>
+      <a class="archive-entry" href="#"><strong>Return of the Jedi</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1980 -->
+    <div class="archive-year">
+      <h2>1980</h2>
+      <a class="archive-entry" href="#"><strong>The Empire Strikes Back</strong><span>Star Wars card set</span></a>
+    </div>
+
+    <!-- 1977 -->
+    <div class="archive-year">
+      <h2>1977</h2>
+      <a class="archive-entry" href="1977-topps-star-wars.html"><strong>Star Wars</strong><span>Star Wars card set</span></a>
+    </div>
+
+  </div>
+</section>
+
 
   <p class="note">
     This is the initial catalogue. More verified sets and release years
