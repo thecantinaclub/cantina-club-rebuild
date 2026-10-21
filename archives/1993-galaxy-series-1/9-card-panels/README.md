@@ -1,0 +1,1 @@
+1993 Star Wars Galaxy Series 1 — 9-Card Panels. Document the four known uncut panels, their card numbers, dimensions and distribution. These panels reproduce existing card artwork and must not be counted as additional base cards.
