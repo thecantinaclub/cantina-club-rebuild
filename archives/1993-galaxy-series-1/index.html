@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,76 +10,244 @@
       margin: 0;
       background: #111;
       color: #eee;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
-    header, main, footer {
-      max-width: 1000px;
-      margin: auto;
-      padding: 24px;
-    }
+
     header {
-      border-bottom: 1px solid #444;
+      padding: 35px 20px;
+      text-align: center;
+      background: #1b1b1b;
+      border-bottom: 2px solid #b58b35;
     }
+
+    header h1 {
+      margin: 0;
+      color: #e5c36b;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin-bottom: 0;
+      color: #ccc;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 25px 20px 45px;
+    }
+
     a {
-      color: #e5bd72;
+      color: #e5c36b;
     }
-    .intro, .archive-item {
-      background: #1c1c1c;
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .intro {
+      color: #ccc;
+    }
+
+    h2 {
+      color: #e5c36b;
+      font-size: 1.35rem;
+      margin-top: 30px;
+    }
+
+    .section-card {
+      background: #1b1b1b;
       border: 1px solid #383838;
       border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
+      padding: 20px;
+      margin-bottom: 16px;
     }
-    .archive-item h2 {
+
+    .section-card h3 {
       margin-top: 0;
+      margin-bottom: 8px;
+      color: #e5c36b;
+      font-size: 1.2rem;
     }
-    .status {
+
+    .section-card p {
+      margin-bottom: 10px;
+    }
+
+    .section-link {
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .note {
       color: #aaa;
       font-size: 0.95rem;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: #999;
+      background: #1b1b1b;
+      border-top: 1px solid #333;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <p><a href="../../../index.html">The Cantina Club</a> / 
-    <a href="../../../official-topps-card-sets.html">Card Set Catalogue</a></p>
-    <h1>1993 Star Wars Galaxy Series 1</h1>
-    <p>A Star Wars Topps card release archive</p>
+    <h1>Star Wars Galaxy Series 1</h1>
+    <p>1993 Topps — The Cantina Club Archives</p>
   </header>
 
   <main>
-    <section class="intro">
-      <h2>About this release</h2>
-      <p>This archive will document the cards, variations, promotional items and related products associated with the 1993 Star Wars Galaxy Series 1 release.</p>
-      <p class="status">The archive is being researched. Categories will be added after their contents have been checked.</p>
+    <a class="back-link" href="../../archives.html">
+      &larr; Back to The Archives
+    </a>
+
+    <p class="intro">
+      Released by Topps in 1993, Star Wars Galaxy Series 1 features
+      artwork inspired by the Star Wars universe. This archive separates
+      the standard base checklist from special products, promotional
+      items and other related releases.
+    </p>
+
+    <h2>Trading Cards and Subsets</h2>
+
+    <section class="section-card">
+      <h3>Base Set</h3>
+      <p>
+        The standard 140-card Star Wars Galaxy Series 1 checklist.
+      </p>
+      <p class="note">
+        Individual card records and further checklist details will be
+        organized in this section.
+      </p>
+      <span class="note">Detailed base-set page in progress.</span>
     </section>
 
-    <h2>Archive categories</h2>
-
-    <section class="archive-item">
-      <h2>Card sets and variations</h2>
-      <p>Base cards, foil parallel cards, etched foil cards, holofoil cards and autograph cards will be documented here as their checklists are verified.</p>
-      <p class="status">Detailed pages coming after research.</p>
+    <section class="section-card">
+      <h3>Foil Parallel Cards</h3>
+      <p>
+        Foil-accent versions associated with the Galaxy Series 1 cards.
+      </p>
+      <a class="section-link" href="foil-parallel-cards/">
+        View Foil Parallel Cards &rarr;
+      </a>
     </section>
 
-    <section class="archive-item">
-      <h2>Promotional items and panels</h2>
-      <p>Promo cards and the four known 9-card panels will be documented separately from the standard base-card checklist.</p>
-      <p class="status">Detailed pages coming after research.</p>
+    <section class="section-card">
+      <h3>Autograph Cards</h3>
+      <p>
+        Signed cards associated with the Galaxy Series 1 release.
+      </p>
+      <a class="section-link" href="autograph-cards/">
+        View Autograph Cards &rarr;
+      </a>
     </section>
 
-    <section class="archive-item">
-      <h2>Related products</h2>
-      <p>The Millennium Falcon Factory Set, Star Wars Galaxy Series 1 Binder and Just Toys Bend-Ems cards will be documented in their appropriate categories.</p>
-      <p class="status">Detailed pages coming after research.</p>
+    <section class="section-card">
+      <h3>Etched Foil Cards</h3>
+      <p>
+        The etched foil card category, documented separately from
+        the holofoil cards.
+      </p>
+      <a class="section-link" href="etched-foil-cards/">
+        View Etched Foil Cards &rarr;
+      </a>
     </section>
 
-    <p><a href="../../../official-topps-card-sets.html">← Back to the official Topps card set catalogue</a></p>
+    <section class="section-card">
+      <h3>Holofoil Cards</h3>
+      <p>
+        Holofoil cards associated with the Millennium Falcon Factory Set.
+      </p>
+      <a class="section-link" href="holofoil-cards/">
+        View Holofoil Cards &rarr;
+      </a>
+    </section>
+
+    <h2>Products and Special Releases</h2>
+
+    <section class="section-card">
+      <h3>Millennium Falcon Factory Set</h3>
+      <p>
+        The separately sold factory set, including the 140 base cards
+        with foil accents and additional product inclusions.
+      </p>
+      <a class="section-link" href="millennium-falcon-factory-set/index.html">
+        View Factory Set Details &rarr;
+      </a>
+    </section>
+
+    <section class="section-card">
+      <h3>Special Cards</h3>
+      <p>
+        Special cards and related items documented separately from
+        the standard base checklist.
+      </p>
+      <a class="section-link" href="special-cards/index.html">
+        Browse Special Cards &rarr;
+      </a>
+    </section>
+
+    <section class="section-card">
+      <h3>Promotional Cards</h3>
+      <p>
+        Promotional cards and related items associated with the
+        Galaxy Series 1 era.
+      </p>
+      <a class="section-link" href="promo-cards/">
+        View Promotional Cards &rarr;
+      </a>
+    </section>
+
+    <section class="section-card">
+      <h3>9-Card Panels</h3>
+      <p>
+        Uncut promotional or premium panels reproducing nine card designs.
+      </p>
+      <a class="section-link" href="9-card-panels/">
+        View 9-Card Panels &rarr;
+      </a>
+    </section>
+
+    <h2>Other Related Products</h2>
+
+    <section class="section-card">
+      <h3>Star Wars Galaxy Series 1 Binder</h3>
+      <p>
+        The collector's binder and related premium material.
+      </p>
+      <a class="section-link" href="star-wars-galaxy-series-1-binder/">
+        View Binder Details &rarr;
+      </a>
+    </section>
+
+    <section class="section-card">
+      <h3>Just Toys Bend-Ems</h3>
+      <p>
+        A related product category kept separate from the trading card checklist.
+      </p>
+      <a class="section-link" href="just-toys-bend-ems/">
+        View Bend-Ems Details &rarr;
+      </a>
+    </section>
+
+    <p class="note">
+      This overview is being developed set by set. Individual categories
+      will be expanded as their checklists and product details are verified.
+    </p>
+
   </main>
 
   <footer>
-    <p>The Cantina Club — A Galaxy of Cards</p>
+    The Cantina Club — A Galaxy of Cards
   </footer>
+
 </body>
 </html>
+```
