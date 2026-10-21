@@ -1,1 +1,277 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>1980 The Empire Strikes Back | The Cantina Club</title>
+
+<style>
+:root {
+  --background: #101010;
+  --panel: #191919;
+  --border: #34302a;
+  --text: #f3eee5;
+  --muted: #aaa295;
+  --gold: #d4ad65;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 22px 5%;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: var(--gold);
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 45px 22px 70px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.2;
+  margin: 12px 0;
+}
+
+.intro {
+  color: var(--muted);
+  max-width: 700px;
+  margin-bottom: 35px;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--gold);
+  text-decoration: none;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.section-heading {
+  color: var(--gold);
+  font-size: 23px;
+  margin: 35px 0 15px;
+}
+
+.subset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.subset-card {
+  display: block;
+  padding: 22px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.subset-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.subset-card h3 {
+  color: var(--text);
+  font-size: 19px;
+  margin: 0 0 8px;
+}
+
+.subset-card p {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.subset-card .range {
+  color: var(--gold);
+  font-weight: bold;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 25px 15px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer-brand {
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    gap: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      THE CANTINA CLUB
+      <small>A GALAXY OF CARDS</small>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="archives.html">The Archives</a>
+      <a href="index.html#sketch-vault">Sketch Vault</a>
+      <a href="index.html#cantina">The Cantina</a>
+      <a href="index.html#trading-post">The Trading Post</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <a class="back-link" href="official-topps-card-sets.html">
+    ← Back to Official Topps Card Sets
+  </a>
+
+  <div class="eyebrow">The Collector's Database · 1980</div>
+
+  <h1>The Empire Strikes Back</h1>
+
+  <p class="intro">
+    Explore the 1980 Topps Star Wars: The Empire Strikes Back
+    collection, including its three trading card series and
+    three sticker series. Select a subset to explore its checklist.
+  </p>
+
+  <h2 class="section-heading">Trading Cards</h2>
+
+  <div class="subset-grid">
+
+    <a class="subset-card"
+       href="1980-the-empire-strikes-back-series-1.html">
+      <h3>Series 1 — Red Border</h3>
+      <p class="range">Cards #1–132</p>
+      <p>132 trading cards</p>
+    </a>
+
+    <a class="subset-card"
+       href="1980-the-empire-strikes-back-series-2.html">
+      <h3>Series 2 — Blue Border</h3>
+      <p class="range">Cards #133–264</p>
+      <p>132 trading cards</p>
+    </a>
+
+    <a class="subset-card"
+       href="1980-the-empire-strikes-back-series-3.html">
+      <h3>Series 3 — Green Border</h3>
+      <p class="range">Cards #265–352</p>
+      <p>88 trading cards</p>
+    </a>
+
+  </div>
+
+  <h2 class="section-heading">Stickers</h2>
+
+  <div class="subset-grid">
+
+    <a class="subset-card"
+       href="1980-the-empire-strikes-back-stickers-series-1.html">
+      <h3>Sticker Series 1 — Red</h3>
+      <p class="range">Stickers #1–33</p>
+      <p>33 stickers</p>
+    </a>
+
+    <a class="subset-card"
+       href="1980-the-empire-strikes-back-stickers-series-2.html">
+      <h3>Sticker Series 2 — Blue</h3>
+      <p class="range">Stickers #34–66</p>
+      <p>33 stickers</p>
+    </a>
+
+    <a class="subset-card"
+       href="1980-the-empire-strikes-back-stickers-series-3.html">
+      <h3>Sticker Series 3 — Green</h3>
+      <p class="range">Stickers #67–88</p>
+      <p>22 stickers</p>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <p class="footer-brand">THE CANTINA CLUB</p>
+  <p>A Galaxy of Cards</p>
+  <p>Built by collectors, for collectors.</p>
+</footer>
+
+</body>
+</html>
