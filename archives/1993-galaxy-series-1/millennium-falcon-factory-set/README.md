@@ -1,0 +1,1 @@
+1993 Star Wars Galaxy Series 1 — Millennium Falcon Factory Set. Document the factory-set product and its contents, including the foil-accented base cards, six holofoils, Darth Vader hologram, Card #0, Star Wars Galaxy II preview card and randomly selected autograph card. Verify all details before publication.
