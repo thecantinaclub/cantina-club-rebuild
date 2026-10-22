@@ -1,244 +1,412 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>9-Card Panel 2 | 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9-Card Panel 2 — 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
   <style>
+    :root {
+      --navy: #101a2b;
+      --gold: #d7b56d;
+      --paper: #f4f1e9;
+      --muted: #b9c1ce;
+      --line: #354156;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      background: #101010;
-      color: #eeeeee;
+      background: var(--navy);
+      color: var(--paper);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
+
     header, main, footer {
-      width: min(950px, 92%);
-      margin: auto;
+      width: min(1100px, 92%);
+      margin: 0 auto;
     }
-    header { padding: 30px 0 15px; }
-    h1, h2 { color: #d6b45b; }
-    a { color: #d6b45b; }
-    a:hover { color: #ffe39a; }
-    .panel {
-      background: #1b1b1b;
-      border: 1px solid #393939;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px 0;
+
+    header { padding: 28px 0 12px; }
+    a { color: var(--gold); }
+    .back-link { display: inline-block; margin-bottom: 18px; }
+    h1, h2, h3 { line-height: 1.25; }
+    h1 { color: var(--gold); margin-bottom: 8px; }
+    .subtitle { color: var(--muted); }
+
+    .notice {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      padding: 14px 18px;
+      margin: 24px 0;
+      background: #172338;
     }
+
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin: 24px 0 40px;
     }
+
     .card {
-      background: #252525;
-      border: 1px solid #444;
+      min-width: 0;
+      border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 14px;
+      padding: 16px;
+      background: #172338;
     }
-    .number { color: #d6b45b; font-weight: bold; }
-    .muted { color: #b5b5b5; }
-    footer { padding: 25px 0 35px; color: #b5b5b5; }
+
+    .number { color: var(--gold); font-weight: bold; }
+    .card h3 { margin: 8px 0; }
+    .cardbody { margin-top: 12px; }
+
+    details {
+      margin: 12px 0;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    summary {
+      color: var(--gold);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .detail-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--muted);
+    }
+
+    .cc-edit-button { margin-top: 12px; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 22px 0 36px;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
-<header>
-  <a href="../index.html">← Back to 9-Card Panels</a>
-  <h1>9-Card Panel 2</h1>
-  <p>1993 Topps Star Wars Galaxy Series 1</p>
-</header>
+  <header>
+    <a class="back-link" href="../index.html">← Back to 9-Card Panels</a>
+    <h1>9-Card Panel 2</h1>
+    <div class="subtitle">1993 Topps Star Wars Galaxy Series 1</div>
+  </header>
 
-<main>
-  <section class="panel">
-    <h2>Panel information</h2>
-    <p><strong>Year:</strong> 1993</p>
-    <p><strong>Issuer:</strong> Topps</p>
-    <p><strong>Category:</strong> Promotional trading card panel</p>
-    <p><strong>Panel size:</strong> 8¼ × 11¼ inches</p>
-    <p><strong>Country:</strong> United States</p>
-    <p><strong>Rarity:</strong> Rare</p>
-    <p><strong>Distribution:</strong> General distribution</p>
-    <p><strong>Artist(s):</strong> Allen Nunis; Jason Palmer; George Perez; Brian Stelfreeze; Dave Stevens; Al Williamson; Tom Yeates.</p>
-    <p class="muted">
-      This uncut nine-card panel reproduces designs from nine cards in the
-      regular base set. It is a separate related item, not nine additional
-      base cards.
+  <main>
+    <h2>Panel Checklist</h2>
+    <p>
+      This nine-card panel reproduces artwork represented by nine cards in the
+      original 140-card base set. It is catalogued as a separate promotional
+      item, not as nine additional base cards.
     </p>
-  </section>
 
-  <section class="panel">
-    <h2>Base cards represented</h2>
-    <div class="cards" id="cards">
-     <div class="card">
-  <span class="number">Card #116</span>
-  <h3>Allen Nunis</h3>
-  <div class="cardbody"></div>
-</div>
-      <div class="card">
-  <span class="number">Card #117</span>
-  <h3>Jason Palmer</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #118</span>
-  <h3>George Perez</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #126</span>
-  <h3>Brian Stelfreeze (A)</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #127</span>
-  <h3>Brian Stelfreeze (B)</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #128</span>
-  <h3>Dave Stevens</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #136</span>
-  <h3>Al Williamson (A)</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #137</span>
-  <h3>Al Williamson (B)</h3>
-  <div class="cardbody"></div>
-</div>
-
-<div class="card">
-  <span class="number">Card #138</span>
-  <h3>Thomas Wm. Yeates II</h3>
-  <div class="cardbody"></div>
-</div>
+    <div class="notice">
+      <strong>Archive note:</strong> These are references to existing base-set
+      cards, not additional base cards. Card details and approved card images
+      are linked to the original base-set records.
     </div>
-    <p class="muted">
-      These numbers refer to the corresponding cards in the 140-card base set.
-      They are not additional checklist entries.
-    </p>
-  </section>
 
-  <section class="panel">
-    <h2>Archive notes</h2>
+    <h2>Cards on Panel 2</h2>
+    <div id="cards" class="cards">
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#116</div>
+        <h3>Allen Nunis</h3>
+        <div class="cardbody">
+          <p>Base-set card #116 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 116
+Panel association: Panel 2
+Artist: Allen Nunis</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#117</div>
+        <h3>Jason Palmer</h3>
+        <div class="cardbody">
+          <p>Base-set card #117 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 117
+Panel association: Panel 2
+Artist: Jason Palmer</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#118</div>
+        <h3>George Perez</h3>
+        <div class="cardbody">
+          <p>Base-set card #118 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 118
+Panel association: Panel 2
+Artist: George Perez</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#126</div>
+        <h3>Brian Stelfreeze (A)</h3>
+        <div class="cardbody">
+          <p>Base-set card #126 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 126
+Panel association: Panel 2
+Artist: Brian Stelfreeze (A)</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#127</div>
+        <h3>Brian Stelfreeze (B)</h3>
+        <div class="cardbody">
+          <p>Base-set card #127 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 127
+Panel association: Panel 2
+Artist: Brian Stelfreeze (B)</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#128</div>
+        <h3>Dave Stevens</h3>
+        <div class="cardbody">
+          <p>Base-set card #128 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 128
+Panel association: Panel 2
+Artist: Dave Stevens</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#136</div>
+        <h3>Al Williamson (A)</h3>
+        <div class="cardbody">
+          <p>Base-set card #136 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 136
+Panel association: Panel 2
+Artist: Al Williamson (A)</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#137</div>
+        <h3>Al Williamson (B)</h3>
+        <div class="cardbody">
+          <p>Base-set card #137 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 137
+Panel association: Panel 2
+Artist: Al Williamson (B)</div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="2">
+        <div class="number">#138</div>
+        <h3>Thomas Wm. Yeates II</h3>
+        <div class="cardbody">
+          <p>Base-set card #138 — associated with Panel 2.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">Base set: 1993 Topps Star Wars Galaxy Series 1
+Card number: 138
+Panel association: Panel 2
+Artist: Thomas Wm. Yeates II</div>
+          </details>
+        </div>
+      </article>
+    </div>
+
+    <h2>Panel Information</h2>
+    <ul>
+      <li><strong>Format:</strong> Nine-card panel</li>
+      <li><strong>Reported dimensions:</strong> 8¼ × 11¼ inches</li>
+      <li><strong>Geographic origin:</strong> USA</li>
+      <li><strong>Reported distribution:</strong> General distribution</li>
+      <li><strong>Rarity:</strong> Rare</li>
+      <li><strong>Associated product:</strong> Not yet verified</li>
+    </ul>
+
+    <p>
+      The individual card records remain part of the base set. Use the
+      contribution controls on each card to submit corrections or card images;
+      submissions remain pending until reviewed and approved by an administrator.
+    </p>
+
+    <h2>Archive Notes</h2>
     <p>
       This record documents the panel as a separate promotional item.
-      Images and further distribution details can be added when verified.
+      Product association and further distribution details should be updated
+      when verified.
     </p>
-    <p>
-      <a href="../../base-set/index.html">View the 140-card base checklist</a>
-    </p>
-  </section>
-</main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../../../../supabase-config.js"></script>
-<script>
-(async function () {
-  if (!window.supabase || !window.CANTINA_SUPABASE_URL || !window.CANTINA_SUPABASE_KEY) {
-    console.error("Supabase configuration is missing.");
-    return;
-  }
+    <p><a href="../../base-set/index.html">View the 140-card base checklist</a></p>
+  </main>
 
-  const client = window.supabase.createClient(
-    window.CANTINA_SUPABASE_URL,
-    window.CANTINA_SUPABASE_KEY
-  );
+  <footer>
+    The Cantina Club — A Galaxy of Cards
+  </footer>
 
-  const { data, error } = await client
-    .from("approved_cards")
-    .select("card_number, front_image_path, back_image_path")
-    .eq("set_slug", "1993-topps-star-wars-galaxy-series-1");
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../../../supabase-config.js"></script>
+  <script src="../../base-set/galaxy-card-submission.js"></script>
 
-  if (error) {
-    console.error("Could not load approved card images:", error);
-  }
-
-  const approvedCards = new Map(
-    (data || []).map(card => [
-      String(card.card_number).replace(/^#/, ""),
-      card
-    ])
-  );
-
-  document.querySelectorAll("#cards .card").forEach(card => {
-    const numberElement = card.querySelector(".number");
-    const body = card.querySelector(".cardbody");
-
-    if (!numberElement || !body) return;
-
-    const match = numberElement.textContent.match(/\d+/);
-    if (!match) return;
-
-    const number = match[0];
-    const approved = approvedCards.get(number) || {};
-    const photoWindow = document.createElement("div");
-
-    photoWindow.className = "approved-card-images";
-    photoWindow.style.display = "flex";
-    photoWindow.style.flexWrap = "wrap";
-    photoWindow.style.gap = "12px";
-    photoWindow.style.marginTop = "12px";
-
-    [["Front", approved.front_image_path], ["Back", approved.back_image_path]].forEach(([label, path]) => {
-      const box = document.createElement("div");
-      box.style.width = "120px";
-
-      const caption = document.createElement("p");
-      caption.textContent = label;
-      caption.style.margin = "4px 0";
-      caption.style.fontSize = "12px";
-
-      box.appendChild(caption);
-
-      if (path) {
-        const { data: result } = client.storage
-          .from("approved-card-images")
-          .getPublicUrl(path);
-
-        if (result && result.publicUrl) {
-          const img = document.createElement("img");
-          img.src = result.publicUrl;
-          img.alt = `Card #${number} ${label}`;
-          img.loading = "lazy";
-          img.style.width = "100%";
-          img.style.height = "auto";
-
-          const link = document.createElement("a");
-          link.href = result.publicUrl;
-          link.target = "_blank";
-          link.rel = "noopener";
-          link.appendChild(img);
-          box.appendChild(link);
-        } else {
-          box.append("No approved photo yet");
-        }
-      } else {
-        box.append("No approved photo yet");
+  <script>
+  (async function loadPanelApprovedPhotos() {
+    try {
+      if (
+        !window.supabase ||
+        !window.CANTINA_SUPABASE_URL ||
+        !window.CANTINA_SUPABASE_KEY
+      ) {
+        console.error("Cantina Club: Supabase configuration is missing.");
+        return;
       }
 
-      photoWindow.appendChild(box);
-    });
+      const client = window.supabase.createClient(
+        window.CANTINA_SUPABASE_URL,
+        window.CANTINA_SUPABASE_KEY
+      );
 
-    body.appendChild(photoWindow);
-  });
-})();
-</script>
-  <script src="../../base-set/galaxy-card-submission.js"></script>
-<footer>
-  The Cantina Club — A Galaxy of Cards
-</footer>
+      const { data, error } = await client
+        .from("approved_cards")
+        .select("card_number, front_image_path, back_image_path")
+        .eq("set_slug", "1993-topps-star-wars-galaxy-series-1");
+
+      if (error) throw error;
+
+      const records = new Map(
+        (data || []).map(record => [
+          Number(String(record.card_number).replace("#", "").trim()),
+          record
+        ])
+      );
+
+      const style = document.createElement("style");
+      style.textContent = `
+        .panel-photos {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+          margin: 14px 0;
+        }
+        .panel-photo {
+          min-width: 0;
+          border: 1px solid #354156;
+          border-radius: 6px;
+          overflow: hidden;
+          background: #0b1220;
+        }
+        .panel-photo-label {
+          padding: 5px;
+          color: #d7b56d;
+          text-align: center;
+          font-size: .8rem;
+        }
+        .panel-photo img {
+          display: block;
+          width: 100%;
+          height: 200px;
+          object-fit: contain;
+        }
+        .panel-photo-missing {
+          min-height: 100px;
+          display: grid;
+          place-items: center;
+          padding: 8px;
+          color: #b9c1ce;
+          text-align: center;
+          font-size: .8rem;
+        }
+      `;
+      document.head.appendChild(style);
+
+      document.querySelectorAll("#cards .card").forEach(card => {
+        const number = Number(
+          (card.querySelector(".number")?.textContent || "")
+            .replace("#", "").trim()
+        );
+        const body = card.querySelector(".cardbody");
+        if (!number || !body || body.querySelector(".panel-photos")) return;
+
+        const record = records.get(number);
+        const photos = document.createElement("div");
+        photos.className = "panel-photos";
+
+        [
+          ["Front", record?.front_image_path],
+          ["Back", record?.back_image_path]
+        ].forEach(([label, path]) => {
+          const box = document.createElement("div");
+          box.className = "panel-photo";
+
+          const heading = document.createElement("div");
+          heading.className = "panel-photo-label";
+          heading.textContent = label;
+          box.appendChild(heading);
+
+          if (path) {
+            const url = client.storage
+              .from("approved-card-images")
+              .getPublicUrl(path).data.publicUrl;
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = `Card #${number} ${label}`;
+            img.loading = "lazy";
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.appendChild(img);
+            box.appendChild(link);
+          } else {
+            const missing = document.createElement("div");
+            missing.className = "panel-photo-missing";
+            missing.textContent = `No approved ${label.toLowerCase()} photo yet`;
+            box.appendChild(missing);
+          }
+
+          photos.appendChild(box);
+        });
+
+        body.insertBefore(photos, body.firstChild);
+      });
+    } catch (error) {
+      console.error("Could not load approved Panel 2 photos:", error);
+    }
+  })();
+  </script>
 </body>
 </html>
-```
