@@ -2,240 +2,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>9-Card Panel 1 | 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
-<style>
-:root {
-  --bg:#090b10;
-  --panel:#141923;
-  --panel2:#1b2230;
-  --gold:#e4c16f;
-  --text:#f0f2f6;
-  --muted:#a8b0c0;
-  --line:#303849;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  line-height:1.6;
-}
-a { color:var(--gold); text-decoration:none; }
-a:hover { text-decoration:underline; }
-header {
-  padding:20px;
-  background:#0d1119;
-  border-bottom:1px solid var(--line);
-}
-.wrap { max-width:1200px; margin:auto; }
-.brand {
-  color:var(--gold);
-  font-weight:800;
-  letter-spacing:2px;
-  font-size:1.15rem;
-}
-.tagline {
-  color:var(--muted);
-  font-size:.78rem;
-  letter-spacing:2px;
-}
-nav {
-  display:flex;
-  flex-wrap:wrap;
-  gap:18px;
-  margin-top:16px;
-}
-nav a { color:var(--text); font-size:.9rem; }
-main {
-  max-width:1200px;
-  margin:auto;
-  padding:28px 20px 60px;
-}
-.eyebrow {
-  color:var(--gold);
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-size:.78rem;
-  font-weight:bold;
-}
-h1 {
-  font-size:clamp(2rem,5vw,3.2rem);
-  line-height:1.1;
-  margin:8px 0;
-}
-h2 { color:var(--gold); margin-top:30px; }
-h3 { margin:0 0 8px; font-size:1rem; }
-.intro { color:var(--muted); max-width:850px; }
-.stats {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:12px;
-  margin:24px 0;
-}
-.stat,.section-card,.note {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:12px;
-}
-.stat { padding:16px; }
-.stat strong {
-  display:block;
-  color:var(--gold);
-  font-size:1.35rem;
-}
-.stat span { color:var(--muted); font-size:.85rem; }
-.section-card { padding:18px; margin:18px 0; }
-.artist-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:12px;
-}
-.artist {
-  background:var(--panel2);
-  border:1px solid var(--line);
-  border-radius:9px;
-  padding:14px;
-}
-.number {
-  display:block;
-  color:var(--gold);
-  font-weight:bold;
-  margin-bottom:5px;
-}
-.muted { color:var(--muted); }
-.note { padding:18px; margin-top:24px; }
-.button-link {
-  display:inline-block;
-  margin:6px 8px 0 0;
-  padding:9px 13px;
-  border:1px solid #655737;
-  border-radius:7px;
-  background:#202635;
-}
-.related-links {
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-}
-.related-links a {
-  display:inline-block;
-  border:1px solid var(--line);
-  border-radius:7px;
-  padding:9px 12px;
-  background:var(--panel);
-}
-footer {
-  border-top:1px solid var(--line);
-  padding:24px 20px;
-  color:var(--muted);
-  text-align:center;
-  font-size:.82rem;
-}
-@media(max-width:600px) {
-  nav { gap:12px; }
-  .section-card { padding:14px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9-Card Panel 1 — 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
+  <style>
+    :root {
+      --navy: #101a2b;
+      --gold: #d7b56d;
+      --paper: #f4f1e9;
+      --muted: #b9c1ce;
+      --line: #354156;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--navy);
+      color: var(--paper);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    header, main, footer {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    header { padding: 28px 0 12px; }
+
+    a { color: var(--gold); }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 { line-height: 1.25; }
+
+    h1 { color: var(--gold); margin-bottom: 8px; }
+
+    .subtitle { color: var(--muted); }
+
+    .notice {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      padding: 14px 18px;
+      margin: 24px 0;
+      background: #172338;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin: 24px 0 40px;
+    }
+
+    .card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #172338;
+    }
+
+    .number {
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    .card h3 { margin: 8px 0; }
+
+    .card-image {
+      width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      display: block;
+      margin: 12px auto;
+      background: #0b1220;
+      border-radius: 4px;
+    }
+
+    .cardbody { margin-top: 12px; }
+
+    details {
+      margin: 12px 0;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    summary {
+      color: var(--gold);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .detail-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--muted);
+    }
+
+    .cc-edit-button {
+      margin-top: 12px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 22px 0 36px;
+      color: var(--muted);
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <a class="back-link" href="../index.html">← Back to 9-Card Panels</a>
+    <h1>9-Card Panel 1</h1>
+    <div class="subtitle">1993 Topps Star Wars Galaxy Series 1</div>
+  </header>
 
-<header>
-  <div class="wrap">
-    <a class="brand" href="../../../../index.html">THE CANTINA CLUB</a>
-    <div class="tagline">A GALAXY OF CARDS</div>
-    <nav>
-      <a href="../../../../index.html">Home</a>
-      <a href="../../../../archives.html">The Archives</a>
-      <a href="../../../../index.html#sketch-vault">Sketch Vault</a>
-      <a href="../../../../index.html#cantina">The Cantina</a>
-      <a href="../../../../index.html#trading-post">Trading Post</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <p><a href="../index.html">← Back to 9-Card Panels</a></p>
-
-  <div class="eyebrow">1993 · Topps · Galaxy Series 1</div>
-  <h1>9-Card Panel 1</h1>
-  <p class="intro">
-    A nine-card panel associated with the
-    <em>Art of Star Wars Galaxy</em> book. The panel reproduces designs from
-    nine cards in the regular 140-card base set.
-  </p>
-
-  <div class="stats">
-    <div class="stat"><strong>1993</strong><span>Release year</span></div>
-    <div class="stat"><strong>Topps</strong><span>Issuer</span></div>
-    <div class="stat"><strong>9 cards</strong><span>Panel contents</span></div>
-    <div class="stat"><strong>Rare+</strong><span>Recorded rarity</span></div>
-  </div>
-
-  <section class="section-card">
-    <h2>Panel information</h2>
-    <p><strong>Category:</strong> Product premium — book insert</p>
-    <p><strong>Associated publication:</strong> <em>Art of Star Wars Galaxy</em></p>
-    <p><strong>Panel size:</strong> 8¼ × 11¼ inches</p>
-    <p><strong>Country:</strong> United States</p>
-    <p><strong>Artist(s):</strong> Not yet confirmed for this panel record.</p>
-    <p class="muted">
-      This is a separate related product, not nine additional base cards.
-      The represented card designs remain part of the original 140-card
-      checklist.
-    </p>
-  </section>
-
-  <section class="section-card">
-    <h2>Base cards represented</h2>
-    <div class="artist-grid">
-      <article class="artist"><span class="number">Card #87</span>Howard Chaykin</article>
-      <article class="artist"><span class="number">Card #88</span>Mark Chiarello</article>
-      <article class="artist"><span class="number">Card #89</span>Geof Darrow</article>
-      <article class="artist"><span class="number">Card #97</span>Scott Hampton</article>
-      <article class="artist"><span class="number">Card #98</span>Michael Wm. Kaluta</article>
-      <article class="artist"><span class="number">Card #99</span>Gil Kane (A)</article>
-      <article class="artist"><span class="number">Card #107</span>Mike Lemos</article>
-      <article class="artist"><span class="number">Card #108</span>Esteban Maroto</article>
-      <article class="artist"><span class="number">Card #109</span>Cynthia Martin</article>
-    </div>
-    <p class="muted">
-      These numbers refer to the corresponding cards in the 140-card base
-      set. They are not additional checklist entries.
-    </p>
-    <a class="button-link" href="../../base-set/index.html">
-      View the 140-card base checklist →
-    </a>
-  </section>
-
-  <section class="note">
-    <h2>Archive notes</h2>
+  <main>
+    <h2>Panel Checklist</h2>
     <p>
-      This record documents the panel as a related product. Images, packaging
-      details and further publication information can be added to the archive
-      when verified.
+      This nine-card panel is associated with the
+      <em>Art of Star Wars Galaxy</em> book. It reproduces artwork
+      represented by nine cards in the original 140-card base set.
     </p>
-  </section>
 
-  <section>
-    <h2>Related archive sections</h2>
-    <div class="related-links">
-      <a href="../../base-set/">Base Set Checklist</a>
-      <a href="../../foil-parallel-cards/">Foil Parallel Cards</a>
-      <a href="../../etched-foil-cards/">Etched Foil Cards</a>
-      <a href="../../holofoil-cards/">Holofoil Cards</a>
-      <a href="../../autograph-cards/">Autograph Cards</a>
-      <a href="../../promo-cards/">Promotional Cards</a>
-      <a href="../../millennium-falcon-factory-set/">Millennium Falcon Factory Set</a>
-      <a href="../../special-cards/">Special Cards</a>
-      <a href="../../just-toys-bend-ems/">Just Toys Bend-Ems</a>
-      <a href="../../star-wars-galaxy-series-1-binder/">Star Wars Galaxy Series 1 Binder</a>
+    <div class="notice">
+      <strong>Archive note:</strong> These are references to existing base-set
+      cards, not nine additional base cards. Card details and approved card
+      images are linked to the original base-set records.
     </div>
-  </section>
-</main>
 
-<footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
+    <h2>Cards on Panel 1</h2>
+    <div id="cards" class="cards">
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#87</div>
+        <h3>Howard Chaykin</h3>
+        <div class="cardbody">
+          <p>Base-set card #87 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 87
+              Panel association: Panel 1
+              Artist: Howard Chaykin
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#88</div>
+        <h3>Mark Chiarello</h3>
+        <div class="cardbody">
+          <p>Base-set card #88 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 88
+              Panel association: Panel 1
+              Artist: Mark Chiarello
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#89</div>
+        <h3>Geof Darrow</h3>
+        <div class="cardbody">
+          <p>Base-set card #89 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 89
+              Panel association: Panel 1
+              Artist: Geof Darrow
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#97</div>
+        <h3>Scott Hampton</h3>
+        <div class="cardbody">
+          <p>Base-set card #97 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 97
+              Panel association: Panel 1
+              Artist: Scott Hampton
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#98</div>
+        <h3>Michael Wm. Kaluta</h3>
+        <div class="cardbody">
+          <p>Base-set card #98 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 98
+              Panel association: Panel 1
+              Artist: Michael Wm. Kaluta
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#99</div>
+        <h3>Gil Kane (A)</h3>
+        <div class="cardbody">
+          <p>Base-set card #99 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 99
+              Panel association: Panel 1
+              Artist: Gil Kane (A)
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#107</div>
+        <h3>Mike Lemos</h3>
+        <div class="cardbody">
+          <p>Base-set card #107 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 107
+              Panel association: Panel 1
+              Artist: Mike Lemos
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#108</div>
+        <h3>Esteban Maroto</h3>
+        <div class="cardbody">
+          <p>Base-set card #108 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 108
+              Panel association: Panel 1
+              Artist: Esteban Maroto
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="card" data-category="Base Set" data-panel="1">
+        <div class="number">#109</div>
+        <h3>Cynthia Martin</h3>
+        <div class="cardbody">
+          <p>Base-set card #109 — associated with Panel 1.</p>
+          <details>
+            <summary>View card details</summary>
+            <div class="detail-text">
+              Base set: 1993 Topps Star Wars Galaxy Series 1
+              Card number: 109
+              Panel association: Panel 1
+              Artist: Cynthia Martin
+              Related item: Art of Star Wars Galaxy book insert
+            </div>
+          </details>
+        </div>
+      </article>
+    </div>
+
+    <h2>Panel Information</h2>
+    <ul>
+      <li><strong>Associated product:</strong> Art of Star Wars Galaxy book</li>
+      <li><strong>Format:</strong> Nine-card panel</li>
+      <li><strong>Reported dimensions:</strong> 8¼ × 11¼ inches</li>
+      <li><strong>Archive classification:</strong> Product premium — book insert</li>
+      <li><strong>Geographic origin:</strong> USA</li>
+    </ul>
+
+    <p>
+      The individual card records remain part of the base set. Use the
+      contribution controls on each card to submit corrections or card images;
+      submissions remain pending until reviewed and approved by an administrator.
+    </p>
+  </main>
+
+  <footer>
+    The Cantina Club — A Galaxy of Cards
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../../../supabase-config.js"></script>
+  <script src="../../base-set/galaxy-card-submission.js"></script>
 </body>
 </html>
