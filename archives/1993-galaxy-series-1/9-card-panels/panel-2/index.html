@@ -146,51 +146,52 @@
 <script src="../../../../supabase-config.js"></script>
 <script>
 (async function () {
-  if (!window.supabase || !window.CANTINA_SUPABASE_URL || !window.CANTINA_SUPABASE_KEY) return;
+  if (!window.supabase || !window.CANTINA_SUPABASE_URL || !window.CANTINA_SUPABASE_KEY) {
+    console.error("Supabase configuration is missing.");
+    return;
+  }
 
-const client = window.supabase.createClient(
-  window.CANTINA_SUPABASE_URL,
-  window.CANTINA_SUPABASE_KEY
-);
+  const client = window.supabase.createClient(
+    window.CANTINA_SUPABASE_URL,
+    window.CANTINA_SUPABASE_KEY
+  );
 
   const { data, error } = await client
     .from("approved_cards")
     .select("card_number, front_image_path, back_image_path")
     .eq("set_slug", "1993-topps-star-wars-galaxy-series-1");
 
-  if (error || !data) {
+  if (error) {
     console.error("Could not load approved card images:", error);
-    return;
   }
 
-  const images = new Map(data.map(card => [String(card.card_number).replace(/^#/, ""), card]));
+  const approvedCards = new Map(
+    (data || []).map(card => [
+      String(card.card_number).replace(/^#/, ""),
+      card
+    ])
+  );
 
-  document.querySelectorAll(".cards .card").forEach(card => {
+  document.querySelectorAll("#cards .card").forEach(card => {
     const numberElement = card.querySelector(".number");
-    if (!numberElement) return;
+    const body = card.querySelector(".cardbody");
+
+    if (!numberElement || !body) return;
 
     const match = numberElement.textContent.match(/\d+/);
     if (!match) return;
 
-    const approved = images.get(match[0]);
-    if (!approved) return;
+    const number = match[0];
+    const approved = approvedCards.get(number) || {};
+    const photoWindow = document.createElement("div");
 
-    const body = document.createElement("div");
-    body.className = "approved-card-images";
-    body.style.display = "flex";
-    body.style.flexWrap = "wrap";
-    body.style.gap = "10px";
-    body.style.marginTop = "12px";
+    photoWindow.className = "approved-card-images";
+    photoWindow.style.display = "flex";
+    photoWindow.style.flexWrap = "wrap";
+    photoWindow.style.gap = "12px";
+    photoWindow.style.marginTop = "12px";
 
     [["Front", approved.front_image_path], ["Back", approved.back_image_path]].forEach(([label, path]) => {
-      if (!path) return;
-
-      const { data: result } = client.storage
-        .from("approved-card-images")
-        .getPublicUrl(path);
-
-      if (!result?.publicUrl) return;
-
       const box = document.createElement("div");
       box.style.width = "120px";
 
@@ -199,25 +200,38 @@ const client = window.supabase.createClient(
       caption.style.margin = "4px 0";
       caption.style.fontSize = "12px";
 
-      const img = document.createElement("img");
-      img.src = result.publicUrl;
-      img.alt = `Card #${match[0]} ${label}`;
-      img.loading = "lazy";
-      img.style.width = "100%";
-      img.style.height = "auto";
-
-      const link = document.createElement("a");
-      link.href = result.publicUrl;
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.appendChild(img);
-
       box.appendChild(caption);
-      box.appendChild(link);
-      body.appendChild(box);
+
+      if (path) {
+        const { data: result } = client.storage
+          .from("approved-card-images")
+          .getPublicUrl(path);
+
+        if (result && result.publicUrl) {
+          const img = document.createElement("img");
+          img.src = result.publicUrl;
+          img.alt = `Card #${number} ${label}`;
+          img.loading = "lazy";
+          img.style.width = "100%";
+          img.style.height = "auto";
+
+          const link = document.createElement("a");
+          link.href = result.publicUrl;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.appendChild(img);
+          box.appendChild(link);
+        } else {
+          box.append("No approved photo yet");
+        }
+      } else {
+        box.append("No approved photo yet");
+      }
+
+      photoWindow.appendChild(box);
     });
 
-    if (body.children.length) card.appendChild(body);
+    body.appendChild(photoWindow);
   });
 })();
 </script>
