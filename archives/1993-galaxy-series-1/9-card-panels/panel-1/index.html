@@ -324,5 +324,128 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../../../../supabase-config.js"></script>
   <script src="../../base-set/galaxy-card-submission.js"></script>
+  
+<script>
+(async function loadPanelApprovedPhotos() {
+  try {
+    if (
+      !window.supabase ||
+      !window.CANTINA_SUPABASE_URL ||
+      !window.CANTINA_SUPABASE_KEY
+    ) {
+      console.error("Cantina Club: Supabase configuration is missing.");
+      return;
+    }
+
+    const client = window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
+
+    const { data, error } = await client
+      .from("approved_cards")
+      .select("card_number, front_image_path, back_image_path")
+      .eq("set_slug", "1993-topps-star-wars-galaxy-series-1");
+
+    if (error) throw error;
+
+    const records = new Map(
+      (data || []).map(record => [
+        Number(String(record.card_number).replace("#", "").trim()),
+        record
+      ])
+    );
+
+    const style = document.createElement("style");
+    style.textContent = `
+      .panel-photos {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 14px 0;
+      }
+      .panel-photo {
+        min-width: 0;
+        border: 1px solid #354156;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #0b1220;
+      }
+      .panel-photo-label {
+        padding: 5px;
+        color: #d7b56d;
+        text-align: center;
+        font-size: .8rem;
+      }
+      .panel-photo img {
+        display: block;
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+      }
+      .panel-photo-missing {
+        min-height: 100px;
+        display: grid;
+        place-items: center;
+        padding: 8px;
+        color: #b9c1ce;
+        text-align: center;
+        font-size: .8rem;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.querySelectorAll("#cards .card").forEach(card => {
+      const number = Number(
+        (card.querySelector(".number")?.textContent || "")
+          .replace("#", "").trim()
+      );
+      const body = card.querySelector(".cardbody");
+      if (!number || !body || body.querySelector(".panel-photos")) return;
+
+      const record = records.get(number);
+      const photos = document.createElement("div");
+      photos.className = "panel-photos";
+
+      [
+        ["Front", record?.front_image_path],
+        ["Back", record?.back_image_path]
+      ].forEach(([label, path]) => {
+        const box = document.createElement("div");
+        box.className = "panel-photo";
+
+        const heading = document.createElement("div");
+        heading.className = "panel-photo-label";
+        heading.textContent = label;
+        box.appendChild(heading);
+
+        if (path) {
+          const url = client.storage
+            .from("approved-card-images")
+            .getPublicUrl(path).data.publicUrl;
+
+          const img = document.createElement("img");
+          img.src = url;
+          img.alt = `Card #${number} ${label}`;
+          img.loading = "lazy";
+          box.appendChild(img);
+        } else {
+          const missing = document.createElement("div");
+          missing.className = "panel-photo-missing";
+          missing.textContent = `No approved ${label.toLowerCase()} photo yet`;
+          box.appendChild(missing);
+        }
+
+        photos.appendChild(box);
+      });
+
+      body.insertBefore(photos, body.firstChild);
+    });
+  } catch (error) {
+    console.error("Could not load approved Panel 1 photos:", error);
+  }
+})();
+</script>
+
 </body>
 </html>
