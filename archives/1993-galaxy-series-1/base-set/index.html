@@ -1,244 +1,173 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>1993 Star Wars Galaxy Series 1 — Base Set | The Cantina Club</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --background: #101010;
-      --panel: #1b1b1b;
-      --gold: #d6b45b;
-      --text: #eeeeee;
-      --muted: #b5b5b5;
-      --border: #393939;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--background);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-    }
-
-    header, main, footer {
-      width: min(1100px, 92%);
-      margin: auto;
-    }
-
-    header { padding: 32px 0 18px; }
-
-    h1, h2, h3 { color: var(--gold); }
-
-    h1 {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      line-height: 1.2;
-    }
-
-    a { color: var(--gold); }
-    a:hover { color: #ffe39a; }
-
-    .back-link { display: inline-block; margin-bottom: 12px; }
-
-    .intro, .filters, .table-wrap, .note {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 18px;
-      margin: 18px 0;
-    }
-
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 16px 0;
-    }
-
-    .stat {
-      background: #252525;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-    }
-
-    .stat strong { color: var(--gold); }
-
-    .filters {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-    }
-
-    label {
-      display: block;
-      color: var(--gold);
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 11px;
-      border: 1px solid #555;
-      border-radius: 6px;
-      background: #111;
-      color: white;
-      font-size: 1rem;
-    }
-
-    .table-wrap { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 580px;
-    }
-
-    th, td {
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-    }
-
-    th {
-      color: var(--gold);
-      background: #252525;
-      position: sticky;
-      top: 0;
-    }
-
-    tbody tr:hover { background: #242424; }
-
-    .card-number {
-      font-weight: bold;
-      color: var(--gold);
-      white-space: nowrap;
-    }
-
-    .panel-label {
-      display: inline-block;
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      border-radius: 5px;
-      padding: 2px 7px;
-      margin: 2px 3px 2px 0;
-      font-size: 0.85rem;
-      white-space: nowrap;
-    }
-
-    .muted { color: var(--muted); }
-    .hidden { display: none; }
-
-    .related-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .related-links a {
-      display: inline-block;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 9px 12px;
-      text-decoration: none;
-      background: var(--panel);
-    }
-
-    footer {
-      padding: 25px 0 40px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1993 Topps Star Wars Galaxy Series 1 — Base Set | The Cantina Club</title>
+<style>
+:root {
+  --bg:#090b10; --panel:#141923; --panel2:#1b2230;
+  --gold:#e4c16f; --text:#f0f2f6; --muted:#a8b0c0;
+  --line:#303849;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,Helvetica,sans-serif; line-height:1.6;
+}
+a { color:var(--gold); text-decoration:none; }
+a:hover { text-decoration:underline; }
+header { padding:20px; background:#0d1119; border-bottom:1px solid var(--line); }
+.wrap { max-width:1200px; margin:auto; }
+.brand { color:var(--gold); font-weight:800; letter-spacing:2px; font-size:1.15rem; }
+.tagline { color:var(--muted); font-size:.78rem; letter-spacing:2px; }
+nav { display:flex; flex-wrap:wrap; gap:18px; margin-top:16px; }
+nav a { color:var(--text); font-size:.9rem; }
+main { max-width:1200px; margin:auto; padding:28px 20px 60px; }
+.eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:2px; font-size:.78rem; font-weight:bold; }
+h1 { font-size:clamp(2rem,5vw,3.2rem); line-height:1.1; margin:8px 0; }
+h2 { margin-top:30px; color:var(--gold); }
+.intro { color:var(--muted); max-width:850px; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin:24px 0; }
+.stat,.tools,.card,.note { background:var(--panel); border:1px solid var(--line); border-radius:12px; }
+.stat { padding:16px; }
+.stat strong { display:block; color:var(--gold); font-size:1.5rem; }
+.stat span { color:var(--muted); font-size:.85rem; }
+.tools { padding:16px; margin:20px 0; }
+.filters { display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px; }
+label { display:block; color:var(--gold); margin-bottom:5px; font-weight:bold; }
+input,select {
+  width:100%; padding:12px; background:#0c1018; color:var(--text);
+  border:1px solid #424c60; border-radius:8px; font-size:1rem;
+}
+.results { color:var(--muted); font-size:.9rem; margin:12px 0; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:14px; }
+.card { overflow:hidden; }
+.cardtop {
+  padding:14px 16px; background:var(--panel2);
+  border-bottom:1px solid var(--line); display:flex;
+  align-items:center; justify-content:space-between; gap:12px;
+}
+.number { color:var(--gold); font-size:1.15rem; font-weight:bold; }
+.pill {
+  border:1px solid #655737; color:var(--gold); border-radius:99px;
+  padding:3px 8px; font-size:.72rem; white-space:nowrap;
+}
+.cardbody { padding:16px; }
+.card h3 { margin:0 0 10px; font-size:1.08rem; }
+.panel-label {
+  display:inline-block; border:1px solid #655737; color:var(--gold);
+  border-radius:6px; padding:2px 7px; margin:3px 4px 3px 0; font-size:.78rem;
+}
+.cardphotos { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+.cardphoto { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:8px; background:#0c1018; }
+.cardphoto-label { padding:5px 8px; color:var(--gold); font-size:.78rem; text-align:center; border-bottom:1px solid var(--line); }
+.cardphoto img { display:block; width:100%; height:220px; object-fit:contain; background:#0c1018; }
+.missing-photo {
+  min-height:110px; display:grid; place-items:center; text-align:center;
+  padding:8px; color:var(--muted); font-size:.78rem;
+}
+.placeholder {
+  border:1px dashed #485267; border-radius:8px; color:var(--muted);
+  min-height:76px; display:grid; place-items:center; text-align:center;
+  padding:10px; margin:14px 0; font-size:.85rem;
+}
+details { border-top:1px solid var(--line); padding-top:10px; margin-top:10px; }
+summary { cursor:pointer; color:var(--gold); font-size:.9rem; }
+dl { display:grid; grid-template-columns:115px 1fr; gap:6px 10px; font-size:.85rem; }
+dt { color:var(--muted); }
+dd { margin:0; overflow-wrap:anywhere; }
+.empty { color:var(--muted); padding:24px; text-align:center; }
+.note { padding:18px; margin-top:30px; }
+.note li { margin-bottom:8px; }
+.related-links { display:flex; flex-wrap:wrap; gap:12px; }
+.related-links a {
+  display:inline-block; border:1px solid var(--line); border-radius:7px;
+  padding:9px 12px; background:var(--panel);
+}
+footer { border-top:1px solid var(--line); padding:24px 20px; color:var(--muted); text-align:center; font-size:.82rem; }
+@media(max-width:700px) {
+  .filters { grid-template-columns:1fr; }
+  nav { gap:12px; }
+  dl { grid-template-columns:95px 1fr; }
+  .cardphoto img { height:180px; }
+}
+</style>
 </head>
-
 <body>
 <header>
-  <a class="back-link" href="../index.html">← Back to 1993 Galaxy Series 1</a>
-  <h1>1993 Topps Star Wars Galaxy Series 1</h1>
-  <h2>Base Set Checklist</h2>
-
-  <div class="intro">
-    <p>
-      This checklist covers the 140-card retail base set of
-      <em>1993 Topps Star Wars Galaxy Series 1</em>.
-      Cards are organized by their original checklist sections.
-    </p>
-    <p>
-      The four known nine-card panels reproduce designs from existing
-      base-set cards. Panel appearances are cross-references, not additional
-      base cards, and do not increase the base-set total.
-    </p>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><strong>140</strong> base cards</div>
-    <div class="stat"><strong>4</strong> nine-card panels</div>
-    <div class="stat"><strong>6</strong> checklist sections</div>
+  <div class="wrap">
+    <a class="brand" href="../../../index.html">THE CANTINA CLUB</a>
+    <div class="tagline">A GALAXY OF CARDS</div>
+    <nav>
+      <a href="../../../index.html">Home</a>
+      <a href="../../../archives.html">The Archives</a>
+      <a href="../../../index.html#sketch-vault">Sketch Vault</a>
+      <a href="../../../index.html#cantina">The Cantina</a>
+      <a href="../../../index.html#trading-post">Trading Post</a>
+    </nav>
   </div>
 </header>
 
 <main>
-  <section class="filters" aria-label="Checklist filters">
-    <div>
-      <label for="search">Search cards</label>
-      <input id="search" type="search"
-        placeholder="Enter a card number, title or section…">
+  <p><a href="../index.html">← Back to 1993 Galaxy Series 1</a></p>
+  <div class="eyebrow">1993 · Topps · Galaxy Series 1</div>
+  <h1>Base Set Checklist</h1>
+  <p class="intro">
+    Browse the 140-card retail base set of 1993 Topps Star Wars Galaxy Series 1.
+    Search the checklist, explore the original sections, and see which base cards
+    are associated with the four documented nine-card panels. Approved card photos
+    and corrections appear after admin review.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><strong>140</strong><span>Base cards</span></div>
+    <div class="stat"><strong>6</strong><span>Checklist sections</span></div>
+    <div class="stat"><strong>4</strong><span>Nine-card panels</span></div>
+    <div class="stat"><strong>1993</strong><span>Release year</span></div>
+  </div>
+
+  <section class="tools" aria-label="Checklist filters">
+    <div class="filters">
+      <div>
+        <label for="search">Search cards</label>
+        <input id="search" type="search" placeholder="Card number, title, artist or subject…">
+      </div>
+      <div>
+        <label for="sectionFilter">Checklist section</label>
+        <select id="sectionFilter">
+          <option value="">All sections</option>
+          <option value="Title Card">Title Card</option>
+          <option value="Personality">Personality</option>
+          <option value="The Design of Star Wars">The Design of Star Wars</option>
+          <option value="The Art of Star Wars">The Art of Star Wars</option>
+          <option value="New Visions">New Visions</option>
+          <option value="Checklist">Checklist</option>
+        </select>
+      </div>
+      <div>
+        <label for="panelFilter">Nine-card panel</label>
+        <select id="panelFilter">
+          <option value="">All cards</option>
+          <option value="1">Panel 1</option>
+          <option value="2">Panel 2</option>
+          <option value="3">Panel 3</option>
+          <option value="4">Panel 4</option>
+          <option value="none">No panel documented</option>
+        </select>
+      </div>
     </div>
-    <div>
-      <label for="sectionFilter">Filter by section</label>
-      <select id="sectionFilter">
-        <option value="">All sections</option>
-        <option value="Title Card">Title Card</option>
-        <option value="Personality">Personality</option>
-        <option value="The Design of Star Wars">The Design of Star Wars</option>
-        <option value="The Art of Star Wars">The Art of Star Wars</option>
-        <option value="New Visions">New Visions</option>
-        <option value="Checklist">Checklist</option>
-      </select>
-    </div>
-    <div>
-      <label for="panelFilter">Filter by panel</label>
-      <select id="panelFilter">
-        <option value="">All cards</option>
-        <option value="1">Panel 1</option>
-        <option value="2">Panel 2</option>
-        <option value="3">Panel 3</option>
-        <option value="4">Panel 4</option>
-        <option value="none">No panel documented</option>
-      </select>
-    </div>
+    <div class="results" id="results" aria-live="polite">Loading checklist…</div>
   </section>
 
-  <p id="resultCount" aria-live="polite"></p>
-
-  <section class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Card #</th>
-          <th scope="col">Card title / subject</th>
-          <th scope="col">Checklist section</th>
-          <th scope="col">9-card panel</th>
-        </tr>
-      </thead>
-      <tbody id="cardRows"></tbody>
-    </table>
-  </section>
+  <div class="cards" id="cards"></div>
 
   <section class="note">
-    <h2>About the 9-card panels</h2>
+    <h2>About the nine-card panels</h2>
     <p>
-      Panel labels identify which known nine-card panel reproduces a card's
-      design. A card may be listed on more than one panel if supported by
-      the documented panel checklist.
+      Panel appearances are cross-references to existing base cards. They are
+      not additional base cards and do not increase the 140-card checklist total.
     </p>
     <ul>
       <li><strong>Panel 1:</strong> Cards #87, #88, #89, #97, #98, #99, #107, #108 and #109. Associated with the <em>Art of Star Wars Galaxy</em> book.</li>
@@ -246,9 +175,9 @@
       <li><strong>Panel 3:</strong> Cards #47, #82, #83, #91, #92, #93, #101, #102 and #103.</li>
       <li><strong>Panel 4:</strong> Cards #113, #114, #115, #123, #124, #125, #133, #134 and #135.</li>
     </ul>
-    <p class="muted">
-      The panel records belong in the separate 9-Card Panels archive.
-      This checklist only records each base card's panel association.
+    <p class="intro">
+      Panel records are documented separately in the 9-Card Panels archive.
+      Artist credits and other details will be added as they are verified.
     </p>
   </section>
 
@@ -265,245 +194,340 @@
       <a href="../special-cards/">Special Cards</a>
     </div>
   </section>
-
-  <p class="muted">
-    Checklist source: the 140-card list currently documented for this archive.
-    Artist credits and additional card details can be added as they are verified.
+  <p class="intro">
+    Empty details mean the information has not yet been entered or verified
+    in this archive. They do not necessarily mean the card has no such feature.
   </p>
 </main>
 
-<footer>
-  The Cantina Club — A Galaxy of Cards
-</footer>
+<footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../../supabase-config.js"></script>
+<script src="galaxy-card-submission.js"></script>
 <script>
-  const cards = [
-    [1, "Star Wars Galaxy", "Title Card"],
-    [2, "George Lucas", "Personality"],
-    [3, "Luke Skywalker", "Personality"],
-    [4, "Darth Vader", "Personality"],
-    [5, "Leia Organa", "Personality"],
-    [6, 'Obi-Wan "Ben" Kenobi', "Personality"],
-    [7, "Han Solo", "Personality"],
-    [8, "Chewbacca", "Personality"],
-    [9, "Lando Calrissian", "Personality"],
-    [10, "Yoda", "Personality"],
-    [11, "C-3PO", "Personality"],
-    [12, "R2-D2", "Personality"],
-    [13, "Boba Fett", "Personality"],
-    [14, "The Emperor Palpatine", "Personality"],
+const SET_SLUG = "1993-topps-star-wars-galaxy-series-1";
 
-    [15, "Ralph McQuarrie", "The Design of Star Wars"],
-    [16, "The Death Star Trench", "The Design of Star Wars"],
-    [17, "Ron Cobb", "The Design of Star Wars"],
-    [18, "Hammerhead", "The Design of Star Wars"],
-    [19, "Typical Wookiee Family", "The Design of Star Wars"],
-    [20, "The Star Wars Holiday Special", "The Design of Star Wars"],
-    [21, "Too-Onebee", "The Design of Star Wars"],
-    [22, "The All-Terrain Armored Transport", "The Design of Star Wars"],
-    [23, "Yoda", "The Design of Star Wars"],
-    [24, "A Space Slug", "The Design of Star Wars"],
-    [25, "IG-88", "The Design of Star Wars"],
-    [26, "The Death Star", "The Design of Star Wars"],
-    [27, "Jabba the Hutt", "The Design of Star Wars"],
-    [28, "Costume Design", "The Design of Star Wars"],
-    [29, "Princess Leia", "The Design of Star Wars"],
-    [30, "Original Sketches", "The Design of Star Wars"],
-    [31, "Lando Calrissian", "The Design of Star Wars"],
-    [32, "Yoda as Gremlin", "The Design of Star Wars"],
-    [33, "Bad Hair Day?", "The Design of Star Wars"],
-    [34, "The Rancor", "The Design of Star Wars"],
-    [35, "Jabba's Menagerie", "The Design of Star Wars"],
-    [36, "Gamorrean Guards", "The Design of Star Wars"],
-    [37, "Bib Fortuna", "The Design of Star Wars"],
-    [38, "Creature Collaboration", "The Design of Star Wars"],
-    [39, "Princess Leia's Hair", "The Design of Star Wars"],
-    [40, "Ewoks", "The Design of Star Wars"],
-    [41, "Leia as a Pin-Up", "The Design of Star Wars"],
-    [42, "Ralph McQuarrie", "The Design of Star Wars"],
-    [43, "The Max Rebo Band", "The Design of Star Wars"],
-    [44, "Luke Skywalker's Confrontation", "The Design of Star Wars"],
-    [45, "Speeder Bike Chase", "The Design of Star Wars"],
-    [46, "The Emperor Strikes Back", "The Design of Star Wars"],
-    [47, "Wedge Antilles", "The Design of Star Wars"],
+const cards = [
+[1,"Star Wars Galaxy","Title Card"],
+[2,"George Lucas","Personality"],
+[3,"Luke Skywalker","Personality"],
+[4,"Darth Vader","Personality"],
+[5,"Leia Organa","Personality"],
+[6,'Obi-Wan "Ben" Kenobi',"Personality"],
+[7,"Han Solo","Personality"],
+[8,"Chewbacca","Personality"],
+[9,"Lando Calrissian","Personality"],
+[10,"Yoda","Personality"],
+[11,"C-3PO","Personality"],
+[12,"R2-D2","Personality"],
+[13,"Boba Fett","Personality"],
+[14,"The Emperor Palpatine","Personality"],
+[15,"Ralph McQuarrie","The Design of Star Wars"],
+[16,"The Death Star Trench","The Design of Star Wars"],
+[17,"Ron Cobb","The Design of Star Wars"],
+[18,"Hammerhead","The Design of Star Wars"],
+[19,"Typical Wookiee Family","The Design of Star Wars"],
+[20,"The Star Wars Holiday Special","The Design of Star Wars"],
+[21,"Too-Onebee","The Design of Star Wars"],
+[22,"The All-Terrain Armored Transport","The Design of Star Wars"],
+[23,"Yoda","The Design of Star Wars"],
+[24,"A Space Slug","The Design of Star Wars"],
+[25,"IG-88","The Design of Star Wars"],
+[26,"The Death Star","The Design of Star Wars"],
+[27,"Jabba the Hutt","The Design of Star Wars"],
+[28,"Costume Design","The Design of Star Wars"],
+[29,"Princess Leia","The Design of Star Wars"],
+[30,"Original Sketches","The Design of Star Wars"],
+[31,"Lando Calrissian","The Design of Star Wars"],
+[32,"Yoda as Gremlin","The Design of Star Wars"],
+[33,"Bad Hair Day?","The Design of Star Wars"],
+[34,"The Rancor","The Design of Star Wars"],
+[35,"Jabba's Menagerie","The Design of Star Wars"],
+[36,"Gamorrean Guards","The Design of Star Wars"],
+[37,"Bib Fortuna","The Design of Star Wars"],
+[38,"Creature Collaboration","The Design of Star Wars"],
+[39,"Princess Leia's Hair","The Design of Star Wars"],
+[40,"Ewoks","The Design of Star Wars"],
+[41,"Leia as a Pin-Up","The Design of Star Wars"],
+[42,"Ralph McQuarrie","The Design of Star Wars"],
+[43,"The Max Rebo Band","The Design of Star Wars"],
+[44,"Luke Skywalker's Confrontation","The Design of Star Wars"],
+[45,"Speeder Bike Chase","The Design of Star Wars"],
+[46,"The Emperor Strikes Back","The Design of Star Wars"],
+[47,"Wedge Antilles","The Design of Star Wars"],
+[48,"Cartoonist Howard Chaykin","The Art of Star Wars"],
+[49,"Artist John Berkey","The Art of Star Wars"],
+[50,"John Berkey's Concept","The Art of Star Wars"],
+[51,"A Huge Space Battle","The Art of Star Wars"],
+[52,"A More Realistic","The Art of Star Wars"],
+[53,"Continuning Success, The","The Art of Star Wars"],
+[54,"Foreign Movie Posters","The Art of Star Wars"],
+[55,"Recapturing the Style","The Art of Star Wars"],
+[56,"Artists' Imaginations","The Art of Star Wars"],
+[57,"A Highly Stylized","The Art of Star Wars"],
+[58,"Italian Poster Art","The Art of Star Wars"],
+[59,"An Evil Darth Vader","The Art of Star Wars"],
+[60,"A Close Encounter","The Art of Star Wars"],
+[61,"If Droids Can Frolic","The Art of Star Wars"],
+[62,"The Popularity of Villains","The Art of Star Wars"],
+[63,"Dave Dorman","The Art of Star Wars"],
+[64,"Two Lukes","The Art of Star Wars"],
+[65,"The Main International","The Art of Star Wars"],
+[66,"Once a Design Firm","The Art of Star Wars"],
+[67,"The Mountain","The Art of Star Wars"],
+[68,"The Noble Tauntaun","The Art of Star Wars"],
+[69,"A Pastiche","The Art of Star Wars"],
+[70,"The Rebels Transcend","The Art of Star Wars"],
+[71,"Boris Vallejo","The Art of Star Wars"],
+[72,"Male Bonding","The Art of Star Wars"],
+[73,"When George Lucas","The Art of Star Wars"],
+[74,"Heat Seems to Rise","The Art of Star Wars"],
+[75,"We're Moving!","The Art of Star Wars"],
+[76,"Even Droids Celebrate","The Art of Star Wars"],
+[77,"Santa Threepio","The Art of Star Wars"],
+[78,"Strike Up the Droids","The Art of Star Wars"],
+[79,"Thomas Blackshear","The Art of Star Wars"],
+[80,"Jim Steranko","The Art of Star Wars"],
+[81,'Steranko\'s "Empire"',"The Art of Star Wars"],
+[82,"Kyle Baker","New Visions"],
+[83,"Bret Blevins","New Visions"],
+[84,"Ted Boonthanakt","New Visions"],
+[85,"June Brigman","New Visions"],
+[86,"Paul Chadwick","New Visions"],
+[87,"Howard Chaykin","New Visions"],
+[88,"Mark Chiarello","New Visions"],
+[89,"Geof Darrow","New Visions"],
+[90,"Steve Ditko","New Visions"],
+[91,"Dave Dorman","New Visions"],
+[92,"George Evans","New Visions"],
+[93,"Fastner & Larson","New Visions"],
+[94,"Keith Giffen","New Visions"],
+[95,"Paul Gulacy","New Visions"],
+[96,"Bo Hampton","New Visions"],
+[97,"Scott Hampton","New Visions"],
+[98,"Michael Wm. Kaluta","New Visions"],
+[99,"Gil Kane (A)","New Visions"],
+[100,"Gil Kane (B)","New Visions"],
+[101,"Cam Kennedy","New Visions"],
+[102,"Dale Keown","New Visions"],
+[103,"Karl Kesel","New Visions"],
+[104,"Sam Kieth (A)","New Visions"],
+[105,"Sam Kieth (B)","New Visions"],
+[106,"David Lapham","New Visions"],
+[107,"Mike Lemos","New Visions"],
+[108,"Esteban Maroto","New Visions"],
+[109,"Cynthia Martin","New Visions"],
+[110,"Michael Mignola","New Visions"],
+[111,'Jean "Moebius" Giraud',"New Visions"],
+[112,"Jerome Moore","New Visions"],
+[113,"Jon H Muth","New Visions"],
+[114,"Mark Nelson","New Visions"],
+[115,"Earl Norem","New Visions"],
+[116,"Allen Nunis","New Visions"],
+[117,"Jason Palmer","New Visions"],
+[118,"George Perez","New Visions"],
+[119,"George Pratt","New Visions"],
+[120,"Joe Quesada","New Visions"],
+[121,"P. Craig Russell","New Visions"],
+[122,"Mark Schultz","New Visions"],
+[123,"Bill Sienkiewicz","New Visions"],
+[124,"Walter Simonson","New Visions"],
+[125,"Ken Steacy","New Visions"],
+[126,"Brian Stelfreeze (A)","New Visions"],
+[127,"Brian Stelfreeze (B)","New Visions"],
+[128,"Dave Stevens","New Visions"],
+[129,"William Stout","New Visions"],
+[130,"Greg Theakston","New Visions"],
+[131,"Angelo Torres","New Visions"],
+[132,"Jim Valentino","New Visions"],
+[133,"John Van Fleet","New Visions"],
+[134,"Charles Vess","New Visions"],
+[135,"Russell Walks","New Visions"],
+[136,"Al Williamson (A)","New Visions"],
+[137,"Al Williamson (B)","New Visions"],
+[138,"Thomas Wm. Yeates II","New Visions"],
+[139,"Bruce Zick","New Visions"],
+[140,"Star Wars Galaxy Checklist - Series One","Checklist"]
+];
 
-    [48, "Cartoonist Howard Chaykin", "The Art of Star Wars"],
-    [49, "Artist John Berkey", "The Art of Star Wars"],
-    [50, "John Berkey's Concept", "The Art of Star Wars"],
-    [51, "A Huge Space Battle", "The Art of Star Wars"],
-    [52, "A More Realistic", "The Art of Star Wars"],
-    [53, "Continuning Success, The", "The Art of Star Wars"],
-    [54, "Foreign Movie Posters", "The Art of Star Wars"],
-    [55, "Recapturing the Style", "The Art of Star Wars"],
-    [56, "Artists' Imaginations", "The Art of Star Wars"],
-    [57, "A Highly Stylized", "The Art of Star Wars"],
-    [58, "Italian Poster Art", "The Art of Star Wars"],
-    [59, "An Evil Darth Vader", "The Art of Star Wars"],
-    [60, "A Close Encounter", "The Art of Star Wars"],
-    [61, "If Droids Can Frolic", "The Art of Star Wars"],
-    [62, "The Popularity of Villains", "The Art of Star Wars"],
-    [63, "Dave Dorman", "The Art of Star Wars"],
-    [64, "Two Lukes", "The Art of Star Wars"],
-    [65, "The Main International", "The Art of Star Wars"],
-    [66, "Once a Design Firm", "The Art of Star Wars"],
-    [67, "The Mountain", "The Art of Star Wars"],
-    [68, "The Noble Tauntaun", "The Art of Star Wars"],
-    [69, "A Pastiche", "The Art of Star Wars"],
-    [70, "The Rebels Transcend", "The Art of Star Wars"],
-    [71, "Boris Vallejo", "The Art of Star Wars"],
-    [72, "Male Bonding", "The Art of Star Wars"],
-    [73, "When George Lucas", "The Art of Star Wars"],
-    [74, "Heat Seems to Rise", "The Art of Star Wars"],
-    [75, "We're Moving!", "The Art of Star Wars"],
-    [76, "Even Droids Celebrate", "The Art of Star Wars"],
-    [77, "Santa Threepio", "The Art of Star Wars"],
-    [78, "Strike Up the Droids", "The Art of Star Wars"],
-    [79, "Thomas Blackshear", "The Art of Star Wars"],
-    [80, "Jim Steranko", "The Art of Star Wars"],
-    [81, 'Steranko\'s "Empire"', "The Art of Star Wars"],
+const panelCards = {
+  1:[87,88,89,97,98,99,107,108,109],
+  2:[116,117,118,126,127,128,136,137,138],
+  3:[47,82,83,91,92,93,101,102,103],
+  4:[113,114,115,123,124,125,133,134,135]
+};
 
-    [82, "Kyle Baker", "New Visions"],
-    [83, "Bret Blevins", "New Visions"],
-    [84, "Ted Boonthanakt", "New Visions"],
-    [85, "June Brigman", "New Visions"],
-    [86, "Paul Chadwick", "New Visions"],
-    [87, "Howard Chaykin", "New Visions"],
-    [88, "Mark Chiarello", "New Visions"],
-    [89, "Geof Darrow", "New Visions"],
-    [90, "Steve Ditko", "New Visions"],
-    [91, "Dave Dorman", "New Visions"],
-    [92, "George Evans", "New Visions"],
-    [93, "Fastner & Larson", "New Visions"],
-    [94, "Keith Giffen", "New Visions"],
-    [95, "Paul Gulacy", "New Visions"],
-    [96, "Bo Hampton", "New Visions"],
-    [97, "Scott Hampton", "New Visions"],
-    [98, "Michael Wm. Kaluta", "New Visions"],
-    [99, "Gil Kane (A)", "New Visions"],
-    [100, "Gil Kane (B)", "New Visions"],
-    [101, "Cam Kennedy", "New Visions"],
-    [102, "Dale Keown", "New Visions"],
-    [103, "Karl Kesel", "New Visions"],
-    [104, "Sam Kieth (A)", "New Visions"],
-    [105, "Sam Kieth (B)", "New Visions"],
-    [106, "David Lapham", "New Visions"],
-    [107, "Mike Lemos", "New Visions"],
-    [108, "Esteban Maroto", "New Visions"],
-    [109, "Cynthia Martin", "New Visions"],
-    [110, "Michael Mignola", "New Visions"],
-    [111, 'Jean "Moebius" Giraud', "New Visions"],
-    [112, "Jerome Moore", "New Visions"],
-    [113, "Jon H Muth", "New Visions"],
-    [114, "Mark Nelson", "New Visions"],
-    [115, "Earl Norem", "New Visions"],
-    [116, "Allen Nunis", "New Visions"],
-    [117, "Jason Palmer", "New Visions"],
-    [118, "George Perez", "New Visions"],
-    [119, "George Pratt", "New Visions"],
-    [120, "Joe Quesada", "New Visions"],
-    [121, "P. Craig Russell", "New Visions"],
-    [122, "Mark Schultz", "New Visions"],
-    [123, "Bill Sienkiewicz", "New Visions"],
-    [124, "Walter Simonson", "New Visions"],
-    [125, "Ken Steacy", "New Visions"],
-    [126, "Brian Stelfreeze (A)", "New Visions"],
-    [127, "Brian Stelfreeze (B)", "New Visions"],
-    [128, "Dave Stevens", "New Visions"],
-    [129, "William Stout", "New Visions"],
-    [130, "Greg Theakston", "New Visions"],
-    [131, "Angelo Torres", "New Visions"],
-    [132, "Jim Valentino", "New Visions"],
-    [133, "John Van Fleet", "New Visions"],
-    [134, "Charles Vess", "New Visions"],
-    [135, "Russell Walks", "New Visions"],
-    [136, "Al Williamson (A)", "New Visions"],
-    [137, "Al Williamson (B)", "New Visions"],
-    [138, "Thomas Wm. Yeates II", "New Visions"],
-    [139, "Bruce Zick", "New Visions"],
-    [140, "Star Wars Galaxy Checklist - Series One", "Checklist"]
-  ];
+const panelsByCard = {};
+Object.entries(panelCards).forEach(([panel,numbers]) => {
+  numbers.forEach(number => {
+    if (!panelsByCard[number]) panelsByCard[number] = [];
+    panelsByCard[number].push(Number(panel));
+  });
+});
 
-  const panelCards = {
-    1: [87, 88, 89, 97, 98, 99, 107, 108, 109],
-    2: [116, 117, 118, 126, 127, 128, 136, 137, 138],
-    3: [47, 82, 83, 91, 92, 93, 101, 102, 103],
-    4: [113, 114, 115, 123, 124, 125, 133, 134, 135]
-  };
+const cardsEl = document.getElementById("cards");
+const searchEl = document.getElementById("search");
+const sectionEl = document.getElementById("sectionFilter");
+const panelEl = document.getElementById("panelFilter");
+const resultsEl = document.getElementById("results");
 
-  const panelsByCard = {};
-  Object.entries(panelCards).forEach(([panel, numbers]) => {
-    numbers.forEach(number => {
-      if (!panelsByCard[number]) panelsByCard[number] = [];
-      panelsByCard[number].push(Number(panel));
-    });
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[ch]);
+}
+
+function field(label,value) {
+  if (value === null || value === undefined || value === "") return "";
+  return `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`;
+}
+
+function photoMarkup(url,label,number) {
+  if (!url) {
+    return `<div class="cardphoto">
+      <div class="cardphoto-label">${label}</div>
+      <div class="missing-photo">No approved ${label.toLowerCase()} photo yet</div>
+    </div>`;
+  }
+  return `<div class="cardphoto">
+    <div class="cardphoto-label">${label}</div>
+    <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">
+      <img src="${esc(url)}" alt="1993 Galaxy Series 1 card #${number} ${label.toLowerCase()}" loading="lazy">
+    </a>
+  </div>`;
+}
+
+function render() {
+  const query = searchEl.value.trim().toLowerCase();
+  const section = sectionEl.value;
+  const panel = panelEl.value;
+
+  const shown = cards.filter(card => {
+    const panels = panelsByCard[card.number] || [];
+    const searchable = [
+      card.number,card.title,card.category,card.artist,card.characters,
+      card.media,card.backInfo,card.parallel,card.notes,panels.join(" ")
+    ].join(" ").toLowerCase();
+
+    const matchesSearch = searchable.includes(query);
+    const matchesSection = !section || card.category === section;
+    const matchesPanel = !panel ||
+      (panel === "none" && panels.length === 0) ||
+      (panel !== "none" && panels.includes(Number(panel)));
+
+    return matchesSearch && matchesSection && matchesPanel;
   });
 
-  const rows = document.getElementById("cardRows");
-  const search = document.getElementById("search");
-  const sectionFilter = document.getElementById("sectionFilter");
-  const panelFilter = document.getElementById("panelFilter");
-  const resultCount = document.getElementById("resultCount");
+  resultsEl.textContent = `Showing ${shown.length} of ${cards.length} base cards`;
 
-  function renderCards() {
-    const query = search.value.trim().toLowerCase();
-    const section = sectionFilter.value;
-    const panel = panelFilter.value;
+  if (!shown.length) {
+    cardsEl.innerHTML = '<div class="empty">No cards match your search. Try another term or clear the filters.</div>';
+    return;
+  }
 
-    const filtered = cards.filter(([number, title, category]) => {
-      const panelNumbers = panelsByCard[number] || [];
-      const matchesSearch =
-        !query ||
-        String(number).includes(query) ||
-        title.toLowerCase().includes(query) ||
-        category.toLowerCase().includes(query);
+  cardsEl.innerHTML = shown.map(card => {
+    const panels = panelsByCard[card.number] || [];
+    const panelLabels = panels.length
+      ? panels.map(p => `<span class="panel-label">Panel ${p}</span>`).join("")
+      : '<span class="intro">No panel documented</span>';
 
-      const matchesSection = !section || category === section;
-      const matchesPanel =
-        !panel ||
-        (panel === "none" && panelNumbers.length === 0) ||
-        (panel !== "none" && panelNumbers.includes(Number(panel)));
+    const hasPhotos = Boolean(card.frontImageUrl || card.backImageUrl);
+    const photos = hasPhotos
+      ? `<div class="cardphotos">
+          ${photoMarkup(card.frontImageUrl,"Front",card.number)}
+          ${photoMarkup(card.backImageUrl,"Back",card.number)}
+        </div>`
+      : `<div class="placeholder">No approved photos yet<br>Help complete the archive by contributing both sides</div>`;
 
-      return matchesSearch && matchesSection && matchesPanel;
+    return `<article class="card"
+      data-category="${esc(card.category)}"
+      data-panel="${esc(panels.join(", "))}">
+      <div class="cardtop">
+        <span class="number">#${card.number}</span>
+        <span class="pill">${esc(card.category)}</span>
+      </div>
+      <div class="cardbody">
+        <h3>${esc(card.title)}</h3>
+        ${photos}
+        <div>${panelLabels}</div>
+        <details>
+          <summary>View card details</summary>
+          <dl>
+            ${field("Set","1993 Topps Star Wars Galaxy Series 1")}
+            ${field("Release year","1993")}
+            ${field("Card type",card.type || "Base card")}
+            ${field("Checklist section",card.category)}
+            ${field("Artist / illustrator",card.artist)}
+            ${field("Characters / subject",card.characters)}
+            ${field("Media",card.media)}
+            ${field("Nine-card panel",panels.length ? panels.map(p => "Panel " + p).join(", ") : "")}
+            ${field("Back information",card.backInfo)}
+            ${field("Variation / parallel",card.parallel)}
+            ${field("Serial numbering",card.serial)}
+            ${field("Additional details",card.notes)}
+          </dl>
+        </details>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+searchEl.addEventListener("input",render);
+sectionEl.addEventListener("change",render);
+panelEl.addEventListener("change",render);
+
+render();
+
+(async function loadApprovedChanges() {
+  try {
+    if (!window.supabase || !window.CANTINA_SUPABASE_URL || !window.CANTINA_SUPABASE_KEY) {
+      console.error("Cantina Club: Supabase configuration is missing.");
+      return;
+    }
+
+    const client = window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
+
+    const {data,error} = await client
+      .from("approved_cards")
+      .select("card_number, card_data, front_image_path, back_image_path")
+      .eq("set_slug",SET_SLUG);
+
+    if (error) throw error;
+
+    (data || []).forEach(record => {
+      const number = Number(String(record.card_number).replace("#","").trim());
+      const card = cards.find(item => item.number === number);
+      if (!card) return;
+
+      const approved = record.card_data || {};
+      if (approved.title?.trim()) card.title = approved.title.trim();
+      if (approved.category?.trim()) card.category = approved.category.trim();
+      if (approved.artist?.trim()) card.artist = approved.artist.trim();
+      if (approved.characters?.trim()) card.characters = approved.characters.trim();
+      if (approved.media?.trim()) card.media = approved.media.trim();
+      if (approved.card_type?.trim()) card.type = approved.card_type.trim();
+      if (approved.back_information?.trim()) card.backInfo = approved.back_information.trim();
+      if (approved.parallel?.trim()) card.parallel = approved.parallel.trim();
+      if (approved.serial_number?.trim()) card.serial = approved.serial_number.trim();
+      if (approved.notes?.trim()) card.notes = approved.notes.trim();
+
+      card.frontImageUrl = record.front_image_path
+        ? client.storage.from("approved-card-images").getPublicUrl(record.front_image_path).data.publicUrl
+        : "";
+      card.backImageUrl = record.back_image_path
+        ? client.storage.from("approved-card-images").getPublicUrl(record.back_image_path).data.publicUrl
+        : "";
     });
 
-    rows.innerHTML = filtered.map(([number, title, category]) => {
-      const panelNumbers = panelsByCard[number] || [];
-      const panelLabels = panelNumbers.length
-        ? panelNumbers.map(p =>
-            `<span class="panel-label">Panel ${p}</span>`
-          ).join("")
-        : '<span class="muted">—</span>';
-
-      return `
-        <tr>
-          <td class="card-number">#${number}</td>
-          <td>${escapeHtml(title)}</td>
-          <td>${escapeHtml(category)}</td>
-          <td>${panelLabels}</td>
-        </tr>
-      `;
-    }).join("");
-
-    resultCount.textContent =
-      `Showing ${filtered.length} of ${cards.length} base cards.`;
+    render();
+  } catch (error) {
+    console.error("Could not load approved Galaxy card data and photos:",error);
   }
-
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    })[char]);
-  }
-
-  search.addEventListener("input", renderCards);
-  sectionFilter.addEventListener("change", renderCards);
-  panelFilter.addEventListener("change", renderCards);
-
-  renderCards();
+})();
 </script>
 </body>
 </html>
-```
