@@ -351,6 +351,14 @@ const cards = [
 [140,"Star Wars Galaxy Checklist - Series One","Checklist"]
 ];
 
+cards.forEach((entry, index) => {
+  cards[index] = {
+    number: entry[0],
+    title: entry[1],
+    category: entry[2]
+  };
+});
+
 const panelCards = {
   1:[87,88,89,97,98,99,107,108,109],
   2:[116,117,118,126,127,128,136,137,138],
