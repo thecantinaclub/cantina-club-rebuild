@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,155 +6,309 @@
 <title>Etched Foil Cards | 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
 <style>
 :root {
-  --gold: #d6b45b;
-  --bg: #101010;
-  --panel: #1b1b1b;
-  --border: #393939;
-  --muted: #b5b5b5;
+  --bg:#090b10;
+  --panel:#141923;
+  --panel2:#1b2230;
+  --gold:#e4c16f;
+  --text:#f0f2f6;
+  --muted:#a8b0c0;
+  --line:#303849;
 }
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: #eee;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.6;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
 }
-header, main, footer { width: min(1100px, 92%); margin: auto; }
-header { padding: 30px 0 15px; }
-h1, h2 { color: var(--gold); line-height: 1.3; }
-a { color: var(--gold); }
-a:hover { color: #ffe39a; }
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px 0;
+a { color:var(--gold); text-decoration:none; }
+a:hover { text-decoration:underline; }
+header {
+  padding:20px;
+  background:#0d1119;
+  border-bottom:1px solid var(--line);
 }
-.muted { color: var(--muted); }
-.controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
-input, button {
-  font: inherit;
-  border-radius: 6px;
-  padding: 10px 12px;
+.wrap { max-width:1200px; margin:auto; }
+.brand {
+  color:var(--gold);
+  font-weight:800;
+  letter-spacing:2px;
+  font-size:1.15rem;
+}
+.tagline {
+  color:var(--muted);
+  font-size:.78rem;
+  letter-spacing:2px;
+}
+nav {
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-top:16px;
+}
+nav a { color:var(--text); font-size:.9rem; }
+main {
+  max-width:1200px;
+  margin:auto;
+  padding:28px 20px 60px;
+}
+.eyebrow {
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:.78rem;
+  font-weight:bold;
+}
+h1 {
+  font-size:clamp(2rem,5vw,3.2rem);
+  line-height:1.1;
+  margin:8px 0;
+}
+h2 { margin-top:30px; color:var(--gold); }
+h3 { margin:0 0 10px; font-size:1.08rem; }
+.intro { color:var(--muted); max-width:850px; }
+.stats {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;
+  margin:24px 0;
+}
+.stat,.tools,.card,.note {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+.stat { padding:16px; }
+.stat strong {
+  display:block;
+  color:var(--gold);
+  font-size:1.5rem;
+}
+.stat span { color:var(--muted); font-size:.85rem; }
+.tools { padding:16px; margin:20px 0; }
+label {
+  display:block;
+  color:var(--gold);
+  margin-bottom:5px;
+  font-weight:bold;
 }
 input {
-  background: #111;
-  color: #eee;
-  border: 1px solid #555;
-  flex: 1;
-  min-width: 190px;
+  width:100%;
+  padding:12px;
+  background:#0c1018;
+  color:var(--text);
+  border:1px solid #424c60;
+  border-radius:8px;
+  font-size:1rem;
 }
-button {
-  background: var(--gold);
-  color: #111;
-  border: 0;
-  cursor: pointer;
-  font-weight: bold;
+.results { color:var(--muted); font-size:.9rem; margin:12px 0; }
+.cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:14px;
 }
-button:hover { background: #ffe39a; }
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
+.card { overflow:hidden; min-width:0; }
+.cardtop {
+  padding:14px 16px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px;
-  min-width: 0;
+.number {
+  color:var(--gold);
+  font-size:1.15rem;
+  font-weight:bold;
 }
-.card h3 { margin-top: 0; }
-.card-number { color: var(--gold); font-weight: bold; }
-.photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.photo {
-  min-height: 130px;
-  background: #111;
-  border: 1px solid #444;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  color: var(--muted);
-  text-align: center;
-  font-size: 13px;
+.pill {
+  border:1px solid #655737;
+  color:var(--gold);
+  border-radius:99px;
+  padding:3px 8px;
+  font-size:.72rem;
+  white-space:nowrap;
 }
-.photo img { width: 100%; height: 180px; object-fit: contain; }
-.card-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.secondary { background: #333; color: #eee; border: 1px solid #555; }
+.cardbody { padding:16px; }
+.cardphotos {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:14px 0;
+}
+.cardphoto {
+  min-width:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#0c1018;
+}
+.cardphoto-label {
+  padding:5px 8px;
+  color:var(--gold);
+  font-size:.78rem;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+}
+.cardphoto img {
+  display:block;
+  width:100%;
+  height:220px;
+  object-fit:contain;
+  background:#0c1018;
+}
+.missing-photo {
+  min-height:110px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:8px;
+  color:var(--muted);
+  font-size:.78rem;
+}
+.placeholder {
+  border:1px dashed #485267;
+  border-radius:8px;
+  color:var(--muted);
+  min-height:76px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:10px;
+  margin:14px 0;
+  font-size:.85rem;
+}
 .details {
-  display: none;
-  border-top: 1px solid var(--border);
-  margin-top: 14px;
-  padding-top: 12px;
-  overflow-wrap: anywhere;
+  border-top:1px solid var(--line);
+  padding-top:10px;
+  margin-top:10px;
 }
-.details.open { display: block; }
-footer { padding: 25px 0 35px; color: var(--muted); }
-@media (max-width: 480px) {
-  .panel { padding: 14px; }
-  .photos { gap: 6px; }
-  .photo img { height: 135px; }
+.details summary { cursor:pointer; color:var(--gold); font-size:.9rem; }
+dl {
+  display:grid;
+  grid-template-columns:115px 1fr;
+  gap:6px 10px;
+  font-size:.85rem;
+}
+dt { color:var(--muted); }
+dd { margin:0; overflow-wrap:anywhere; }
+.empty { color:var(--muted); padding:24px; text-align:center; }
+.note { padding:18px; margin-top:30px; }
+.related-links { display:flex; flex-wrap:wrap; gap:12px; }
+.related-links a {
+  display:inline-block;
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:9px 12px;
+  background:var(--panel);
+}
+footer {
+  border-top:1px solid var(--line);
+  padding:24px 20px;
+  color:var(--muted);
+  text-align:center;
+  font-size:.82rem;
+}
+@media(max-width:700px) {
+  nav { gap:12px; }
+  dl { grid-template-columns:95px 1fr; }
+  .cardphoto img { height:180px; }
+}
+@media(max-width:420px) {
+  .cardphotos { gap:6px; }
+  .cardbody { padding:12px; }
 }
 </style>
 </head>
 <body>
+
 <header>
-  <a href="../">← Back to 1993 Galaxy Series 1</a>
-  <h1>Etched Foil Cards</h1>
-  <p>1993 Topps Star Wars Galaxy Series 1</p>
-  <p class="muted">Six separate insert cards. These are not the regular base cards.</p>
+  <div class="wrap">
+    <a class="brand" href="../../../index.html">THE CANTINA CLUB</a>
+    <div class="tagline">A GALAXY OF CARDS</div>
+    <nav>
+      <a href="../../../index.html">Home</a>
+      <a href="../../../archives.html">The Archives</a>
+      <a href="../../../index.html#sketch-vault">Sketch Vault</a>
+      <a href="../../../index.html#cantina">The Cantina</a>
+      <a href="../../../index.html#trading-post">Trading Post</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-  <section class="panel">
-    <h2>Overview</h2>
-    <p>The 1993 Topps Star Wars Galaxy Series 1 Etched Foil insert set contains six cards featuring characters from the Star Wars universe.</p>
-    <p>These are separate inserts, not part of the 140-card base checklist and not the foil-stamped base cards supplied in the Millennium Falcon Factory Set.</p>
-    <p><strong>Issuer:</strong> Topps<br>
-       <strong>Year:</strong> 1993<br>
-       <strong>Checklist:</strong> 6 cards<br>
-       <strong>Reported insertion rate:</strong> 1 per 18 packs</p>
+  <p><a href="../index.html">← Back to 1993 Galaxy Series 1</a></p>
+
+  <div class="eyebrow">1993 · Topps · Galaxy Series 1</div>
+  <h1>Etched Foil Cards</h1>
+  <p class="intro">
+    Browse the six Etched Foil insert cards from 1993 Topps Star Wars Galaxy
+    Series 1. These are separate inserts, not part of the 140-card retail
+    base checklist and not the foil-stamped base cards supplied in the
+    Millennium Falcon Factory Set.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><strong>6</strong><span>Etched Foil inserts</span></div>
+    <div class="stat"><strong>1993</strong><span>Release year</span></div>
+    <div class="stat"><strong>Topps</strong><span>Issuer</span></div>
+    <div class="stat"><strong>1:18</strong><span>Reported pack odds</span></div>
+  </div>
+
+  <section class="note">
+    <h2>About this insert set</h2>
+    <p>
+      The Etched Foil set contains six cards featuring Star Wars characters.
+      Browse the checklist below to view each record, its approved photographs
+      and additional details.
+    </p>
+    <p class="intro">
+      Use <strong>Edit / Contribute</strong> to submit card information and
+      photographs. Contributions remain pending until reviewed and approved
+      by an administrator.
+    </p>
   </section>
 
-  <section class="panel">
-    <h2>Etched Foil checklist</h2>
-    <p>Browse the six cards below. Use <strong>Edit / Contribute</strong> to submit card information and photographs. Contributions remain pending until reviewed and approved.</p>
-    <div class="controls">
-      <input id="search" type="search" placeholder="Search card number or subject..." aria-label="Search cards">
+  <section class="tools" aria-label="Etched Foil checklist search">
+    <label for="search">Search cards</label>
+    <input id="search" type="search"
+      placeholder="Enter an insert number or subject…">
+    <div class="results" id="status" aria-live="polite">
+      Loading card records…
     </div>
-    <p id="status" class="muted">Loading card records...</p>
-    <div id="cards" class="card-grid"></div>
   </section>
 
-  <section class="panel">
-    <h2>Related sections</h2>
-    <p><a href="../holofoil-cards/">View Holofoil Cards →</a></p>
-    <p><a href="../millennium-falcon-factory-set/">View the Millennium Falcon Factory Set →</a></p>
-    <p><a href="../foil-parallel-cards/">View Foil Parallel Cards →</a></p>
-  </section>
+  <div class="cards" id="cards"></div>
 
-  <section class="panel">
-    <h2>Research sources</h2>
-    <ul>
-      <li><a href="https://www.tcdb.com/Checklist.cfm/sid/120906/1993-Topps-Star-Wars-Galaxy---Etched-Foil" target="_blank" rel="noopener noreferrer">Trading Card Database — Etched Foil checklist</a></li>
-      <li><a href="https://www.cardboardconnection.com/1993-topps-star-wars-galaxy-trading-cards/amp" target="_blank" rel="noopener noreferrer">Cardboard Connection — Series checklist</a></li>
-      <li><a href="https://www.jeditemplearchives.com/topps-trading-cards/1993-star-wars-galaxy-series-1/" target="_blank" rel="noopener noreferrer">Jedi Temple Archives — Series 1 checklist</a></li>
-      <li><a href="https://www.tradercracks.com/1993-topps-star-wars-galaxy-trading-cards" target="_blank" rel="noopener noreferrer">TraderCracks — Series 1 checklist</a></li>
-    </ul>
-    <p class="muted">Card subjects and reported pack odds are based on published collector references.</p>
+  <section>
+    <h2>Related archive sections</h2>
+    <div class="related-links">
+      <a href="../base-set/">Base Set Checklist</a>
+      <a href="../9-card-panels/">9-Card Panels</a>
+      <a href="../foil-parallel-cards/">Foil Parallel Cards</a>
+      <a href="../holofoil-cards/">Holofoil Cards</a>
+      <a href="../autograph-cards/">Autograph Cards</a>
+      <a href="../promo-cards/">Promotional Cards</a>
+      <a href="../millennium-falcon-factory-set/">Millennium Falcon Factory Set</a>
+      <a href="../special-cards/">Special Cards</a>
+      <a href="../just-toys-bend-ems/">Just Toys Bend-Ems</a>
+      <a href="../star-wars-galaxy-series-1-binder/">Star Wars Galaxy Series 1 Binder</a>
+    </div>
   </section>
 </main>
 
-<footer>The Cantina Club — A Galaxy of Cards</footer>
+<footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../../../supabase-config.js"></script>
+
 <script>
+"use strict";
+
 const SET_SLUG = "1993-topps-star-wars-galaxy-series-1-etched-foil";
+
 const cards = [
   { number: 1, title: "Darth Vader" },
   { number: 2, title: "Han Solo" },
@@ -168,79 +321,15 @@ const cards = [
 const container = document.getElementById("cards");
 const statusEl = document.getElementById("status");
 const searchEl = document.getElementById("search");
-const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
-  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-}[ch]));
 
-function render(approved = {}) {
-  const query = searchEl.value.trim().toLowerCase();
-  const shown = cards.filter(card =>
-    (`${card.number} ${card.title}`).toLowerCase().includes(query)
-  );
-
-  container.innerHTML = shown.map(card => {
-    const record = approved[String(card.number)] || {};
-    const data = record.card_data || {};
-    const title = data.title || card.title;
-    const front = record.front_image_path
-      ? imageUrl(record.front_image_path) : "";
-    const back = record.back_image_path
-      ? imageUrl(record.back_image_path) : "";
-
-    return `
-      <article class="card" data-card-number="${card.number}">
-        <div class="card-number">Etched Foil #${card.number}</div>
-        <h3>${escapeHtml(title)}</h3>
-        <div class="photos">
-          <div class="photo">${front
-            ? `<img src="${escapeHtml(front)}" alt="Front of Etched Foil card ${card.number}" loading="lazy">`
-            : "No approved front photo yet"}</div>
-          <div class="photo">${back
-            ? `<img src="${escapeHtml(back)}" alt="Back of Etched Foil card ${card.number}" loading="lazy">`
-            : "No approved back photo yet"}</div>
-        </div>
-        <div class="card-actions">
-          <button type="button" class="secondary details-button">View card details</button>
-        </div>
-        <div class="details">
-          <p><strong>Set:</strong> 1993 Topps Star Wars Galaxy Series 1 — Etched Foil</p>
-          <p><strong>Insert number:</strong> ${card.number}</p>
-          <p><strong>Subject:</strong> ${escapeHtml(title)}</p>
-          <p><strong>Year:</strong> ${escapeHtml(data.year || "1993")}</p>
-          <p><strong>Card type:</strong> Etched Foil insert</p>
-          ${data.characters ? `<p><strong>Characters / actors:</strong> ${escapeHtml(data.characters)}</p>` : ""}
-          ${data.artist ? `<p><strong>Artist:</strong> ${escapeHtml(data.artist)}</p>` : ""}
-          ${data.backInformation ? `<p><strong>Back information:</strong> ${escapeHtml(data.backInformation)}</p>` : ""}
-          ${data.notes ? `<p><strong>Notes:</strong> ${escapeHtml(data.notes)}</p>` : ""}
-          ${!data.characters && !data.artist && !data.backInformation && !data.notes
-            ? '<p class="muted">More details can be added by contributors and reviewed by an admin.</p>' : ""}
-        </div>
-      </article>`;
-  }).join("");
-
-  statusEl.textContent = `${shown.length} of ${cards.length} cards shown`;
-
-  container.querySelectorAll(".details-button").forEach(button => {
-    button.addEventListener("click", () => {
-      const details = button.closest(".card").querySelector(".details");
-      details.classList.toggle("open");
-      button.textContent = details.classList.contains("open")
-        ? "Hide card details" : "View card details";
-    });
-  });
-
-  container.querySelectorAll(".contribute-button").forEach(button => {
-    button.addEventListener("click", () => {
-      const number = Number(button.closest(".card").dataset.cardNumber);
-      const card = cards.find(item => item.number === number);
-      if (typeof window.openGalaxyCardSubmission === "function") {
-        window.openGalaxyCardSubmission(card, SET_SLUG);
-      } else {
-        alert("The contribution form has not loaded. Please refresh the page and try again.");
-      }
-    });
-  });
-}
+const escapeHtml = value =>
+  String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[ch]));
 
 function imageUrl(path) {
   const base = window.CANTINA_SUPABASE_URL;
@@ -249,21 +338,113 @@ function imageUrl(path) {
   return `${base}/storage/v1/object/public/approved-card-images/${path}`;
 }
 
+function photoMarkup(url, label, number) {
+  if (!url) {
+    return `
+      <div class="cardphoto">
+        <div class="cardphoto-label">${label}</div>
+        <div class="missing-photo">No approved ${label.toLowerCase()} photo yet</div>
+      </div>`;
+  }
+
+  return `
+    <div class="cardphoto">
+      <div class="cardphoto-label">${label}</div>
+      <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">
+        <img src="${escapeHtml(url)}"
+          alt="Etched Foil card #${number} ${label.toLowerCase()}"
+          loading="lazy">
+      </a>
+    </div>`;
+}
+
+function field(label, value) {
+  if (value === null || value === undefined || value === "") return "";
+  return `<dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd>`;
+}
+
 let approvedRecords = {};
-searchEl.addEventListener("input", () => render(approvedRecords));
-render(approvedRecords);
+
+function render() {
+  const query = searchEl.value.trim().toLowerCase();
+
+  const shown = cards.filter(card =>
+    `${card.number} ${card.title}`.toLowerCase().includes(query)
+  );
+
+  statusEl.textContent = `Showing ${shown.length} of ${cards.length} Etched Foil cards`;
+
+  if (!shown.length) {
+    container.innerHTML =
+      '<div class="empty">No cards match your search. Try another term.</div>';
+    return;
+  }
+
+  container.innerHTML = shown.map(card => {
+    const record = approvedRecords[String(card.number)] || {};
+    const data = record.card_data || {};
+    const title = data.title || card.title;
+    const front = record.front_image_path
+      ? imageUrl(record.front_image_path) : "";
+    const back = record.back_image_path
+      ? imageUrl(record.back_image_path) : "";
+
+    const hasPhotos = Boolean(front || back);
+    const photos = hasPhotos
+      ? `<div class="cardphotos">
+          ${photoMarkup(front, "Front", card.number)}
+          ${photoMarkup(back, "Back", card.number)}
+        </div>`
+      : `<div class="placeholder">
+          No approved photos yet<br>
+          Help complete the archive by contributing both sides
+        </div>`;
+
+    return `
+      <article class="card" data-card-number="${card.number}">
+        <div class="cardtop">
+          <span class="number">#${card.number}</span>
+          <span class="pill">Etched Foil Insert</span>
+        </div>
+        <div class="cardbody">
+          <h3>${escapeHtml(title)}</h3>
+          ${photos}
+          <details class="details">
+            <summary>View card details</summary>
+            <dl>
+              ${field("Set", "1993 Topps Star Wars Galaxy Series 1")}
+              ${field("Subset", "Etched Foil Cards")}
+              ${field("Insert number", card.number)}
+              ${field("Release year", data.year || "1993")}
+              ${field("Card type", data.category || "Etched Foil insert")}
+              ${field("Characters / artwork subject", data.characters)}
+              ${field("Artist / illustrator", data.artist)}
+              ${field("Back information", data.back_information || data.backInformation)}
+              ${field("Variation / parallel", data.parallel)}
+              ${field("Additional details", data.notes)}
+            </dl>
+          </details>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+searchEl.addEventListener("input", render);
+render();
 
 (async function loadApprovedRecords() {
-  const client = window.supabase && window.CANTINA_SUPABASE_URL &&
+  const client = window.supabase &&
+    window.CANTINA_SUPABASE_URL &&
     window.CANTINA_SUPABASE_KEY
-    ? window.supabase.createClient(
-        window.CANTINA_SUPABASE_URL,
-        window.CANTINA_SUPABASE_KEY
-      )
-    : null;
+      ? window.supabase.createClient(
+          window.CANTINA_SUPABASE_URL,
+          window.CANTINA_SUPABASE_KEY
+        )
+      : null;
 
   if (!client) {
-    statusEl.textContent = "Cards are shown, but approved photographs could not be loaded.";
+    statusEl.textContent =
+      "Cards are shown, but approved photographs could not be loaded.";
     return;
   }
 
@@ -274,17 +455,23 @@ render(approvedRecords);
       .eq("set_slug", SET_SLUG);
 
     if (error) throw error;
+
     (data || []).forEach(record => {
-      approvedRecords[String(record.card_number)] = record;
+      const number = Number(String(record.card_number).replace("#", "").trim());
+      if (cards.some(card => card.number === number)) {
+        approvedRecords[String(number)] = record;
+      }
     });
-    render(approvedRecords);
+
+    render();
   } catch (error) {
     console.error("Could not load approved Etched Foil cards:", error);
-    statusEl.textContent = "Cards are shown; approved photos could not be loaded right now.";
+    statusEl.textContent =
+      "Cards are shown; approved photos could not be loaded right now.";
   }
 })();
 </script>
+
 <script src="etched-foil-card-submission.js"></script>
 </body>
 </html>
-```
