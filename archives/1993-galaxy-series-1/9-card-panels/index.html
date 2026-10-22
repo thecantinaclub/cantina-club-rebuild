@@ -1,122 +1,283 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>9-Card Panels | 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
-  <style>
-    body {
-      margin: 0;
-      background: #101010;
-      color: #eeeeee;
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-    }
-    header, main, footer {
-      width: min(950px, 92%);
-      margin: auto;
-    }
-    header { padding: 30px 0 15px; }
-    h1, h2 { color: #d6b45b; }
-    a { color: #d6b45b; }
-    a:hover { color: #ffe39a; }
-    .panel {
-      background: #1b1b1b;
-      border: 1px solid #393939;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 18px 0;
-    }
-    .panel h2 { margin-top: 0; }
-    .muted { color: #b5b5b5; }
-    .button-link {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 13px;
-      border: 1px solid #d6b45b;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-    footer { padding: 25px 0 35px; color: #b5b5b5; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9-Card Panels | 1993 Star Wars Galaxy Series 1 | The Cantina Club</title>
+<style>
+:root {
+  --bg:#090b10;
+  --panel:#141923;
+  --panel2:#1b2230;
+  --gold:#e4c16f;
+  --text:#f0f2f6;
+  --muted:#a8b0c0;
+  --line:#303849;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+}
+a { color:var(--gold); text-decoration:none; }
+a:hover { text-decoration:underline; }
+header {
+  padding:20px;
+  background:#0d1119;
+  border-bottom:1px solid var(--line);
+}
+.wrap { max-width:1200px; margin:auto; }
+.brand {
+  color:var(--gold);
+  font-weight:800;
+  letter-spacing:2px;
+  font-size:1.15rem;
+}
+.tagline {
+  color:var(--muted);
+  font-size:.78rem;
+  letter-spacing:2px;
+}
+nav {
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-top:16px;
+}
+nav a { color:var(--text); font-size:.9rem; }
+main {
+  max-width:1200px;
+  margin:auto;
+  padding:28px 20px 60px;
+}
+.eyebrow {
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:.78rem;
+  font-weight:bold;
+}
+h1 {
+  font-size:clamp(2rem,5vw,3.2rem);
+  line-height:1.1;
+  margin:8px 0;
+}
+h2 { color:var(--gold); margin-top:30px; }
+h3 { margin:0 0 10px; font-size:1.1rem; }
+.intro { color:var(--muted); max-width:850px; }
+.stats {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:12px;
+  margin:24px 0;
+}
+.stat,.panel,.note {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+.stat { padding:16px; }
+.stat strong {
+  display:block;
+  color:var(--gold);
+  font-size:1.5rem;
+}
+.stat span { color:var(--muted); font-size:.85rem; }
+.panel-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px;
+}
+.panel { overflow:hidden; }
+.panel-head {
+  padding:14px 16px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--line);
+}
+.panel-body { padding:16px; }
+.panel-number {
+  color:var(--gold);
+  font-size:.8rem;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  font-weight:bold;
+}
+.card-list {
+  color:var(--muted);
+  font-size:.88rem;
+  overflow-wrap:anywhere;
+}
+.button-link {
+  display:inline-block;
+  margin-top:8px;
+  padding:9px 13px;
+  border:1px solid #655737;
+  border-radius:7px;
+  background:#202635;
+}
+.note { padding:18px; margin-top:26px; }
+.related-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.related-links a {
+  display:inline-block;
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:9px 12px;
+  background:var(--panel);
+}
+footer {
+  border-top:1px solid var(--line);
+  padding:24px 20px;
+  color:var(--muted);
+  text-align:center;
+  font-size:.82rem;
+}
+@media(max-width:600px) {
+  nav { gap:12px; }
+  .panel-body { padding:14px; }
+}
+</style>
 </head>
 <body>
+
 <header>
-  <a href="../index.html">← Back to 1993 Galaxy Series 1</a>
-  <h1>9-Card Panels</h1>
-  <p>1993 Topps Star Wars Galaxy Series 1</p>
-  <p class="muted">
-    Four related uncut panels featuring designs reproduced from cards in
-    the regular 140-card base set.
-  </p>
+  <div class="wrap">
+    <a class="brand" href="../../../index.html">THE CANTINA CLUB</a>
+    <div class="tagline">A GALAXY OF CARDS</div>
+    <nav>
+      <a href="../../../index.html">Home</a>
+      <a href="../../../archives.html">The Archives</a>
+      <a href="../../../index.html#sketch-vault">Sketch Vault</a>
+      <a href="../../../index.html#cantina">The Cantina</a>
+      <a href="../../../index.html#trading-post">Trading Post</a>
+    </nav>
+  </div>
 </header>
 
 <main>
-  <section class="panel">
-    <h2>Panel 1 — Art of Star Wars Galaxy</h2>
-    <p>
-      A nine-card panel associated with the
-      <em>Art of Star Wars Galaxy</em> book.
-    </p>
-    <p class="muted">
-      Base cards: #87, #88, #89, #97, #98, #99, #107, #108 and #109.
-    </p>
-    <a class="button-link" href="panel-1/index.html">View Panel 1</a>
-  </section>
+  <p><a href="../index.html">← Back to 1993 Galaxy Series 1</a></p>
 
-  <section class="panel">
-    <h2>Panel 2 — New Visions</h2>
-    <p>
-      A promotional nine-card panel featuring artwork by Star Wars Galaxy
-      contributing artists.
-    </p>
-    <p class="muted">
-      Base cards: #116, #117, #118, #126, #127, #128, #136, #137 and #138.
-    </p>
-    <a class="button-link" href="panel-2/index.html">View Panel 2</a>
-  </section>
+  <div class="eyebrow">1993 · Topps · Galaxy Series 1</div>
+  <h1>9-Card Panels</h1>
+  <p class="intro">
+    Four related uncut panels featuring designs reproduced from cards in the
+    regular 140-card base set. Explore each panel and its associated cards
+    below.
+  </p>
 
-  <section class="panel">
-    <h2>Panel 3 — New Visions</h2>
-    <p>
-      A promotional nine-card panel featuring artwork by Star Wars Galaxy
-      contributing artists.
-    </p>
-    <p class="muted">
-      Base cards: #47, #82, #83, #91, #92, #93, #101, #102 and #103.
-    </p>
-    <a class="button-link" href="panel-3/index.html">View Panel 3</a>
-  </section>
+  <div class="stats">
+    <div class="stat"><strong>4</strong><span>Related panels</span></div>
+    <div class="stat"><strong>9</strong><span>Cards per panel</span></div>
+    <div class="stat"><strong>36</strong><span>Panel positions</span></div>
+    <div class="stat"><strong>140</strong><span>Cards in the base set</span></div>
+  </div>
 
-  <section class="panel">
-    <h2>Panel 4 — New Visions</h2>
-    <p>
-      A promotional nine-card panel featuring artwork by Star Wars Galaxy
-      contributing artists.
-    </p>
-    <p class="muted">
-      Base cards: #113, #114, #115, #123, #124, #125, #133, #134 and #135.
-    </p>
-    <a class="button-link" href="panel-4/index.html">View Panel 4</a>
-  </section>
+  <div class="panel-grid">
+    <article class="panel">
+      <div class="panel-head">
+        <div class="panel-number">Panel 1</div>
+        <h3>Art of Star Wars Galaxy</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          A nine-card panel associated with the
+          <em>Art of Star Wars Galaxy</em> book.
+        </p>
+        <p class="card-list">
+          Base cards: #87, #88, #89, #97, #98, #99, #107, #108 and #109.
+        </p>
+        <a class="button-link" href="panel-1/index.html">View Panel 1 →</a>
+      </div>
+    </article>
 
-  <section class="panel">
+    <article class="panel">
+      <div class="panel-head">
+        <div class="panel-number">Panel 2</div>
+        <h3>New Visions</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          A promotional nine-card panel featuring artwork by Star Wars Galaxy
+          contributing artists.
+        </p>
+        <p class="card-list">
+          Base cards: #116, #117, #118, #126, #127, #128, #136, #137 and #138.
+        </p>
+        <a class="button-link" href="panel-2/index.html">View Panel 2 →</a>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-head">
+        <div class="panel-number">Panel 3</div>
+        <h3>New Visions</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          A promotional nine-card panel featuring artwork by Star Wars Galaxy
+          contributing artists.
+        </p>
+        <p class="card-list">
+          Base cards: #47, #82, #83, #91, #92, #93, #101, #102 and #103.
+        </p>
+        <a class="button-link" href="panel-3/index.html">View Panel 3 →</a>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-head">
+        <div class="panel-number">Panel 4</div>
+        <h3>New Visions</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          A promotional nine-card panel featuring artwork by Star Wars Galaxy
+          contributing artists.
+        </p>
+        <p class="card-list">
+          Base cards: #113, #114, #115, #123, #124, #125, #133, #134 and #135.
+        </p>
+        <a class="button-link" href="panel-4/index.html">View Panel 4 →</a>
+      </div>
+    </article>
+  </div>
+
+  <section class="note">
     <h2>Important checklist note</h2>
     <p>
-      These panels are separate related items. The nine designs on each panel
-      correspond to existing cards in the regular 140-card checklist.
-      They do not add 36 new cards to the base set.
+      These panels are separate related items. Their 36 positions reproduce
+      designs from existing cards in the regular 140-card checklist. They do
+      not add 36 new cards to the base set.
     </p>
     <a class="button-link" href="../base-set/index.html">
-      View the 140-card base checklist
+      View the 140-card base checklist →
     </a>
+  </section>
+
+  <section>
+    <h2>Related archive sections</h2>
+    <div class="related-links">
+      <a href="../base-set/">Base Set Checklist</a>
+      <a href="../foil-parallel-cards/">Foil Parallel Cards</a>
+      <a href="../etched-foil-cards/">Etched Foil Cards</a>
+      <a href="../holofoil-cards/">Holofoil Cards</a>
+      <a href="../autograph-cards/">Autograph Cards</a>
+      <a href="../promo-cards/">Promotional Cards</a>
+      <a href="../millennium-falcon-factory-set/">Millennium Falcon Factory Set</a>
+      <a href="../special-cards/">Special Cards</a>
+      <a href="../just-toys-bend-ems/">Just Toys Bend-Ems</a>
+      <a href="../star-wars-galaxy-series-1-binder/">Star Wars Galaxy Series 1 Binder</a>
+    </div>
   </section>
 </main>
 
-<footer>
-  The Cantina Club — A Galaxy of Cards
-</footer>
+<footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
 </body>
 </html>
-```
