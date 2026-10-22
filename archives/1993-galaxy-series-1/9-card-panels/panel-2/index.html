@@ -71,16 +71,59 @@
 
   <section class="panel">
     <h2>Base cards represented</h2>
-    <div class="cards">
-      <div class="card"><span class="number">Card #116</span><br>Allen Nunis</div>
-      <div class="card"><span class="number">Card #117</span><br>Jason Palmer</div>
-      <div class="card"><span class="number">Card #118</span><br>George Perez</div>
-      <div class="card"><span class="number">Card #126</span><br>Brian Stelfreeze (A)</div>
-      <div class="card"><span class="number">Card #127</span><br>Brian Stelfreeze (B)</div>
-      <div class="card"><span class="number">Card #128</span><br>Dave Stevens</div>
-      <div class="card"><span class="number">Card #136</span><br>Al Williamson (A)</div>
-      <div class="card"><span class="number">Card #137</span><br>Al Williamson (B)</div>
-      <div class="card"><span class="number">Card #138</span><br>Thomas Wm. Yeates II</div>
+    <div class="cards" id="cards">
+     <div class="card">
+  <span class="number">Card #116</span>
+  <h3>Allen Nunis</h3>
+  <div class="cardbody"></div>
+</div>
+      <div class="card">
+  <span class="number">Card #117</span>
+  <h3>Jason Palmer</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #118</span>
+  <h3>George Perez</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #126</span>
+  <h3>Brian Stelfreeze (A)</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #127</span>
+  <h3>Brian Stelfreeze (B)</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #128</span>
+  <h3>Dave Stevens</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #136</span>
+  <h3>Al Williamson (A)</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #137</span>
+  <h3>Al Williamson (B)</h3>
+  <div class="cardbody"></div>
+</div>
+
+<div class="card">
+  <span class="number">Card #138</span>
+  <h3>Thomas Wm. Yeates II</h3>
+  <div class="cardbody"></div>
+</div>
     </div>
     <p class="muted">
       These numbers refer to the corresponding cards in the 140-card base set.
@@ -99,7 +142,86 @@
     </p>
   </section>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../../../supabase-config.js"></script>
+<script>
+(async function () {
+  if (!window.supabase || !window.CANTINA_SUPABASE_URL || !window.CANTINA_SUPABASE_KEY) return;
 
+const client = window.supabase.createClient(
+  window.CANTINA_SUPABASE_URL,
+  window.CANTINA_SUPABASE_KEY
+);
+
+  const { data, error } = await client
+    .from("approved_cards")
+    .select("card_number, front_image_path, back_image_path")
+    .eq("set_slug", "1993-topps-star-wars-galaxy-series-1");
+
+  if (error || !data) {
+    console.error("Could not load approved card images:", error);
+    return;
+  }
+
+  const images = new Map(data.map(card => [String(card.card_number).replace(/^#/, ""), card]));
+
+  document.querySelectorAll(".cards .card").forEach(card => {
+    const numberElement = card.querySelector(".number");
+    if (!numberElement) return;
+
+    const match = numberElement.textContent.match(/\d+/);
+    if (!match) return;
+
+    const approved = images.get(match[0]);
+    if (!approved) return;
+
+    const body = document.createElement("div");
+    body.className = "approved-card-images";
+    body.style.display = "flex";
+    body.style.flexWrap = "wrap";
+    body.style.gap = "10px";
+    body.style.marginTop = "12px";
+
+    [["Front", approved.front_image_path], ["Back", approved.back_image_path]].forEach(([label, path]) => {
+      if (!path) return;
+
+      const { data: result } = client.storage
+        .from("approved-card-images")
+        .getPublicUrl(path);
+
+      if (!result?.publicUrl) return;
+
+      const box = document.createElement("div");
+      box.style.width = "120px";
+
+      const caption = document.createElement("p");
+      caption.textContent = label;
+      caption.style.margin = "4px 0";
+      caption.style.fontSize = "12px";
+
+      const img = document.createElement("img");
+      img.src = result.publicUrl;
+      img.alt = `Card #${match[0]} ${label}`;
+      img.loading = "lazy";
+      img.style.width = "100%";
+      img.style.height = "auto";
+
+      const link = document.createElement("a");
+      link.href = result.publicUrl;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.appendChild(img);
+
+      box.appendChild(caption);
+      box.appendChild(link);
+      body.appendChild(box);
+    });
+
+    if (body.children.length) card.appendChild(body);
+  });
+})();
+</script>
+  <script src="../../base-set/galaxy-card-submission.js"></script>
 <footer>
   The Cantina Club — A Galaxy of Cards
 </footer>
