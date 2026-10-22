@@ -425,10 +425,16 @@
             .getPublicUrl(path).data.publicUrl;
 
           const img = document.createElement("img");
-          img.src = url;
-          img.alt = `Card #${number} ${label}`;
-          img.loading = "lazy";
-          box.appendChild(img);
+img.src = url;
+img.alt = `Card #${number} ${label}`;
+img.loading = "lazy";
+
+const link = document.createElement("a");
+link.href = url;
+link.target = "_blank";
+link.rel = "noopener";
+link.appendChild(img);
+box.appendChild(link);
         } else {
           const missing = document.createElement("div");
           missing.className = "panel-photo-missing";
