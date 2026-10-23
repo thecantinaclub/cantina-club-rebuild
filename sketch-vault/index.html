@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sketch Vault | The Cantina Club</title>
-<meta name="description" content="Browse 42 Star Wars Topps sketch card sets and discover their artists and original artwork.">
+<meta name="description" content="Browse Star Wars Topps sketch card sets by year, and explore their artists and original artwork.">
 
 <style>
 :root {
@@ -48,25 +48,26 @@ header {
   letter-spacing: 2px;
   text-decoration: none;
 }
-.nav-link, .back-link {
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+nav a {
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+}
+nav a:hover, nav a.active { color: var(--accent); }
+.back-link {
+  display: inline-block;
+  margin-top: 25px;
   color: var(--muted);
   font-size: 14px;
   text-decoration: none;
 }
-.nav-link {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-}
-.nav-link:hover, .back-link:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-.back-link {
-  display: inline-block;
-  margin-top: 25px;
-}
-.intro { padding: 25px 0 24px; }
+.back-link:hover { color: var(--accent); }
+.intro { padding: 25px 0 20px; }
 .eyebrow {
   color: var(--accent);
   font-size: 12px;
@@ -84,63 +85,55 @@ h1 {
   margin: 0;
   color: var(--muted);
 }
-.section-heading { margin: 12px 0 18px; }
-.section-heading h2 { margin: 0 0 5px; font-size: 23px; }
-.section-heading p { margin: 0; color: var(--muted); font-size: 14px; }
-.set-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 12px;
-  margin-bottom: 45px;
+.catalogue { margin: 20px 0 45px; }
+.archive-year { margin: 0 0 20px; }
+.archive-year h2 {
+  margin: 0 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 21px;
 }
-.set-card {
+.archive-entry {
   display: flex;
-  align-items: stretch;
-  gap: 14px;
-  min-height: 112px;
-  padding: 17px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  padding: 13px 16px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--panel);
   text-decoration: none;
-  transition: background .15s, border-color .15s, transform .15s;
+  transition: background .15s, border-color .15s;
 }
-.set-card:hover {
+.archive-entry:hover {
   background: var(--hover);
   border-color: var(--accent);
-  transform: translateY(-2px);
 }
-.marker {
-  flex: 0 0 5px;
-  border-radius: 5px;
-  background: var(--accent);
-}
-.set-info { flex: 1; min-width: 0; }
-.set-number {
+.entry-info { min-width: 0; }
+.entry-title {
   display: block;
-  color: var(--accent);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.set-name {
-  display: block;
-  margin-top: 4px;
   font-size: 15px;
   font-weight: 700;
   line-height: 1.45;
 }
-.set-action {
+.entry-type {
   display: block;
-  margin-top: 8px;
+  margin-top: 3px;
   color: var(--muted);
   font-size: 12px;
 }
-.arrow {
-  align-self: center;
+.entry-action {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+.catalogue-note {
+  margin-top: 25px;
   color: var(--muted);
-  font-size: 25px;
+  font-size: 13px;
 }
 footer {
   margin-top: 45px;
@@ -151,9 +144,12 @@ footer {
   font-size: 11px;
   letter-spacing: 1.5px;
 }
-@media (max-width: 480px) {
+@media (max-width: 650px) {
   .container { width: min(100% - 24px, 1000px); }
-  .set-card { padding: 14px; }
+  .header-inner { align-items: flex-start; flex-direction: column; }
+  nav { gap: 12px; }
+  .archive-entry { padding: 12px; }
+  .entry-action { font-size: 11px; }
 }
 </style>
 </head>
@@ -162,7 +158,13 @@ footer {
 <header>
   <div class="container header-inner">
     <a class="brand" href="/cantina-club-rebuild/">THE CANTINA CLUB</a>
-    <a class="nav-link" href="/cantina-club-rebuild/">Home</a>
+    <nav>
+      <a href="/cantina-club-rebuild/">Home</a>
+      <a href="/cantina-club-rebuild/official-topps-card-sets.html">The Archives</a>
+      <a class="active" href="/cantina-club-rebuild/sketch-vault/">Sketch Vault</a>
+      <a href="/cantina-club-rebuild/">The Cantina</a>
+      <a href="/cantina-club-rebuild/">Trading Post</a>
+    </nav>
   </div>
 </header>
 
@@ -170,361 +172,235 @@ footer {
   <a class="back-link" href="/cantina-club-rebuild/">← Back to Home</a>
 
   <div class="intro">
-    <div class="eyebrow">The Cantina Club · Original Artwork</div>
+    <div class="eyebrow">The Collector's Database</div>
     <h1>Sketch Vault</h1>
     <p>
-      Explore Star Wars Topps sketch card sets. Select a release to
-      discover its participating artists and browse their individual
-      sketch cards. This catalogue includes the sets identified for
-      the Sketch Vault.
+      Browse the catalogue of Star Wars Topps sketch card releases,
+      organized by year. Choose a set to explore its artists and
+      individual sketch cards.
     </p>
   </div>
 
-  <section>
-    <div class="section-heading">
-      <h2>Sketch Sets</h2>
-      <p>42 releases · Select a set to explore its artists and artwork.</p>
+  <section class="catalogue">
+
+    <div class="archive-year">
+      <h2>2004</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-clone-wars/">
+        <span class="entry-info"><span class="entry-title">Clone Wars</span><span class="entry-type">2004 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/">
+        <span class="entry-info"><span class="entry-title">Heritage</span><span class="entry-type">2004 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
     </div>
 
-    <div class="set-list">
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-clone-wars/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2004 · Set 1</span>
-          <span class="set-name">2004 Topps Star Wars Clone Wars</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
+    <div class="archive-year">
+      <h2>2005</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2005-topps-star-wars-revenge-of-the-sith/">
+        <span class="entry-info"><span class="entry-title">Revenge of the Sith</span><span class="entry-type">2005 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
       </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2004 · Set 2</span>
-          <span class="set-name">2004 Topps Star Wars Heritage</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2005-topps-star-wars-revenge-of-the-sith/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2005 · Set 3</span>
-          <span class="set-name">2005 Topps Star Wars Revenge of the Sith</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2007-topps-star-wars-30th-anniversary/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2007 · Set 4</span>
-          <span class="set-name">2007 Topps Star Wars 30th Anniversary</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2008-topps-star-wars-the-clone-wars/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2008 · Set 5</span>
-          <span class="set-name">2008 Topps Star Wars: The Clone Wars</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2009-topps-star-wars-galaxy-series-4/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2009 · Set 6</span>
-          <span class="set-name">2009 Topps Star Wars Galaxy Series 4</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2009-topps-star-wars-the-clone-wars-widevision/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2009 · Set 7</span>
-          <span class="set-name">2009 Topps Star Wars: The Clone Wars Widevision</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2010-topps-star-wars-galaxy-series-5/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2010 · Set 8</span>
-          <span class="set-name">2010 Topps Star Wars Galaxy Series 5</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2010-topps-star-wars-the-empire-strikes-back-3d-widevision/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2010 · Set 9</span>
-          <span class="set-name">2010 Topps Star Wars: The Empire Strikes Back 3D Widevision</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2010-topps-star-wars-the-clone-wars-rise-of-the-bounty-hunters/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2010 · Set 10</span>
-          <span class="set-name">2010 Topps Star Wars: The Clone Wars – Rise of the Bounty Hunters</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2011-topps-star-wars-galaxy-series-6/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2011 · Set 11</span>
-          <span class="set-name">2011 Topps Star Wars Galaxy Series 6</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2012-topps-star-wars-galaxy-series-7/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2012 · Set 12</span>
-          <span class="set-name">2012 Topps Star Wars Galaxy Series 7</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2013-topps-star-wars-illustrated-a-new-hope/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2013 · Set 13</span>
-          <span class="set-name">2013 Topps Star Wars Illustrated: A New Hope</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2013-topps-star-wars-galactic-files-series-2/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2013 · Set 14</span>
-          <span class="set-name">2013 Topps Star Wars Galactic Files Series 2</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2015-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2015 · Set 15</span>
-          <span class="set-name">2015 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2015-topps-star-wars-illustrated-the-empire-strikes-back/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2015 · Set 16</span>
-          <span class="set-name">2015 Topps Star Wars Illustrated: The Empire Strikes Back</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2015-topps-star-wars-journey-to-the-force-awakens/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2015 · Set 17</span>
-          <span class="set-name">2015 Topps Star Wars Journey to the Force Awakens</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2016-topps-chrome-star-wars-the-force-awakens/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2016 · Set 18</span>
-          <span class="set-name">2016 Topps Chrome Star Wars The Force Awakens</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2016-2017-topps-star-wars-rogue-one-series-1/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2016/2017 · Set 19</span>
-          <span class="set-name">2016/2017 Topps Star Wars Rogue One Series 1</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2017-topps-star-wars-rogue-one-series-2/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2017 · Set 20</span>
-          <span class="set-name">2017 Topps Star Wars Rogue One Series 2</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2017-topps-star-wars-the-last-jedi/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2017 · Set 21</span>
-          <span class="set-name">2017 Topps Star Wars: The Last Jedi</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2018-topps-solo-a-star-wars-story/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2018 · Set 22</span>
-          <span class="set-name">2018 Topps Solo: A Star Wars Story</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2018-topps-star-wars-a-new-hope-black-and-white/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2018 · Set 23</span>
-          <span class="set-name">2018 Topps Star Wars A New Hope Black &amp; White</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2018-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2018 · Set 24</span>
-          <span class="set-name">2018 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2019-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2019 · Set 25</span>
-          <span class="set-name">2019 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2020-topps-star-wars-the-mandalorian-season-1/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2020 · Set 26</span>
-          <span class="set-name">2020 Topps Star Wars: The Mandalorian Season 1</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2020-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2020 · Set 27</span>
-          <span class="set-name">2020 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2021-topps-star-wars-the-mandalorian-season-2/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2021 · Set 28</span>
-          <span class="set-name">2021 Topps Star Wars: The Mandalorian Season 2</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2021-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2021 · Set 29</span>
-          <span class="set-name">2021 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2022-topps-chrome-star-wars-the-mandalorian/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2022 · Set 30</span>
-          <span class="set-name">2022 Topps Chrome Star Wars The Mandalorian</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2022-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2022 · Set 31</span>
-          <span class="set-name">2022 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2023-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2023 · Set 32</span>
-          <span class="set-name">2023 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2024-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2024 · Set 33</span>
-          <span class="set-name">2024 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2024-topps-chrome-star-wars/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2024 · Set 34</span>
-          <span class="set-name">2024 Topps Chrome Star Wars</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-        </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2024-topps-chrome-star-wars-galaxy/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2024 · Set 35</span>
-          <span class="set-name">2024 Topps Chrome Star Wars Galaxy</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-star-wars-masterwork/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2025 · Set 36</span>
-          <span class="set-name">2025 Topps Star Wars Masterwork</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-chrome-star-wars/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2025 · Set 37</span>
-          <span class="set-name">2025 Topps Chrome Star Wars</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-star-wars-smugglers-outpost/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2025 · Set 38</span>
-          <span class="set-name">2025 Topps Star Wars Smugglers Outpost</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-star-wars-meiyo/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2025 · Set 39</span>
-          <span class="set-name">2025 Topps Star Wars Meiyo</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-chrome-star-wars-galaxy/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2025 · Set 40</span>
-          <span class="set-name">2025 Topps Chrome Star Wars Galaxy</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2026-topps-chrome-star-wars/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2026 · Set 41</span>
-          <span class="set-name">2026 Topps Chrome Star Wars</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
-      <a class="set-card" href="/cantina-club-rebuild/sketch-vault/sets/2026-topps-chrome-star-wars-galaxy/">
-        <span class="marker"></span><span class="set-info">
-          <span class="set-number">2026 · Set 42</span>
-          <span class="set-name">2026 Topps Chrome Star Wars Galaxy</span>
-          <span class="set-action">Explore sketch set →</span>
-        </span><span class="arrow">›</span>
-      </a>
-
     </div>
+
+    <div class="archive-year">
+      <h2>2007</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2007-topps-star-wars-30th-anniversary/">
+        <span class="entry-info"><span class="entry-title">30th Anniversary</span><span class="entry-type">2007 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2008</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2008-topps-star-wars-the-clone-wars/">
+        <span class="entry-info"><span class="entry-title">The Clone Wars</span><span class="entry-type">2008 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2009</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2009-topps-star-wars-galaxy-series-4/">
+        <span class="entry-info"><span class="entry-title">Galaxy Series 4</span><span class="entry-type">2009 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2009-topps-star-wars-the-clone-wars-widevision/">
+        <span class="entry-info"><span class="entry-title">The Clone Wars Widevision</span><span class="entry-type">2009 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2010</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2010-topps-star-wars-galaxy-series-5/">
+        <span class="entry-info"><span class="entry-title">Galaxy Series 5</span><span class="entry-type">2010 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2010-topps-star-wars-the-empire-strikes-back-3d-widevision/">
+        <span class="entry-info"><span class="entry-title">The Empire Strikes Back 3D Widevision</span><span class="entry-type">2010 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2010-topps-star-wars-the-clone-wars-rise-of-the-bounty-hunters/">
+        <span class="entry-info"><span class="entry-title">The Clone Wars: Rise of the Bounty Hunters</span><span class="entry-type">2010 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2011</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2011-topps-star-wars-galaxy-series-6/">
+        <span class="entry-info"><span class="entry-title">Galaxy Series 6</span><span class="entry-type">2011 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2012</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2012-topps-star-wars-galaxy-series-7/">
+        <span class="entry-info"><span class="entry-title">Galaxy Series 7</span><span class="entry-type">2012 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2013</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2013-topps-star-wars-illustrated-a-new-hope/">
+        <span class="entry-info"><span class="entry-title">Illustrated: A New Hope</span><span class="entry-type">2013 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2013-topps-star-wars-galactic-files-series-2/">
+        <span class="entry-info"><span class="entry-title">Galactic Files Series 2</span><span class="entry-type">2013 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2015</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2015-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2015 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2015-topps-star-wars-illustrated-the-empire-strikes-back/">
+        <span class="entry-info"><span class="entry-title">Illustrated: The Empire Strikes Back</span><span class="entry-type">2015 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2015-topps-star-wars-journey-to-the-force-awakens/">
+        <span class="entry-info"><span class="entry-title">Journey to the Force Awakens</span><span class="entry-type">2015 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2016</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2016-topps-chrome-star-wars-the-force-awakens/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars: The Force Awakens</span><span class="entry-type">2016 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2016/2017</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2016-2017-topps-star-wars-rogue-one-series-1/">
+        <span class="entry-info"><span class="entry-title">Rogue One Series 1</span><span class="entry-type">2016/2017 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2017</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2017-topps-star-wars-rogue-one-series-2/">
+        <span class="entry-info"><span class="entry-title">Rogue One Series 2</span><span class="entry-type">2017 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2017-topps-star-wars-the-last-jedi/">
+        <span class="entry-info"><span class="entry-title">The Last Jedi</span><span class="entry-type">2017 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2018</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2018-topps-solo-a-star-wars-story/">
+        <span class="entry-info"><span class="entry-title">Solo: A Star Wars Story</span><span class="entry-type">2018 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2018-topps-star-wars-a-new-hope-black-and-white/">
+        <span class="entry-info"><span class="entry-title">A New Hope Black &amp; White</span><span class="entry-type">2018 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2018-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2018 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2019</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2019-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2019 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2020</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2020-topps-star-wars-the-mandalorian-season-1/">
+        <span class="entry-info"><span class="entry-title">The Mandalorian Season 1</span><span class="entry-type">2020 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2020-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2020 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2021</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2021-topps-star-wars-the-mandalorian-season-2/">
+        <span class="entry-info"><span class="entry-title">The Mandalorian Season 2</span><span class="entry-type">2021 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2021-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2021 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2022</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2022-topps-chrome-star-wars-the-mandalorian/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars: The Mandalorian</span><span class="entry-type">2022 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2022-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2022 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2023</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2023-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2023 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2024</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2024-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2024 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2024-topps-chrome-star-wars/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars</span><span class="entry-type">2024 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2024-topps-chrome-star-wars-galaxy/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars Galaxy</span><span class="entry-type">2024 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2025</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-star-wars-masterwork/">
+        <span class="entry-info"><span class="entry-title">Masterwork</span><span class="entry-type">2025 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-chrome-star-wars/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars</span><span class="entry-type">2025 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-star-wars-smugglers-outpost/">
+        <span class="entry-info"><span class="entry-title">Smugglers Outpost</span><span class="entry-type">2025 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-star-wars-meiyo/">
+        <span class="entry-info"><span class="entry-title">Meiyo</span><span class="entry-type">2025 Topps Star Wars · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2025-topps-chrome-star-wars-galaxy/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars Galaxy</span><span class="entry-type">2025 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <div class="archive-year">
+      <h2>2026</h2>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2026-topps-chrome-star-wars/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars</span><span class="entry-type">2026 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2026-topps-chrome-star-wars-galaxy/">
+        <span class="entry-info"><span class="entry-title">Chrome Star Wars Galaxy</span><span class="entry-type">2026 Topps Chrome · Sketch card set</span></span><span class="entry-action">Explore this set →</span>
+      </a>
+    </div>
+
+    <p class="catalogue-note">
+      This catalogue lists the sketch card releases selected for the
+      Sketch Vault. Individual set and artist pages are being organized.
+    </p>
   </section>
 
   <footer>THE CANTINA CLUB · A GALAXY OF CARDS</footer>
