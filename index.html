@@ -1,11 +1,12 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1993 Topps Star Wars Galaxy Series 1 | The Cantina Club</title>
-  <meta name="description" content="Explore the 1993 Topps Star Wars Galaxy Series 1 archive, including its base checklist, foil parallels, inserts, promotional cards and related products.">
+
+  <title>Sketch Vault | The Cantina Club</title>
+  <meta name="description" content="Explore the Sketch Vault, a growing archive of Star Wars Topps sketch cards and original artwork.">
 
   <style>
     :root {
@@ -19,7 +20,9 @@
       --accent: #e4bd73;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -29,7 +32,9 @@
       line-height: 1.6;
     }
 
-    a { color: inherit; }
+    a {
+      color: inherit;
+    }
 
     .container {
       width: min(100% - 36px, 1000px);
@@ -41,6 +46,13 @@
       border-bottom: 1px solid var(--border);
     }
 
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
     .brand {
       color: var(--accent);
       font-size: 13px;
@@ -49,18 +61,29 @@
       text-decoration: none;
     }
 
-    .back-link {
-      display: inline-block;
-      margin-top: 25px;
-      color: var(--muted);
+    .nav-link {
+      color: var(--text);
       font-size: 14px;
+      font-weight: 700;
       text-decoration: none;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      transition: border-color 0.15s, background 0.15s;
     }
 
-    .back-link:hover { color: var(--accent); }
+    .nav-link:hover {
+      border-color: var(--accent);
+      background: var(--panel);
+      color: var(--accent);
+    }
+
+    main {
+      min-height: 65vh;
+    }
 
     .intro {
-      padding: 25px 0 30px;
+      padding: 55px 0 30px;
     }
 
     .eyebrow {
@@ -73,7 +96,7 @@
 
     h1 {
       margin: 8px 0 12px;
-      font-size: clamp(30px, 5vw, 44px);
+      font-size: clamp(32px, 5vw, 46px);
       line-height: 1.15;
     }
 
@@ -83,111 +106,70 @@
       color: var(--muted);
     }
 
-    .stats {
+    .featured {
+      margin: 12px 0 55px;
+    }
+
+    .featured-card {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .stat {
-      padding: 7px 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 30px;
       border: 1px solid var(--border);
-      border-radius: 7px;
-      background: var(--panel);
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    section { margin: 30px 0 38px; }
-
-    h2 {
-      margin: 0 0 5px;
-      font-size: 23px;
-    }
-
-    .section-description {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .series-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-      gap: 12px;
-    }
-
-    .series-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-height: 100px;
-      padding: 17px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       background: var(--panel);
       text-decoration: none;
-      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+      transition: background 0.2s, border-color 0.2s,
+                  transform 0.2s;
     }
 
-    a.series-card:hover {
+    .featured-card:hover {
       background: var(--panel-hover);
       border-color: var(--accent);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
 
-    .series-marker {
-      flex: 0 0 5px;
-      align-self: stretch;
-      min-height: 54px;
-      border-radius: 5px;
-      background: var(--marker, #68758a);
-    }
-
-    .series-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .series-name {
-      display: block;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    .series-subtitle {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .series-status {
-      display: block;
-      margin-top: 7px;
+    .card-label {
       color: var(--accent);
       font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
-    .series-arrow {
-      flex: 0 0 auto;
+    .card-title {
+      margin: 12px 0 8px;
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .card-description {
+      max-width: 650px;
       color: var(--muted);
-      font-size: 25px;
+      font-size: 15px;
     }
 
-    .blue { --marker: #4e8ee8; }
-    .red { --marker: #d65d62; }
-    .yellow { --marker: #e1c04c; }
-    .green { --marker: #59a77b; }
-    .orange { --marker: #d78a48; }
-    .purple { --marker: #9b82d5; }
-    .gold { --marker: #e4bd73; }
-    .silver { --marker: #9ca8ba; }
+    .card-button {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 18px;
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      background: var(--accent);
+      color: #090b10;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .featured-card:hover .card-button {
+      background: transparent;
+      color: var(--accent);
+    }
 
     footer {
-      margin-top: 50px;
+      margin-top: 40px;
       padding: 25px 0;
       border-top: 1px solid var(--border);
       color: var(--muted);
@@ -197,178 +179,69 @@
     }
 
     @media (max-width: 480px) {
-      .container { width: min(100% - 24px, 1000px); }
-      .series-card { padding: 14px; }
+      .container {
+        width: min(100% - 24px, 1000px);
+      }
+
+      .intro {
+        padding-top: 38px;
+      }
+
+      .featured-card {
+        padding: 22px;
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="container">
-      <a class="brand" href="/cantina-club-rebuild/">THE CANTINA CLUB</a>
+    <div class="container header-inner">
+      <a class="brand" href="/cantina-club-rebuild/">
+        THE CANTINA CLUB
+      </a>
+
+      <a class="nav-link"
+         href="/cantina-club-rebuild/sketch-vault.html">
+        Sketch Vault
+      </a>
     </div>
   </header>
 
   <main class="container">
-    <a class="back-link" href="/cantina-club-rebuild/archives.html">← Back to The Archives</a>
-
     <div class="intro">
-      <div class="eyebrow">Set · 1993 · Topps</div>
-      <h1>Star Wars Galaxy Series 1</h1>
+      <div class="eyebrow">The Cantina Club · A Galaxy of Cards</div>
+      <h1>Welcome to The Cantina Club</h1>
       <p>
-        Released by Topps in 1993, Star Wars Galaxy Series 1 features artwork
-        inspired by the Star Wars universe. Explore the standard base checklist,
-        parallel and insert cards, promotional releases, and related products.
+        Discover the art behind the cards. Explore our growing archive
+        of Star Wars Topps sketch cards, featuring original artwork
+        from artists across the galaxy.
       </p>
-
-      <div class="stats">
-        <span class="stat">1993 release</span>
-        <span class="stat">140-card base set</span>
-        <span class="stat">Trading cards and related products</span>
-      </div>
     </div>
 
-    <section>
-      <h2>Trading Cards and Subsets</h2>
-      <p class="section-description">
-        Browse the base checklist, parallel cards, inserts, and other card categories.
-      </p>
+    <section class="featured">
+      <a class="featured-card"
+         href="/cantina-club-rebuild/sketch-vault.html">
 
-      <div class="series-list">
-        <a class="series-card blue" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/base-set/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Base Set</span>
-            <span class="series-subtitle">The standard 140-card checklist</span>
-            <span class="series-status">View checklist →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
+        <span class="card-label">The Collector's Database</span>
 
-        <a class="series-card gold" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/foil-parallel-cards/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Foil Parallel Cards</span>
-            <span class="series-subtitle">Cards with foil accents</span>
-            <span class="series-status">Explore cards →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
+        <span class="card-title">Sketch Vault</span>
 
-        <a class="series-card purple" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/autograph-cards/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Autograph Cards</span>
-            <span class="series-subtitle">Signed cards associated with the release</span>
-            <span class="series-status">Explore cards →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
+        <span class="card-description">
+          Explore the archive of Star Wars Topps sketch cards,
+          featuring original character art, unique one-of-one
+          sketches, and artwork from across the Star Wars universe.
+        </span>
 
-        <a class="series-card silver" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/etched-foil-cards/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Etched Foil Cards</span>
-            <span class="series-subtitle">The etched foil insert category</span>
-            <span class="series-status">Explore cards →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
+        <span class="card-button">EXPLORE SKETCH SET →</span>
 
-        <a class="series-card purple" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/holofoil-cards/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Holofoil Cards</span>
-            <span class="series-subtitle">Holofoil cards associated with the factory set</span>
-            <span class="series-status">Explore cards →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-      </div>
+      </a>
     </section>
-
-    <section>
-      <h2>Products and Special Releases</h2>
-      <p class="section-description">
-        Factory sets, special cards, promotional items, and nine-card panels.
-      </p>
-
-      <div class="series-list">
-        <a class="series-card blue" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/millennium-falcon-factory-set/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Millennium Falcon Factory Set</span>
-            <span class="series-subtitle">The separately sold factory set</span>
-            <span class="series-status">View product details →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-
-        <a class="series-card gold" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/special-cards/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Special Cards</span>
-            <span class="series-subtitle">Cards and items documented separately</span>
-            <span class="series-status">Browse special cards →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-
-        <a class="series-card red" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/promo-cards/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Promotional Cards</span>
-            <span class="series-subtitle">Promotional releases and related items</span>
-            <span class="series-status">Explore promotions →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-
-        <a class="series-card green" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/9-card-panels/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">9-Card Panels</span>
-            <span class="series-subtitle">Four documented nine-card panels</span>
-            <span class="series-status">View panels →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-      </div>
-    </section>
-
-    <section>
-      <h2>Other Related Products</h2>
-      <p class="section-description">
-        Related collector products documented separately from the card checklists.
-      </p>
-
-      <div class="series-list">
-        <a class="series-card silver" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/star-wars-galaxy-series-1-binder/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Star Wars Galaxy Series 1 Binder</span>
-            <span class="series-subtitle">Collector binder and related premium material</span>
-            <span class="series-status">View binder details →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-
-        <a class="series-card orange" href="/cantina-club-rebuild/archives/1993-galaxy-series-1/just-toys-bend-ems/">
-          <span class="series-marker"></span>
-          <span class="series-info">
-            <span class="series-name">Just Toys Bend-Ems</span>
-            <span class="series-subtitle">Related Star Wars collectibles</span>
-            <span class="series-status">View product details →</span>
-          </span>
-          <span class="series-arrow">›</span>
-        </a>
-      </div>
-    </section>
-
-    <footer>
-      THE CANTINA CLUB · A GALAXY OF CARDS
-    </footer>
   </main>
+
+  <footer>
+    THE CANTINA CLUB · A GALAXY OF CARDS
+  </footer>
 </body>
 </html>
+```
