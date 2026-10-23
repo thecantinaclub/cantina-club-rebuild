@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2004 Topps Star Wars Heritage Sketch Vault | The Cantina Club</title>
+<style>
+:root {
+  --gold: #d7b56d;
+  --gold-dark: #806333;
+  --background: #101010;
+  --panel: #1b1b1b;
+  --panel-light: #222;
+  --text: #f1eee7;
+  --muted: #b8b3a8;
+  --border: #51432b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+a { color: var(--gold); }
+
+header {
+  background: #090909;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 20px;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.brand {
+  display: block;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: .94rem;
+}
+
+nav a:hover, nav a.active { color: var(--gold); }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+}
+
+.breadcrumb {
+  font-size: .9rem;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.breadcrumb a { text-decoration: none; }
+
+.eyebrow {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: .8rem;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.7rem);
+  line-height: 1.2;
+  margin: 8px 0 14px;
+}
+
+h2 {
+  color: var(--gold);
+  margin: 0 0 8px;
+  font-size: 1.65rem;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.intro {
+  color: var(--muted);
+  max-width: 760px;
+  margin-bottom: 26px;
+}
+
+.set-summary {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 17px 20px;
+  margin-bottom: 34px;
+}
+
+.set-summary p { margin: 5px 0; }
+
+.wave-section {
+  margin-top: 38px;
+  scroll-margin-top: 20px;
+}
+
+.wave-heading {
+  border-bottom: 1px solid var(--gold-dark);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.wave-description {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.artist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.artist-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 16px 18px;
+}
+
+.artist-top {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.artist-set {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.level-label {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 5px;
+  border: 1px solid var(--gold-dark);
+  border-radius: 5px;
+  padding: 3px 8px;
+  color: var(--gold);
+  font-size: .83rem;
+}
+
+.details-button {
+  margin-top: 13px;
+  padding: 8px 13px;
+  background: #252117;
+  border: 1px solid var(--gold-dark);
+  border-radius: 5px;
+  color: var(--gold);
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background: #342b1b;
+}
+
+.details-panel {
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.details-panel[hidden] { display: none; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 8px;
+  border-bottom: 1px solid #39342a;
+}
+
+th {
+  color: var(--gold);
+  font-weight: bold;
+}
+
+td:first-child { width: 58%; }
+
+.estimate-note {
+  margin: 13px 0 0;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.method-note {
+  margin-top: 30px;
+  padding: 15px 17px;
+  background: #171717;
+  border-left: 3px solid var(--gold-dark);
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 22px 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+@media (max-width: 520px) {
+  main { padding: 22px 13px 45px; }
+  .artist-card { padding: 14px; }
+  th, td { padding: 8px 5px; font-size: .85rem; }
+  td:first-child { width: 55%; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/cantina-club-rebuild/">THE CANTINA CLUB — A GALAXY OF CARDS</a>
+    <nav aria-label="Main navigation">
+      <a href="/cantina-club-rebuild/">Home</a>
+      <a href="/cantina-club-rebuild/official-topps-card-sets.html">The Archives</a>
+      <a class="active" href="/cantina-club-rebuild/sketch-vault/">Sketch Vault</a>
+      <a href="/cantina-club-rebuild/">The Cantina</a>
+      <a href="/cantina-club-rebuild/">The Trading Post</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="/cantina-club-rebuild/">Home</a> /
+    <a href="/cantina-club-rebuild/sketch-vault/">Sketch Vault</a> /
+    2004 Topps Star Wars Heritage
+  </div>
+
+  <div class="eyebrow">Sketch Vault</div>
+  <h1>2004 Topps Star Wars Heritage</h1>
+
+  <p class="intro">
+    Explore the sketch-card artists associated with 2004 Topps Star Wars
+    Heritage. The set is presented in two waves, with artist entries arranged
+    alphabetically within each wave. Expand an artist's details to see the
+    supplied odds and estimated card quantities.
+  </p>
+
+  <div class="set-summary">
+    <p><strong>Release:</strong> 2004 Topps Star Wars Heritage</p>
+    <p><strong>Wave 1:</strong> Approximately 36,000 packs · 29 artists</p>
+    <p><strong>Wave 2:</strong> Approximately 16,500 packs · 20 artists</p>
+    <p><strong>Pack odds:</strong> 1:38 hobby packs overall, as supplied</p>
+  </div>
+
+  <section class="wave-section" id="wave-1">
+    <div class="wave-heading">
+      <h2>Wave 1</h2>
+    </div>
+    <p class="wave-description">
+      Approximately 36,000 packs · 29 artists
+    </p>
+    <div class="artist-list" id="wave1Artists"></div>
+  </section>
+
+  <section class="wave-section" id="wave-2">
+    <div class="wave-heading">
+      <h2>Wave 2</h2>
+    </div>
+    <p class="wave-description">
+      Approximately 16,500 packs · 20 artists
+    </p>
+    <div class="artist-list" id="wave2Artists"></div>
+  </section>
+
+  <div class="method-note">
+    <strong>About the estimates:</strong>
+    These figures are collector estimates calculated from the approximate
+    pack production and odds supplied for each wave. Estimated cards per
+    artist assume an equal share among artists assigned to the same level.
+    Actual artist allocations may differ. Exact print runs were never
+    released by Topps.
+  </div>
+</main>
+
+<footer>
+  THE CANTINA CLUB · A GALAXY OF CARDS
+</footer>
+
+<script>
+const waveData = {
+  1: {
+    packs: 36000,
+    artists: [
+      ["Ryan Benjamin", "B"],
+      ["Matt Busch", "H"],
+      ["Jeff Carlisle", "C"],
+      ["Brian Ching", "E"],
+      ["Joe Corroney", "D"],
+      ["Cynthia Cummens", "A"],
+      ["Dave Dorman", "B"],
+      ["Jan Duursema", "B"],
+      ["Tommy Lee Edwards", "B"],
+      ["Chris Eliopoulos", "A"],
+      ["Davide Fabbri", "G"],
+      ["Tom Hodges", "G"],
+      ["Jeff Johnson", "B"],
+      ["Rafael Kayanan", "B"],
+      ["Ray Lago", "A"],
+      ["Mike Lemos", "C"],
+      ["Randy Martinez", "H"],
+      ["John McCrea", "F"],
+      ["Brandon McKinney", "A"],
+      ["William O’Neil", "A"],
+      ["Dan Parsons", "D"],
+      ["Dimitri Patelis", "A"],
+      ["Sean Phillips", "D"],
+      ["Kilian Plunkett", "C"],
+      ["David Rabbitte", "A"],
+      ["Ron Randall", "B"],
+      ["Paul Rudish", "C"],
+      ["Robert Teranishi", "D"],
+      ["Chris Trevas", "B"]
+    ],
+    levels: {
+      A: { odds: 731, artists: 7, label: "1:731 packs" },
+      B: { odds: 347, artists: 8, label: "1:347 packs" },
+      C: { odds: 516, artists: 4, label: "1:516 packs" },
+      D: { odds: 267, artists: 4, label: "1:267 packs" },
+      E: { odds: 736, artists: 1, label: "1:736 packs" },
+      F: { odds: 539, artists: 1, label: "1:539 packs" },
+      G: { odds: 180, artists: 2, label: "1:180 packs" },
+      H: { odds: 135, artists: 2, label: "1:135 packs" }
+    }
+  },
+
+  2: {
+    packs: 16500,
+    artists: [
+      ["Jeff Carlisle", "E"],
+      ["Cynthia Cummens", "C"],
+      ["Christian Dalla Vecchia", "F"],
+      ["Jan Duursema", "B"],
+      ["Davide Fabbri", "F"],
+      ["Tom Hodges", "E"],
+      ["James Hopkins", "D"],
+      ["Ray Lago", "A"],
+      ["Mike Lemos", "B"],
+      ["Mike Lilly", "A"],
+      ["Randy Martinez", "F"],
+      ["John McCrea", "E"],
+      ["Mary Mitchell", "B"],
+      ["Jake Myler", "B"],
+      ["William O’Neil", "B"],
+      ["Dan Parsons", "C"],
+      ["Kilian Plunkett", "B"],
+      ["David Rabbitte", "A"],
+      ["Robert Teranishi", "E"],
+      ["Russell Walks", "E"]
+    ],
+    levels: {
+      A: { odds: 1086, artists: 3, label: "1:1,086 packs" },
+      B: { odds: 262, artists: 6, label: "1:262 packs" },
+      C: { odds: 512, artists: 2, label: "1:512 packs" },
+      D: { odds: 668, artists: 1, label: "1:668 packs" },
+      E: { odds: 103, artists: 5, label: "1:103 packs" },
+      F: { odds: 86.5, artists: 3, label: "1:86.5 packs" }
+    }
+  }
+};
+
+function roundedEstimate(value) {
+  return Math.round(value).toLocaleString("en-US");
+}
+
+function artistSlug(name) {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function makeArtistCard(name, level, waveNumber) {
+  const wave = waveData[waveNumber];
+  const levelInfo = wave.levels[level];
+
+  const estimatedLevelTotal = wave.packs / levelInfo.odds;
+  const estimatedPerArtist =
+    estimatedLevelTotal / levelInfo.artists;
+
+  const levelTotalText = roundedEstimate(estimatedLevelTotal);
+  const perArtistText = roundedEstimate(estimatedPerArtist);
+
+  const card = document.createElement("article");
+  card.className = "artist-card";
+
+  const top = document.createElement("div");
+  top.className = "artist-top";
+
+  const heading = document.createElement("h3");
+  heading.textContent = name;
+
+  const setName = document.createElement("div");
+  setName.className = "artist-set";
+  setName.textContent =
+    "2004 Topps Star Wars Heritage – Wave " + waveNumber;
+
+  const levelLabel = document.createElement("div");
+  levelLabel.className = "level-label";
+  levelLabel.textContent = "Level " + level + " Sketch Card";
+
+  top.append(heading, setName, levelLabel);
+
+  const button = document.createElement("button");
+  button.className = "details-button";
+  button.type = "button";
+  button.textContent = "View details +";
+  button.setAttribute("aria-expanded", "false");
+
+  const panel = document.createElement("div");
+  panel.className = "details-panel";
+  panel.hidden = true;
+
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr><th>Detail</th><th>Information</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Odds</td><td>${levelInfo.label}</td></tr>
+      <tr><td>Artists in Level ${level}</td><td>${levelInfo.artists}</td></tr>
+      <tr><td>Estimated Cards per Artist</td><td>≈ ${perArtistText}</td></tr>
+      <tr><td>Estimated Total Cards (Level ${level})</td><td>≈ ${levelTotalText}</td></tr>
+      <tr><td>Estimated Cards by Artist (Wave ${waveNumber})</td><td>≈ ${perArtistText}</td></tr>
+    </tbody>
+  `;
+
+  const note = document.createElement("p");
+  note.className = "estimate-note";
+  note.textContent =
+    "Collector estimate based on approximately " +
+    wave.packs.toLocaleString("en-US") +
+    " packs for Wave " + waveNumber +
+    ". Topps did not release exact print runs. The per-artist figure " +
+    "assumes an equal share within this level.";
+
+  panel.append(table, note);
+
+  button.addEventListener("click", () => {
+    const isOpening = panel.hidden;
+    panel.hidden = !isOpening;
+    button.textContent = isOpening ? "Hide details −" : "View details +";
+    button.setAttribute("aria-expanded", String(isOpening));
+  });
+
+  card.append(top, button, panel);
+  card.dataset.artist = artistSlug(name);
+
+  return card;
+}
+
+function renderWave(waveNumber, containerId) {
+  const wave = waveData[waveNumber];
+  const container = document.getElementById(containerId);
+
+  wave.artists
+    .slice()
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .forEach(([name, level]) => {
+      container.appendChild(
+        makeArtistCard(name, level, waveNumber)
+      );
+    });
+}
+
+renderWave(1, "wave1Artists");
+renderWave(2, "wave2Artists");
+</script>
+
+</body>
+</html>
