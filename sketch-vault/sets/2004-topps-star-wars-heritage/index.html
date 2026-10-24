@@ -498,7 +498,18 @@ heading.appendChild(artistLink);
     button.setAttribute("aria-expanded", String(isOpening));
   });
 
-  card.append(top, button, panel);
+  card.style.cursor = "pointer";
+
+card.addEventListener("click", (event) => {
+  if (event.target.closest("button")) return;
+
+  window.location.href =
+    "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/artists/artist-test/?artist=" +
+    encodeURIComponent(name) +
+    "&wave=" + waveNumber;
+});
+
+card.append(top, button, panel);
   card.dataset.artist = artistSlug(name);
 
   return card;
