@@ -134,8 +134,8 @@ h3 {
 }
 
 .artist-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -236,6 +236,7 @@ footer {
 
 @media (max-width: 520px) {
   main { padding: 22px 13px 45px; }
+  .artist-list { grid-template-columns: 1fr; }
   .artist-card { padding: 14px; }
   th, td { padding: 8px 5px; font-size: .85rem; }
   td:first-child { width: 55%; }
