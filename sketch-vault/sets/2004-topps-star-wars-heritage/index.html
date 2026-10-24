@@ -438,10 +438,8 @@ function makeArtistCard(name, level, waveNumber) {
 const artistLink = document.createElement("a");
 artistLink.textContent = name;
 artistLink.href =
-  "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/artists/" +
+  "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/" +
   artistSlug(name) + "/";
-  encodeURIComponent(name) +
-  "&wave=" + waveNumber;
 artistLink.style.color = "var(--gold)";
 artistLink.style.textDecoration = "none";
 heading.appendChild(artistLink);
@@ -506,8 +504,8 @@ card.addEventListener("click", (event) => {
   if (event.target.closest("a")) return;
 
   window.location.href =
-    "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/artists/" +
-    artistSlug(name) + "/";
+  "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/" +
+  artistSlug(name) + "/";
 });
 
 card.append(top, button, panel);
