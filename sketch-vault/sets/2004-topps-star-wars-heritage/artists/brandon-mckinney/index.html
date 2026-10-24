@@ -41,7 +41,7 @@ h2 { color: var(--gold); margin-top: 30px; }
 p { color: var(--muted); }
 a { color: var(--gold); }
 .back { display: inline-block; margin: 8px 18px 0 0; }
-.info {
+.info, .contribute {
   margin-top: 24px;
   padding: 20px;
   background: var(--panel);
@@ -49,6 +49,18 @@ a { color: var(--gold); }
   border-radius: 8px;
 }
 .info p { margin: 6px 0; }
+.contribute h2 { margin-top: 0; }
+.contribute-button {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 18px;
+  background: var(--gold);
+  color: #171717;
+  border-radius: 7px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.contribute-button:hover { opacity: 0.9; }
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -89,6 +101,17 @@ footer {
     <p><strong>Set:</strong> 2004 Topps Star Wars Heritage</p>
     <p><strong>Wave:</strong> Wave 1</p>
     <p><strong>Sketch Card Level:</strong> Level A</p>
+  </section>
+
+  <section class="contribute">
+    <h2>Have a Brandon Sketch Card?</h2>
+    <p>
+      Help expand the archive by registering a new Brandon McKinney
+      sketch card from the 2004 Topps Star Wars Heritage set.
+    </p>
+    <a class="contribute-button" href="../../contribute.html">
+      Contribute a Brandon Sketch Card
+    </a>
   </section>
 
   <section>
