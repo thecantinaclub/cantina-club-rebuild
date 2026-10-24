@@ -7,21 +7,22 @@
 <title>2004 Topps Star Wars Heritage Sketch Vault | The Cantina Club</title>
 <style>
 :root {
-  --gold: #d7b56d;
+  --bg: #090b10;
+  --panel: #121620;
+  --gold: #e9bd68;
+  --text: #f3f0e8;
+  --muted: #a6adbb;
+  --border: #303746;
   --gold-dark: #806333;
-  --background: #101010;
-  --panel: #1b1b1b;
-  --panel-light: #222;
-  --text: #f1eee7;
-  --muted: #b8b3a8;
-  --border: #51432b;
+  --background: var(--bg);
+  --panel-light: #1b2230;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--background);
+  background: var(--bg);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
@@ -30,7 +31,7 @@ body {
 a { color: var(--gold); }
 
 header {
-  background: #090909;
+  background: #0d1017;
   border-bottom: 1px solid var(--border);
   padding: 18px 20px;
 }
@@ -38,16 +39,21 @@ header {
 .header-inner {
   max-width: 1100px;
   margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .brand {
   display: block;
   color: var(--gold);
   text-decoration: none;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: bold;
-  letter-spacing: 1.5px;
-  margin-bottom: 12px;
+  letter-spacing: 1.2px;
+  margin-bottom: 0;
 }
 
 nav {
@@ -56,16 +62,8 @@ nav {
   gap: 10px 22px;
 }
 
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  font-size: .94rem;
-}
-
-nav a:hover, nav a.active { color: var(--gold); }
-
 main {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 28px 18px 60px;
 }
@@ -430,7 +428,15 @@ function makeArtistCard(name, level, waveNumber) {
   top.className = "artist-top";
 
   const heading = document.createElement("h3");
-  heading.textContent = name;
+const artistLink = document.createElement("a");
+artistLink.textContent = name;
+artistLink.href =
+  "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/artists/artist-test/?artist=" +
+  encodeURIComponent(name) +
+  "&wave=" + waveNumber;
+artistLink.style.color = "var(--gold)";
+artistLink.style.textDecoration = "none";
+heading.appendChild(artistLink);
 
   const setName = document.createElement("div");
   setName.className = "artist-set";
