@@ -213,9 +213,23 @@
     <section class="panel">
       <h2>3. Card photographs</h2>
 
-      <label for="photos">Upload photographs</label>
-      <input id="photos" name="photos" type="file"
-             accept="image/jpeg,image/png,image/webp" multiple>
+      
+<label for="front-photo">Upload Front</label>
+<input id="front-photo" name="front_photo" type="file"
+       accept="image/jpeg,image/png,image/webp">
+
+<p class="help">
+  Upload a clear photograph of the front of the sketch card.
+</p>
+
+<label for="back-photo">Upload Back</label>
+<input id="back-photo" name="back_photo" type="file"
+       accept="image/jpeg,image/png,image/webp">
+
+<p class="help">
+  Upload a clear photograph of the back of the sketch card, if available.
+</p>
+
 
       <p class="help">
         You can select more than one photo, including the front, back,
