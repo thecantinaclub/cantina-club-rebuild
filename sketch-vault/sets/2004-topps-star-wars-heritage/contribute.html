@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contribute a Sketch Card | The Cantina Club</title>
+  <title>Register a Brandon Sketch Card | The Cantina Club</title>
+
   <style>
     :root {
       --bg: #090b10;
@@ -69,17 +70,19 @@
       border-left: 4px solid var(--gold);
       padding: 14px;
       color: var(--muted);
+      margin: 20px 0;
     }
 
     label {
       display: block;
-      margin: 16px 0 6px;
+      margin: 18px 0 6px;
       font-weight: bold;
     }
 
     input, select, textarea {
+      display: block;
       width: 100%;
-      background: #090b10;
+      background: var(--bg);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 7px;
@@ -87,11 +90,17 @@
       font: inherit;
     }
 
+    input[readonly] {
+      background: var(--panel2);
+      color: var(--muted);
+    }
+
     input[type="file"] { padding: 10px; }
 
     .help {
       color: var(--muted);
       font-size: .9rem;
+      margin-top: 6px;
     }
 
     button {
@@ -107,7 +116,7 @@
     }
 
     button:disabled {
-      opacity: .5;
+      opacity: .6;
       cursor: not-allowed;
     }
 
@@ -118,6 +127,7 @@
     }
   </style>
 </head>
+
 <body>
 <header>
   <div class="header-inner">
@@ -126,125 +136,131 @@
     <nav>
       <a href="../../../index.html">Home</a>
       <a href="../../../sketch-vault/">Sketch Vault</a>
-      <a href="./index.html">Heritage Sketch Gallery</a>
+      <a href="./index.html">Brandon Sketch Gallery</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <a class="back-link" href="./index.html">← Back to the gallery</a>
+  <a class="back-link" href="./index.html">← Back to Brandon's gallery</a>
 
-  <h1>Contribute to the Sketch Vault</h1>
+  <h1>Register a New Brandon Sketch Card</h1>
+
   <p>
-    Help document original Star Wars sketch cards. You can contribute
-    photographs, information, or both.
+    Help expand the archive of Brandon's original sketch cards from
+    the 2004 Topps Star Wars Heritage set. Provide the details you know
+    and upload photographs of the card.
   </p>
 
   <div class="notice">
-    This is a draft form. Submissions are not sent or saved yet.
-    The submission and admin approval connection must be completed
-    before this page is ready for public use.
+    This is a draft questionnaire. It does not send or save submissions yet.
+    Once the submission system is connected, your entry will remain private
+    until an administrator reviews and approves it.
   </div>
 
-  <form id="contribution-form">
-    <section class="panel">
-      <h2>1. Contribution type</h2>
-      <label for="contribution-type">What would you like to contribute?</label>
-      <select id="contribution-type" name="contribution_type" required>
-        <option value="new">Register a new sketch card</option>
-        <option value="photos">Add photos to an existing card</option>
-        <option value="information">Suggest information changes</option>
-        <option value="both">Add photos and suggest information changes</option>
-      </select>
+  <form id="new-card-form">
 
-      <label for="existing-card">Existing card reference, if applicable</label>
-      <input id="existing-card" name="existing_card"
-             placeholder="Select a card reference after finding it in the gallery">
+    <section class="panel">
+      <h2>1. Set and artist</h2>
+
+      <label for="year">Year</label>
+      <input id="year" name="year" value="2004" readonly>
+
+      <label for="set">Set</label>
+      <input id="set" name="set"
+             value="2004 Topps Star Wars Heritage" readonly>
+
+      <label for="artist">Artist</label>
+      <input id="artist" name="artist" value="Brandon" readonly>
+
       <p class="help">
-        Existing cards must be matched to their gallery record to avoid duplicates.
-        Card matching will be connected before submissions are enabled.
+        This questionnaire is for a new sketch card by Brandon in this set.
+        If the card already appears in the gallery, use that card's own
+        contribution options instead.
       </p>
     </section>
 
     <section class="panel">
-      <h2>2. Card information</h2>
+      <h2>2. Sketch card information</h2>
 
-      <label for="year">Year</label>
-      <input id="year" name="year" inputmode="numeric" placeholder="e.g. 2004">
-
-      <label for="set">Set</label>
-      <input id="set" name="set"
-             value="2004 Topps Star Wars Heritage">
-
-      <label for="artist">Artist</label>
-      <input id="artist" name="artist" placeholder="Artist name">
-
-      <label for="subject">Subject</label>
+      <label for="subject">Subject shown on the sketch</label>
       <input id="subject" name="subject"
-             placeholder="Character, vehicle, creature, or location">
+             placeholder="Enter the character, vehicle, creature, or location">
 
       <label for="subject-type">Subject type</label>
       <select id="subject-type" name="subject_type">
         <option value="">Choose if known</option>
-        <option>Character</option>
-        <option>Vehicle/Spaceship</option>
-        <option>Creature</option>
-        <option>Location</option>
+        <option value="Character">Character</option>
+        <option value="Vehicle/Spaceship">Vehicle / Spaceship</option>
+        <option value="Creature">Creature</option>
+        <option value="Location">Location</option>
       </select>
 
       <label for="original-code">Original code printed on the card</label>
       <input id="original-code" name="original_code"
-             placeholder="Leave blank if none or unknown">
+             placeholder="Leave blank if there is no code or you are unsure">
+
+      <label for="card-details">Additional information</label>
+      <textarea id="card-details" name="card_details" rows="4"
+        placeholder="Any other details that may help identify or document this card"></textarea>
 
       <p class="help">
-        Leave unknown information blank. Do not invent an archive code.
-        For existing cards, these fields are suggestions until approved.
+        Fill in what you know. Unknown details can be left blank.
+        Do not create an archive number yourself.
       </p>
     </section>
 
     <section class="panel">
-      <h2>3. Photographs</h2>
+      <h2>3. Card photographs</h2>
 
-      <label for="photos">Select one or more card photos</label>
+      <label for="photos">Upload photographs</label>
       <input id="photos" name="photos" type="file"
              accept="image/jpeg,image/png,image/webp" multiple>
 
       <p class="help">
-        JPEG, PNG, and WebP images are supported by the current storage setup.
-        The upload limit and secure upload process will be connected before launch.
+        You can select more than one photo, including the front, back,
+        signature, and close-up details. Clear photographs of the actual
+        card are preferred.
       </p>
 
       <label for="photo-notes">Photo notes (optional)</label>
       <textarea id="photo-notes" name="photo_notes" rows="3"
-                placeholder="Identify front, back, signature, details, or other views"></textarea>
+        placeholder="Describe which side or detail each photo shows"></textarea>
     </section>
 
     <section class="panel">
       <h2>4. Contributor credit</h2>
 
-      <label for="display-name">Display name (optional)</label>
+      <label for="display-name">Preferred display name (optional)</label>
       <input id="display-name" name="display_name"
-             placeholder="How should your contribution be credited?">
+             placeholder="How you would like to be credited">
 
       <p class="help">
-        Signed-in members will be credited using their chosen profile name.
-        Guests will be credited as Anonymous. Email addresses will never
-        be published.
+        When the member system is connected, signed-in members can be
+        credited by their profile name. Guests can contribute anonymously.
+        Email addresses will not be published.
       </p>
     </section>
 
     <section class="panel">
-      <h2>5. Review</h2>
+      <h2>5. Before submitting</h2>
+
       <p>
-        Contributions will remain private until reviewed by an administrator.
-        Approved photos and approved information changes can be handled separately.
+        An administrator will check the information and photographs.
+        The card will appear in Brandon's public gallery only after approval.
+        The administrator may correct or complete the record during review.
       </p>
-      <button type="submit" disabled>Submission connection not ready</button>
+
+      <button type="submit" disabled>
+        Submission system not connected yet
+      </button>
+
       <p class="help">
-        This button is intentionally disabled until the secure submission
-        and moderation workflow is connected.
+        The button is disabled because the secure upload and review process
+        has not been connected. Nothing on this draft form is submitted.
       </p>
     </section>
+
   </form>
 </main>
 
@@ -253,7 +269,7 @@
 </footer>
 
 <script>
-  document.getElementById("contribution-form").addEventListener(
+  document.getElementById("new-card-form").addEventListener(
     "submit",
     function (event) {
       event.preventDefault();
