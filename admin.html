@@ -669,7 +669,7 @@
       ["Front", item.front_image_path],
       ["Back", item.back_image_path]
     ]) {
-      const preview = element("div");
+      const preview = makeElement("div");
       preview.appendChild(makeElement("p", "", "No image"));
 
       if (path) {
