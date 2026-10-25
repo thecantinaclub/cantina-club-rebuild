@@ -532,8 +532,8 @@
       if (listError) throw listError;
 
       const usedNumbers = (existingCards || [])
-        .map(card => Number(card.card_number))
-        .filter(number => Number.isInteger(number) && number > 0);
+  .map(card => Number(String(card.card_number).replace(/^#+/, "")))
+  .filter(number => Number.isInteger(number) && number > 0);
 
       const number = String(
         usedNumbers.length ? Math.max(...usedNumbers) + 1 : 1
