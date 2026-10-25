@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
       color: #f0f2f6;
       font: 16px/1.5 Arial, sans-serif;
     }
-    main { max-width: 1000px; margin: auto; }
+    main { max-width: 1100px; margin: auto; }
     h1, h2 { color: #e4c16f; }
     .panel, .submission {
       margin: 18px 0;
@@ -33,6 +34,7 @@
       color: #f0f2f6;
       font: inherit;
     }
+    input[type="file"] { padding: 8px; }
     textarea { min-height: 70px; resize: vertical; }
     button {
       margin: 12px 8px 0 0;
@@ -94,9 +96,11 @@
       color: #f0f2f6;
       font-size: 14px;
     }
-    .empty {
-      padding: 14px 0;
-      color: #a8b0c0;
+    .empty { padding: 14px 0; color: #a8b0c0; }
+    .card-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0 16px;
     }
   </style>
 </head>
@@ -104,9 +108,8 @@
 <main>
   <h1>Cantina Club Admin</h1>
   <p class="muted">
-    Private submission review. Only approved card information and
-    deliberately published photos appear in the public archive.
-    Pending submission photos remain private.
+    Review submissions and edit approved cards. Only approved card information
+    and deliberately published photos appear in the public archive.
   </p>
 
   <section id="login-panel" class="panel">
@@ -125,32 +128,42 @@
   <section id="admin-panel" class="hidden">
     <div class="panel">
       <span id="signed-in" class="muted"></span>
-      <button id="refresh-button" type="button">Refresh submissions</button>
-      <button id="logout-button" type="button" class="secondary">
-        Sign out
-      </button>
+      <button id="refresh-button" type="button">Refresh all</button>
+      <button id="logout-button" type="button" class="secondary">Sign out</button>
       <p id="list-status" class="status" role="status"></p>
     </div>
 
-    <section aria-labelledby="pending-heading">
+    <section>
       <div class="section-heading">
-        <h2 id="pending-heading">Pending submissions</h2>
+        <h2>Approved cards — Edit cards</h2>
+        <span id="approved-count" class="count">0</span>
+      </div>
+      <p class="muted">
+        These are the actual approved card records. Saving changes updates
+        the existing record; it does not create a new card.
+      </p>
+      <div id="approved-cards"></div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <h2>Pending submissions</h2>
         <span id="pending-count" class="count">0</span>
       </div>
       <div id="pending-submissions"></div>
     </section>
 
-    <section aria-labelledby="approved-heading">
+    <section>
       <div class="section-heading">
-        <h2 id="approved-heading">Approved submissions</h2>
-        <span id="approved-count" class="count">0</span>
+        <h2>Approved submissions</h2>
+        <span id="approved-submission-count" class="count">0</span>
       </div>
       <div id="approved-submissions"></div>
     </section>
 
-    <section aria-labelledby="rejected-heading">
+    <section>
       <div class="section-heading">
-        <h2 id="rejected-heading">Rejected submissions</h2>
+        <h2>Rejected submissions</h2>
         <span id="rejected-count" class="count">0</span>
       </div>
       <div id="rejected-submissions"></div>
@@ -168,6 +181,8 @@
   const loginStatus = document.getElementById("login-status");
   const listStatus = document.getElementById("list-status");
 
+  const approvedCardsContainer = document.getElementById("approved-cards");
+
   const sections = {
     pending: {
       container: document.getElementById("pending-submissions"),
@@ -175,7 +190,7 @@
     },
     approved: {
       container: document.getElementById("approved-submissions"),
-      count: document.getElementById("approved-count")
+      count: document.getElementById("approved-submission-count")
     },
     rejected: {
       container: document.getElementById("rejected-submissions"),
@@ -208,6 +223,8 @@
       section.container.replaceChildren();
       section.count.textContent = "0";
     });
+    approvedCardsContainer.replaceChildren();
+    document.getElementById("approved-count").textContent = "0";
   }
 
   function showSignedOut(message = "") {
@@ -227,9 +244,7 @@
   function formatDate(value) {
     if (!value) return "Unknown date";
     const date = new Date(value);
-    return Number.isNaN(date.getTime())
-      ? value
-      : date.toLocaleString();
+    return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
   }
 
   function addField(form, key, value) {
@@ -246,19 +261,39 @@
     form.appendChild(input);
   }
 
+  function getExtension(path, mimeType) {
+    const match = String(path || "").match(/\.(jpg|jpeg|png|webp)$/i);
+    if (match) return match[1].toLowerCase();
+    if (mimeType === "image/png") return "png";
+    if (mimeType === "image/webp") return "webp";
+    return "jpg";
+  }
+
+  function getMimeType(extension, blobType) {
+    if (blobType && [
+      "image/jpeg", "image/png", "image/webp"
+    ].includes(blobType)) return blobType;
+
+    if (extension === "png") return "image/png";
+    if (extension === "webp") return "image/webp";
+    return "image/jpeg";
+  }
+
+  function safePathPart(value) {
+    return String(value || "")
+      .trim()
+      .replace(/[^a-zA-Z0-9_-]/g, "-");
+  }
+
   async function getPhotoUrl(path) {
     if (!path) return null;
 
-    const { data, error } = await client.storage
-      .from("card-submissions")
-      .createSignedUrl(path, 3600);
+    // Approved images are stored in the public bucket.
+    const { data } = client.storage
+      .from("approved-card-images")
+      .getPublicUrl(path);
 
-    if (error) {
-      console.error("Could not open private photo:", error);
-      return null;
-    }
-
-    return data.signedUrl;
+    return data?.publicUrl || null;
   }
 
   async function addPhoto(container, label, path) {
@@ -280,40 +315,267 @@
       link.rel = "noopener noreferrer";
       column.appendChild(link);
     } else {
-      column.appendChild(makeElement("p", "muted",
-        "Photo unavailable or permission denied."));
+      column.appendChild(makeElement("p", "muted", "No photo saved."));
     }
 
     container.appendChild(column);
   }
 
-  function getExtension(path, mimeType) {
-    const match = String(path || "").match(/\.(jpg|jpeg|png|webp)$/i);
-    if (match) return match[1].toLowerCase();
+  async function uploadReplacementPhoto(file, setSlug, cardNumber, side) {
+    if (!file) return null;
 
-    if (mimeType === "image/png") return "png";
-    if (mimeType === "image/webp") return "webp";
-    return "jpg";
-  }
-
-  function getMimeType(extension, blobType) {
-    if (blobType && [
-      "image/jpeg",
-      "image/png",
-      "image/webp"
-    ].includes(blobType)) {
-      return blobType;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      throw new Error("Photos must be JPG, PNG, or WebP files.");
     }
 
-    if (extension === "png") return "image/png";
-    if (extension === "webp") return "image/webp";
-    return "image/jpeg";
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error("Each photo must be 10 MB or smaller.");
+    }
+
+    const extension = getExtension(file.name, file.type);
+    const contentType = getMimeType(extension, file.type);
+    const safeSet = safePathPart(setSlug);
+
+    // A unique filename prevents overwriting another card's photo.
+    const path = safeSet + "/card-" + safePathPart(cardNumber) + "/" +
+      crypto.randomUUID() + "-" + side + "." + extension;
+
+    const { error } = await client.storage
+      .from("approved-card-images")
+      .upload(path, file, {
+        contentType,
+        upsert: false,
+        cacheControl: "3600"
+      });
+
+    if (error) {
+      throw new Error("Photo upload failed: " + error.message);
+    }
+
+    return path;
   }
 
-  function safePathPart(value) {
-    return String(value || "")
-      .trim()
-      .replace(/[^a-zA-Z0-9_-]/g, "-");
+  function makeApprovedCardEditor(item) {
+    const card = makeElement("article", "submission");
+    const form = makeElement("form");
+
+    const header = makeElement("div", "submission-header");
+    header.appendChild(makeElement("h3", "",
+      "Card #" + item.card_number));
+    header.appendChild(makeElement("span", "muted",
+      "Set: " + item.set_slug));
+    card.appendChild(header);
+
+    const photos = makeElement("div", "photos");
+    card.appendChild(photos);
+
+    addPhoto(photos, "Current front photo", item.front_image_path);
+    addPhoto(photos, "Current back photo", item.back_image_path);
+
+    const numberLabel = makeElement("label", "", "Card number");
+    const numberInput = makeElement("input");
+    numberInput.required = true;
+    numberInput.value = item.card_number || "";
+    numberInput.name = "card_number";
+    form.appendChild(numberLabel);
+    form.appendChild(numberInput);
+
+    form.appendChild(makeElement("h3", "", "Card information"));
+
+    const data = item.card_data &&
+      typeof item.card_data === "object" &&
+      !Array.isArray(item.card_data)
+      ? item.card_data : {};
+
+    const fields = makeElement("div", "card-fields");
+    Object.keys(data).forEach(key => addField(fields, key, data[key]));
+    form.appendChild(fields);
+
+    form.appendChild(makeElement("h3", "", "Replace photos (optional)"));
+
+    const frontLabel = makeElement("label", "", "New front photo");
+    const frontFile = makeElement("input");
+    frontFile.type = "file";
+    frontFile.accept = "image/jpeg,image/png,image/webp";
+    form.appendChild(frontLabel);
+    form.appendChild(frontFile);
+
+    const backLabel = makeElement("label", "", "New back photo");
+    const backFile = makeElement("input");
+    backFile.type = "file";
+    backFile.accept = "image/jpeg,image/png,image/webp";
+    form.appendChild(backLabel);
+    form.appendChild(backFile);
+
+    const saveButton = makeElement("button", "", "Save card changes");
+    saveButton.type = "submit";
+    form.appendChild(saveButton);
+
+    const message = makeElement("p", "status");
+    message.setAttribute("role", "status");
+    form.appendChild(message);
+    card.appendChild(form);
+
+    let saving = false;
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (saving) return;
+
+      const newNumber = numberInput.value.trim();
+      if (!newNumber) {
+        message.textContent = "Enter a card number.";
+        return;
+      }
+
+      if (newNumber !== String(item.card_number).trim()) {
+        const { data: conflict, error: conflictError } = await client
+          .from("approved_cards")
+          .select("card_number")
+          .eq("set_slug", item.set_slug)
+          .eq("card_number", newNumber)
+          .maybeSingle();
+
+        if (conflictError) {
+          message.textContent = "Could not check the number: " +
+            conflictError.message;
+          return;
+        }
+
+        if (conflict) {
+          message.textContent =
+            "That number is already used by another approved card in this set.";
+          return;
+        }
+      }
+
+      saving = true;
+      saveButton.disabled = true;
+      message.textContent = "Saving changes…";
+
+      let uploadedFront = null;
+      let uploadedBack = null;
+
+      try {
+        const updatedData = {};
+        form.querySelectorAll("[data-field-key]").forEach(input => {
+          updatedData[input.dataset.fieldKey] = input.value;
+        });
+
+        if (frontFile.files[0]) {
+          uploadedFront = await uploadReplacementPhoto(
+            frontFile.files[0], item.set_slug, newNumber, "front"
+          );
+        }
+
+        if (backFile.files[0]) {
+          uploadedBack = await uploadReplacementPhoto(
+            backFile.files[0], item.set_slug, newNumber, "back"
+          );
+        }
+
+        const update = {
+          card_number: newNumber,
+          card_data: updatedData,
+          updated_at: new Date().toISOString()
+        };
+
+        if (uploadedFront) update.front_image_path = uploadedFront;
+        if (uploadedBack) update.back_image_path = uploadedBack;
+
+        const { data: updatedRows, error } = await client
+          .from("approved_cards")
+          .update(update)
+          .eq("set_slug", item.set_slug)
+          .eq("card_number", String(item.card_number).trim())
+          .select("card_number");
+
+        if (error) throw error;
+
+        if (!updatedRows || updatedRows.length === 0) {
+          throw new Error(
+            "No row was updated. Check admin permissions and refresh."
+          );
+        }
+
+        message.textContent =
+          "Card changes saved successfully. The existing record was updated.";
+        await loadSubmissions();
+      } catch (error) {
+        console.error("Approved card edit failed:", error);
+        message.textContent = "Save failed: " +
+          (error.message || "Unknown error");
+      } finally {
+        saving = false;
+        saveButton.disabled = false;
+      }
+    });
+
+    return card;
+  }
+
+  async function loadApprovedCards() {
+    approvedCardsContainer.replaceChildren();
+
+    const { data, error } = await client
+      .from("approved_cards")
+      .select("*")
+      .order("set_slug", { ascending: true })
+      .order("card_number", { ascending: true });
+
+    if (error) throw error;
+
+    document.getElementById("approved-count").textContent =
+      String((data || []).length);
+
+    if (!data || data.length === 0) {
+      approvedCardsContainer.appendChild(
+        makeElement("p", "empty", "No approved cards found.")
+      );
+      return;
+    }
+
+    for (const item of data) {
+      approvedCardsContainer.appendChild(makeApprovedCardEditor(item));
+    }
+  }
+
+  async function getPrivatePhotoUrl(path) {
+    if (!path) return null;
+    const { data, error } = await client.storage
+      .from("card-submissions")
+      .createSignedUrl(path, 3600);
+
+    if (error) {
+      console.error("Could not open private photo:", error);
+      return null;
+    }
+
+    return data.signedUrl;
+  }
+
+  async function addPrivatePhoto(container, label, path) {
+    const column = makeElement("div");
+    column.appendChild(makeElement("div", "photo-label", label));
+    const url = await getPrivatePhotoUrl(path);
+
+    if (url) {
+      const img = makeElement("img");
+      img.src = url;
+      img.alt = label;
+      img.loading = "lazy";
+      column.appendChild(img);
+
+      const link = makeElement("a", "", "Open full-size photo");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      column.appendChild(link);
+    } else {
+      column.appendChild(makeElement("p", "muted",
+        "Photo unavailable or permission denied."));
+    }
+    container.appendChild(column);
   }
 
   async function copyApprovedPhoto(sourcePath, destinationPath) {
@@ -332,11 +594,7 @@
     const contentType = getMimeType(extension, file.type);
 
     if (file.size > 10 * 1024 * 1024) {
-      throw new Error("A photo exceeds the 10 MB public bucket limit.");
-    }
-
-    if (!["image/jpeg", "image/png", "image/webp"].includes(contentType)) {
-      throw new Error("Unsupported photo format.");
+      throw new Error("A photo exceeds the 10 MB limit.");
     }
 
     const { error: uploadError } = await client.storage
@@ -359,31 +617,23 @@
       throw new Error("This submission has no saved front or back photo.");
     }
 
-    const setSlug = safePathPart(item.set_slug);
-    const safeNumber = safePathPart(cardNumber);
-
-    if (!setSlug || !safeNumber) {
-      throw new Error("The set name or card number is missing.");
-    }
-
-    const basePath = setSlug + "/card-" + safeNumber + "/" + item.id;
+    const basePath = safePathPart(item.set_slug) +
+      "/card-" + safePathPart(cardNumber) + "/" + item.id;
 
     let frontPath = null;
     let backPath = null;
 
     if (item.front_image_path) {
-      const ext = getExtension(item.front_image_path);
       frontPath = await copyApprovedPhoto(
         item.front_image_path,
-        basePath + "-front." + ext
+        basePath + "-front." + getExtension(item.front_image_path)
       );
     }
 
     if (item.back_image_path) {
-      const ext = getExtension(item.back_image_path);
       backPath = await copyApprovedPhoto(
         item.back_image_path,
-        basePath + "-back." + ext
+        basePath + "-back." + getExtension(item.back_image_path)
       );
     }
 
@@ -391,18 +641,13 @@
     if (frontPath) update.front_image_path = frontPath;
     if (backPath) update.back_image_path = backPath;
 
-    const { error: updateError } = await client
+    const { error } = await client
       .from("approved_cards")
       .update(update)
       .eq("set_slug", item.set_slug)
       .eq("card_number", String(cardNumber).trim());
 
-    if (updateError) {
-      throw new Error(
-        "Photos were uploaded, but the approved record could not be updated: " +
-        updateError.message
-      );
-    }
+    if (error) throw new Error("Photo paths could not be saved: " + error.message);
   }
 
   async function makeSubmissionCard(item) {
@@ -410,25 +655,22 @@
     const header = makeElement("div", "submission-header");
 
     header.appendChild(makeElement("h3", "",
-      "Card #" + item.card_number));
+      "Card #" + (item.card_number || "PENDING-" + item.id)));
     header.appendChild(makeElement("span", "muted",
       item.status + " · " + formatDate(item.created_at)));
     card.appendChild(header);
-
-    card.appendChild(makeElement("p", "muted",
-      "Set: " + item.set_slug));
+    card.appendChild(makeElement("p", "muted", "Set: " + item.set_slug));
 
     const photos = makeElement("div", "photos");
     card.appendChild(photos);
-    await addPhoto(photos, "Front photo", item.front_image_path);
-    await addPhoto(photos, "Back photo", item.back_image_path);
+    await addPrivatePhoto(photos, "Front photo", item.front_image_path);
+    await addPrivatePhoto(photos, "Back photo", item.back_image_path);
 
     const form = makeElement("form");
     const data = item.submitted_data &&
       typeof item.submitted_data === "object" &&
       !Array.isArray(item.submitted_data)
-      ? item.submitted_data
-      : {};
+      ? item.submitted_data : {};
 
     const numberLabel = makeElement("label", "", "Card number");
     const numberInput = makeElement("input");
@@ -449,7 +691,6 @@
     form.appendChild(notesInput);
 
     const actions = makeElement("div", "actions");
-
     const saveButton = makeElement("button", "", "Save corrections");
     saveButton.type = "submit";
     actions.appendChild(saveButton);
@@ -499,13 +740,15 @@
     }
 
     async function saveCorrections() {
+      const update = {
+        card_number: numberInput.value.trim(),
+        submitted_data: getEditedData(),
+        admin_notes: notesInput.value.trim()
+      };
+
       const { error } = await client
         .from("card_submissions")
-        .update({
-          card_number: numberInput.value.trim(),
-          submitted_data: getEditedData(),
-          admin_notes: notesInput.value.trim()
-        })
+        .update(update)
         .eq("id", item.id)
         .eq("status", "pending");
 
@@ -516,10 +759,7 @@
       const { data: existingCards, error: listError } = await client
         .from("approved_cards")
         .select("card_number")
-        .eq(
-          "set_slug",
-          "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
-        );
+        .eq("set_slug", item.set_slug);
 
       if (listError) throw listError;
 
@@ -543,15 +783,7 @@
       if (error) throw error;
 
       if (item.front_image_path || item.back_image_path) {
-        try {
-          await publishApprovedPhotos(item, number);
-        } catch (photoError) {
-          throw new Error(
-            "The card was approved, but its photos could not be published. " +
-            "Refresh submissions and use Publish approved photos to retry. " +
-            photoError.message
-          );
-        }
+        await publishApprovedPhotos(item, number);
       }
     }
 
@@ -583,9 +815,9 @@
         await loadSubmissions();
       } catch (error) {
         console.error("Admin action failed:", error);
-        message.textContent =
-          "Action failed: " +
+        message.textContent = "Action failed: " +
           (error.message || "Check permissions and try again.");
+      } finally {
         saving = false;
         setButtonsDisabled(false);
       }
@@ -598,20 +830,15 @@
 
     approveButton.addEventListener("click", () => {
       if (!confirm(
-        "Approve this submission and publish its photos to the public " +
-        "archive? Only approved photos will be copied to the public bucket."
+        "Approve this submission and publish its photos to the public archive?"
       )) return;
 
-      runAction(
-        approveSubmission,
-        "Approved successfully. Approved photos have been published."
-      );
+      runAction(approveSubmission,
+        "Approved successfully. Refresh to confirm the card and photos.");
     });
 
     publishButton.addEventListener("click", () => {
-      if (!confirm(
-        "Publish or republish the photos for this already-approved card?"
-      )) return;
+      if (!confirm("Publish or republish photos for this approved card?")) return;
 
       runAction(
         () => publishApprovedPhotos(item, numberInput.value.trim()),
@@ -632,10 +859,12 @@
   async function loadSubmissions() {
     if (loading) return;
     loading = true;
-    listStatus.textContent = "Loading submissions…";
+    listStatus.textContent = "Loading cards and submissions…";
     clearSubmissions();
 
     try {
+      await loadApprovedCards();
+
       const { data, error } = await client
         .from("card_submissions")
         .select("*")
@@ -643,17 +872,11 @@
 
       if (error) throw error;
 
-      const grouped = {
-        pending: [],
-        approved: [],
-        rejected: []
-      };
+      const grouped = { pending: [], approved: [], rejected: [] };
 
       for (const item of data || []) {
         const status = String(item.status || "").toLowerCase();
-        if (grouped[status]) {
-          grouped[status].push(item);
-        }
+        if (grouped[status]) grouped[status].push(item);
       }
 
       for (const status of ["pending", "approved", "rejected"]) {
@@ -668,20 +891,19 @@
         }
 
         for (const item of grouped[status]) {
-          const submissionCard = await makeSubmissionCard(item);
-          section.container.appendChild(submissionCard);
+          section.container.appendChild(await makeSubmissionCard(item));
         }
       }
 
       listStatus.textContent =
-        (data || []).length + " total submission(s): " +
-        grouped.pending.length + " pending, " +
-        grouped.approved.length + " approved, " +
-        grouped.rejected.length + " rejected.";
+        "Loaded " + document.getElementById("approved-count").textContent +
+        " approved cards and " + (data || []).length +
+        " submission records.";
     } catch (error) {
-      console.error("Could not load submissions:", error);
+      console.error("Could not load admin data:", error);
       listStatus.textContent =
-        "Could not load submissions. Check the admin permissions.";
+        "Could not load all admin data: " +
+        (error.message || "Check permissions.");
     } finally {
       loading = false;
     }
@@ -695,13 +917,11 @@
     const password = document.getElementById("password").value;
 
     const { data, error } = await client.auth.signInWithPassword({
-      email,
-      password
+      email, password
     });
 
     if (error) {
-      loginStatus.textContent =
-        "Sign-in failed. Check your email and password.";
+      loginStatus.textContent = "Sign-in failed. Check your email and password.";
       return;
     }
 
@@ -721,9 +941,7 @@
   );
 
   client.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_OUT" || !session) {
-      showSignedOut();
-    }
+    if (event === "SIGNED_OUT" || !session) showSignedOut();
   });
 
   client.auth.getSession().then(async ({ data, error }) => {
