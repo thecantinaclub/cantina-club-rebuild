@@ -681,7 +681,8 @@
         fields[key] = input;
         form.append(label, input);
       });
-
+      const message = makeElement("p", "status");
+      form.appendChild(message);
       const saveButton = makeElement("button", "", "Save card edits");
       saveButton.type = "submit";
       form.appendChild(saveButton);
@@ -714,8 +715,6 @@
           deleteButton.disabled = false;
         }
       });
-      const message = makeElement("p", "status");
-      form.appendChild(message);
 
       form.addEventListener("submit", async event => {
         event.preventDefault();
