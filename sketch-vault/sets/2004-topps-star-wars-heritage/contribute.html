@@ -2,294 +2,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Register a Brandon Sketch Card | The Cantina Club</title>
-
-  <style>
-    :root {
-      --bg: #090b10;
-      --panel: #141923;
-      --panel2: #1b2230;
-      --gold: #e4c16f;
-      --text: #f2f2f2;
-      --muted: #aeb6c4;
-      --border: #30394a;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.6 Arial, sans-serif;
-    }
-
-    header {
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      padding: 22px 18px;
-    }
-
-    .header-inner, main, footer {
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .brand {
-      color: var(--gold);
-      font-size: 1.6rem;
-      font-weight: bold;
-    }
-
-    .tagline { color: var(--muted); }
-
-    nav { margin-top: 12px; }
-
-    nav a, .back-link {
-      color: var(--gold);
-      margin-right: 18px;
-      text-decoration: none;
-    }
-
-    main { padding: 28px 18px 50px; }
-
-    h1, h2 { color: var(--gold); }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 22px;
-      margin: 22px 0;
-    }
-
-    .notice {
-      background: var(--panel2);
-      border-left: 4px solid var(--gold);
-      padding: 14px;
-      color: var(--muted);
-      margin: 20px 0;
-    }
-
-    label {
-      display: block;
-      margin: 18px 0 6px;
-      font-weight: bold;
-    }
-
-    input, select, textarea {
-      display: block;
-      width: 100%;
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 12px;
-      font: inherit;
-    }
-
-    input[readonly] {
-      background: var(--panel2);
-      color: var(--muted);
-    }
-
-    input[type="file"] { padding: 10px; }
-
-    .help {
-      color: var(--muted);
-      font-size: .9rem;
-      margin-top: 6px;
-    }
-
-    button {
-      background: var(--gold);
-      color: #171717;
-      border: 0;
-      border-radius: 7px;
-      padding: 12px 18px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 18px;
-    }
-
-    button:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-    }
-
-    footer {
-      padding: 20px 18px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contribute a Sketch Card | The Cantina Club</title>
+<style>
+:root {
+  --bg:#090b10; --panel:#141923; --gold:#e4c16f;
+  --text:#f3f0e8; --muted:#a6adbb; --border:#303746;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,sans-serif; line-height:1.6;
+}
+header,main,footer { width:min(100% - 32px,850px); margin:auto; }
+header { padding:32px 0 20px; border-bottom:1px solid var(--border); }
+.brand { color:var(--gold); font-size:13px; letter-spacing:3px; font-weight:bold; }
+h1 { margin:12px 0 4px; font-size:clamp(28px,5vw,40px); }
+h2 { color:var(--gold); }
+p,.muted { color:var(--muted); }
+a { color:var(--gold); }
+.back { display:inline-block; margin:8px 18px 0 0; }
+.panel {
+  margin:24px 0; padding:22px; background:var(--panel);
+  border:1px solid var(--border); border-radius:8px;
+}
+label { display:block; margin:16px 0 6px; font-weight:bold; }
+input,select,textarea {
+  width:100%; padding:11px; border-radius:5px;
+  border:1px solid var(--border); background:#090b10;
+  color:var(--text); font:inherit;
+}
+input[type="file"] { padding:9px; }
+input[readonly] { color:var(--muted); }
+textarea { min-height:100px; resize:vertical; }
+button {
+  margin-top:22px; padding:12px 20px; border:0;
+  border-radius:6px; background:var(--gold); color:#090b10;
+  font-weight:bold; font-size:16px; cursor:pointer;
+}
+button:disabled { opacity:.6; cursor:wait; }
+#message { white-space:pre-wrap; margin-top:16px; }
+footer {
+  border-top:1px solid var(--border); padding:20px 0 32px;
+  color:var(--muted); font-size:13px;
+}
+</style>
 </head>
-
 <body>
 <header>
-  <div class="header-inner">
-    <div class="brand">The Cantina Club</div>
-    <div class="tagline">A Galaxy of Cards</div>
-    <nav>
-      <a href="../../../index.html">Home</a>
-      <a href="../../../sketch-vault/">Sketch Vault</a>
-      <a href="./index.html">Brandon Sketch Gallery</a>
-    </nav>
-  </div>
+  <div class="brand">THE CANTINA CLUB · A GALAXY OF CARDS</div>
+  <h1>Register a Brandon McKinney Sketch Card</h1>
+  <p>2004 Topps Star Wars Heritage · Wave 1</p>
+  <a class="back" href="./brandon-mckinney/">← Back to Brandon's gallery</a>
 </header>
 
 <main>
-  <a class="back-link" href="./brandon-mckinney/">← Back to Brandon's gallery</a>
-
-  <h1>Register a New Brandon Sketch Card</h1>
-
+<section class="panel">
+  <h2>Contribute a Card</h2>
   <p>
-    Help expand the archive of Brandon's original sketch cards from
-    the 2004 Topps Star Wars Heritage set. Provide the details you know
-    and upload photographs of the card.
+    Share the details and photographs of your sketch card.
+    Submissions are reviewed by an administrator before appearing
+    in the public Sketch Vault.
   </p>
 
-  <div class="notice">
-    This is a draft questionnaire. It does not send or save submissions yet.
-    Once the submission system is connected, your entry will remain private
-    until an administrator reviews and approves it.
-  </div>
-
   <form id="new-card-form">
+    <label for="year">Year</label>
+    <input id="year" name="year" value="2004" readonly>
 
-    <section class="panel">
-      <h2>1. Set and artist</h2>
+    <label for="set">Set</label>
+    <input id="set" name="set" value="2004 Topps Star Wars Heritage" readonly>
 
-      <label for="year">Year</label>
-      <input id="year" name="year" value="2004" readonly>
+    <label for="artist">Artist</label>
+    <input id="artist" name="artist" value="Brandon McKinney" readonly>
 
-      <label for="set">Set</label>
-      <input id="set" name="set"
-             value="2004 Topps Star Wars Heritage" readonly>
+    <label for="subject">Character or subject *</label>
+    <input id="subject" name="subject" required maxlength="200"
+           placeholder="e.g. Darth Vader">
 
-      <label for="artist">Artist</label>
-      <input id="artist" name="artist" value="Brandon" readonly>
+    <label for="subject_type">Subject type</label>
+    <select id="subject_type" name="subject_type">
+      <option value="">Select if known</option>
+      <option value="Character">Character</option>
+      <option value="Creature">Creature</option>
+      <option value="Vehicle">Vehicle</option>
+      <option value="Scene">Scene</option>
+      <option value="Other">Other / unknown</option>
+    </select>
 
-      <p class="help">
-        This questionnaire is for a new sketch card by Brandon in this set.
-        If the card already appears in the gallery, use that card's own
-        contribution options instead.
-      </p>
-    </section>
+    <label for="original_code">Original card number or code</label>
+    <input id="original_code" name="original_code" maxlength="100"
+           placeholder="Enter it if known">
 
-    <section class="panel">
-      <h2>2. Sketch card information</h2>
+    <label for="card_details">Additional card details</label>
+    <textarea id="card_details" name="card_details"
+              placeholder="Anything useful about the sketch card"></textarea>
 
-      <label for="subject">Subject shown on the sketch</label>
-      <input id="subject" name="subject"
-             placeholder="Enter the character, vehicle, creature, or location">
+    <label for="front_photo">Front photograph * (required)</label>
+    <input id="front_photo" name="front_photo" type="file"
+           accept="image/jpeg,image/png,image/webp" required>
+    <p class="muted">JPEG, PNG or WebP. Maximum 10 MB.</p>
 
-      <label for="subject-type">Subject type</label>
-      <select id="subject-type" name="subject_type">
-        <option value="">Choose if known</option>
-        <option value="Character">Character</option>
-        <option value="Vehicle/Spaceship">Vehicle / Spaceship</option>
-        <option value="Creature">Creature</option>
-        <option value="Location">Location</option>
-      </select>
+    <label for="back_photo">Back photograph (optional)</label>
+    <input id="back_photo" name="back_photo" type="file"
+           accept="image/jpeg,image/png,image/webp">
+    <p class="muted">JPEG, PNG or WebP. Maximum 10 MB.</p>
 
-      <label for="original-code">Original code printed on the card</label>
-      <input id="original-code" name="original_code"
-             placeholder="Leave blank if there is no code or you are unsure">
+    <label for="photo_notes">Photo notes</label>
+    <textarea id="photo_notes" name="photo_notes"
+              placeholder="Optional notes about the photos"></textarea>
 
-      <label for="card-details">Additional information</label>
-      <textarea id="card-details" name="card_details" rows="4"
-        placeholder="Any other details that may help identify or document this card"></textarea>
+    <label for="display_name">Your display name (optional)</label>
+    <input id="display_name" name="display_name" maxlength="100"
+           placeholder="Name to display with your contribution">
 
-      <p class="help">
-        Fill in what you know. Unknown details can be left blank.
-        Do not create an archive number yourself.
-      </p>
-    </section>
-
-    <section class="panel">
-      <h2>3. Card photographs</h2>
-
-      
-<label for="front-photo">Upload Front</label>
-<input id="front-photo" name="front_photo" type="file"
-       accept="image/jpeg,image/png,image/webp">
-
-<p class="help">
-  Upload a clear photograph of the front of the sketch card.
-</p>
-
-<label for="back-photo">Upload Back</label>
-<input id="back-photo" name="back_photo" type="file"
-       accept="image/jpeg,image/png,image/webp">
-
-<p class="help">
-  Upload a clear photograph of the back of the sketch card, if available.
-</p>
-
-
-      <p class="help">
-        You can select more than one photo, including the front, back,
-        signature, and close-up details. Clear photographs of the actual
-        card are preferred.
-      </p>
-
-      <label for="photo-notes">Photo notes (optional)</label>
-      <textarea id="photo-notes" name="photo_notes" rows="3"
-        placeholder="Describe which side or detail each photo shows"></textarea>
-    </section>
-
-    <section class="panel">
-      <h2>4. Contributor credit</h2>
-
-      <label for="display-name">Preferred display name (optional)</label>
-      <input id="display-name" name="display_name"
-             placeholder="How you would like to be credited">
-
-      <p class="help">
-        When the member system is connected, signed-in members can be
-        credited by their profile name. Guests can contribute anonymously.
-        Email addresses will not be published.
-      </p>
-    </section>
-
-    <section class="panel">
-      <h2>5. Before submitting</h2>
-
-      <p>
-        An administrator will check the information and photographs.
-        The card will appear in Brandon's public gallery only after approval.
-        The administrator may correct or complete the record during review.
-      </p>
-
-      <button type="submit" disabled>
-        Submission system not connected yet
-      </button>
-
-      <p class="help">
-        The button is disabled because the secure upload and review process
-        has not been connected. Nothing on this draft form is submitted.
-      </p>
-    </section>
-
+    <button id="submit-button" type="submit">Submit for Review</button>
+    <p id="message" role="status" aria-live="polite"></p>
   </form>
+</section>
 </main>
 
-<footer>
-  The Cantina Club — A Galaxy of Cards
-</footer>
+<footer>The Cantina Club · Star Wars Trading Card Archive</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../../../supabase-config.js"></script>
 <script>
-  document.getElementById("new-card-form").addEventListener(
-    "submit",
-    function (event) {
-      event.preventDefault();
-      alert("The Sketch Vault submission system is not connected yet.");
+(() => {
+  const form = document.getElementById("new-card-form");
+  const button = document.getElementById("submit-button");
+  const message = document.getElementById("message");
+  const MAX_SIZE = 10 * 1024 * 1024;
+  const SET_SLUG = "2004-topps-star-wars-heritage-brandon-mckinney-sketches";
+
+  function showMessage(text, isError = false) {
+    message.textContent = text;
+    message.style.color = isError ? "#ff9b9b" : "var(--gold)";
+  }
+
+  function getClient() {
+    if (!window.supabase || !window.CANTINA_SUPABASE_URL ||
+        !window.CANTINA_SUPABASE_KEY) {
+      throw new Error("The Supabase configuration could not be loaded.");
     }
-  );
+    return window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
+  }
+
+  function validatePhoto(file, required) {
+    if (!file) {
+      if (required) throw new Error("Please select a front photograph.");
+      return;
+    }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      throw new Error("Photos must be JPEG, PNG or WebP files.");
+    }
+    if (file.size > MAX_SIZE) {
+      throw new Error("Each photograph must be 10 MB or smaller.");
+    }
+  }
+
+  function extensionFor(file) {
+    if (file.type === "image/png") return "png";
+    if (file.type === "image/webp") return "webp";
+    return "jpg";
+  }
+
+  async function uploadPhoto(client, submissionId, side, file) {
+    if (!file) return null;
+    const path = submissionId + "/" + side + "." + extensionFor(file);
+    const { error } = await client.storage
+      .from("card-submissions")
+      .upload(path, file, {
+        upsert: false,
+        contentType: file.type
+      });
+    if (error) throw error;
+    return path;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    button.disabled = true;
+    showMessage("Submitting your card…");
+
+    let client;
+    let submissionId;
+    let frontPath;
+    let backPath;
+
+    try {
+      const data = new FormData(form);
+      const frontFile = data.get("front_photo");
+      const backFile = data.get("back_photo");
+
+      validatePhoto(frontFile, true);
+      validatePhoto(backFile, false);
+
+      client = getClient();
+      submissionId = crypto.randomUUID();
+
+      frontPath = await uploadPhoto(client, submissionId, "front", frontFile);
+      backPath = await uploadPhoto(client, submissionId, "back", backFile);
+
+      const submittedData = {
+        year: "2004",
+        set: "2004 Topps Star Wars Heritage",
+        artist: "Brandon McKinney",
+        subject: String(data.get("subject") || "").trim(),
+        subject_type: String(data.get("subject_type") || ""),
+        original_code: String(data.get("original_code") || "").trim(),
+        card_details: String(data.get("card_details") || "").trim(),
+        photo_notes: String(data.get("photo_notes") || "").trim(),
+        display_name: String(data.get("display_name") || "").trim(),
+        submission_kind: "new_sketch"
+      };
+
+      const { error } = await client
+        .from("card_submissions")
+        .insert({
+          id: submissionId,
+          set_slug: SET_SLUG,
+          card_number: "PENDING-" + submissionId,
+          submission_type: "new_sketch",
+          submitted_data: submittedData,
+          front_image_path: frontPath,
+          back_image_path: backPath,
+          status: "pending"
+        });
+
+      if (error) throw error;
+
+      form.reset();
+      showMessage(
+        "Thank you! Your sketch card has been submitted for review. " +
+        "It will appear in the gallery only after an administrator approves it."
+      );
+    } catch (error) {
+      console.error("Sketch Vault submission failed:", error);
+      showMessage(
+        "We could not complete your submission: " +
+        (error.message || "Unknown error") +
+        "\nPlease try again. If this continues, contact the site administrator.",
+        true
+      );
+    } finally {
+      button.disabled = false;
+    }
+  });
+})();
 </script>
 </body>
 </html>
