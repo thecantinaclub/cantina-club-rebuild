@@ -527,6 +527,49 @@
     }
 }
 
+    async function approveSubmission() {
+      const { data: existingCards, error: listError } = await client
+        .from("approved_cards")
+        .select("card_number")
+        .eq(
+          "set_slug",
+          "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
+        );
+
+      if (listError) throw listError;
+
+      const usedNumbers = (existingCards || [])
+        .map(card => Number(card.card_number))
+        .filter(number => Number.isInteger(number) && number > 0);
+
+      const number = String(
+        usedNumbers.length ? Math.max(...usedNumbers) + 1 : 1
+      );
+
+      numberInput.value = number;
+
+      const { error } = await client.rpc("approve_card_submission", {
+        p_submission_id: item.id,
+        p_card_number: number,
+        p_card_data: getEditedData(),
+        p_admin_notes: notesInput.value.trim()
+      });
+
+      if (error) throw error;
+
+      if (item.front_image_path || item.back_image_path) {
+        try {
+          await publishApprovedPhotos(item, number);
+        } catch (photoError) {
+          throw new Error(
+            "The card was approved, but its photos could not be published. " +
+            "Refresh submissions and use Publish approved photos to retry. " +
+            photoError.message
+          );
+        }
+      }
+    }
+
     async function rejectSubmission() {
       const { error } = await client
         .from("card_submissions")
