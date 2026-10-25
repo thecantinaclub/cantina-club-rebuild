@@ -685,7 +685,33 @@
       const saveButton = makeElement("button", "", "Save card edits");
       saveButton.type = "submit";
       form.appendChild(saveButton);
+      const deleteButton = makeElement("button", "reject", "Delete card");
+      deleteButton.type = "button";
+      form.appendChild(deleteButton);
 
+      deleteButton.addEventListener("click", async () => {
+        if (!confirm(
+          "Permanently delete card #" + item.card_number +
+          " from the approved cards database? This cannot be undone."
+        )) return;
+
+        deleteButton.disabled = true;
+        message.textContent = "Deleting…";
+
+        try {
+          const { error } = await client
+            .from("approved_cards")
+            .delete()
+            .eq("id", item.id);
+
+          if (error) throw error;
+
+          await loadApprovedCards();
+        } catch (error) {
+          message.textContent = "Delete failed: " + error.message;
+          deleteButton.disabled = false;
+        }
+      });
       const message = makeElement("p", "status");
       form.appendChild(message);
 
