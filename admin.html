@@ -639,10 +639,10 @@
     container.replaceChildren();
     container.textContent = "Loading approved cards…";
 
-    const { data, error } = await client
+        const { data, error } = await client
       .from("approved_cards")
       .select("id, set_slug, card_number, card_data, front_image_path, back_image_path")
-      .order("set_slug", { ascending: true })
+      .eq("set_slug", "2004-topps-star-wars-heritage-brandon-mckinney-sketches")
       .order("card_number", { ascending: true });
 
     if (error) {
