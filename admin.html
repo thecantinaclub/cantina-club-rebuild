@@ -131,7 +131,15 @@
       </button>
       <p id="list-status" class="status" role="status"></p>
     </div>
-
+    <section aria-labelledby="approved-cards-heading">
+      <div class="section-heading">
+        <h2 id="approved-cards-heading">Approved Cards — Edit</h2>
+        <button id="load-approved-cards" type="button" class="secondary">
+          Load approved cards
+        </button>
+      </div>
+      <div id="approved-cards-list"></div>
+    </section>
     <section aria-labelledby="pending-heading">
       <div class="section-heading">
         <h2 id="pending-heading">Pending submissions</h2>
@@ -626,7 +634,49 @@
 
     return card;
   }
+  async function loadApprovedCards() {
+    const container = document.getElementById("approved-cards-list");
+    container.replaceChildren();
+    container.textContent = "Loading approved cards…";
 
+    const { data, error } = await client
+      .from("approved_cards")
+      .select("id, set_slug, card_number, card_data, front_image_path, back_image_path")
+      .order("set_slug", { ascending: true })
+      .order("card_number", { ascending: true });
+
+    if (error) {
+      console.error("Could not load approved cards:", error);
+      container.textContent = "Could not load approved cards: " + error.message;
+      return;
+    }
+
+    container.replaceChildren();
+
+    if (!data || data.length === 0) {
+      container.textContent = "No approved cards found.";
+      return;
+    }
+
+    data.forEach(item => {
+      const card = makeElement("article", "submission");
+      card.appendChild(makeElement(
+        "h3", "", item.set_slug + " — Card #" + item.card_number
+      ));
+
+      const details = makeElement("pre", "muted");
+      details.style.whiteSpace = "pre-wrap";
+      details.textContent = JSON.stringify(item.card_data, null, 2);
+      card.appendChild(details);
+
+      container.appendChild(card);
+    });
+
+    container.insertAdjacentText(
+      "afterbegin",
+      "Loaded " + data.length + " approved cards. "
+    );
+  }
   let loading = false;
 
   async function loadSubmissions() {
@@ -712,7 +762,9 @@
   document.getElementById("refresh-button").addEventListener(
     "click", loadSubmissions
   );
-
+  document.getElementById("load-approved-cards").addEventListener(
+    "click", loadApprovedCards
+  );
   document.getElementById("logout-button").addEventListener(
     "click", async () => {
       await client.auth.signOut();
