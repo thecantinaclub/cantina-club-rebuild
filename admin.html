@@ -663,14 +663,14 @@
       card.appendChild(makeElement(
         "h3", "", item.set_slug + " — Card #" + item.card_number
       ));
-    const images = element("div", "approved-card-images");
+    const images = makeElement("div", "approved-card-images");
 
     for (const [label, path] of [
       ["Front", item.front_image_path],
       ["Back", item.back_image_path]
     ]) {
       const preview = element("div");
-      preview.appendChild(element("p", "", label));
+      preview.appendChild(makeElement("p", "", "No image"));
 
       if (path) {
         const { data: imageData } = client.storage
@@ -686,7 +686,7 @@
         img.style.display = "block";
         preview.appendChild(img);
       } else {
-        preview.appendChild(element("p", "", "No image"));
+        preview.appendChild(makeElement("p", "", "No image"));
       }
 
       images.appendChild(preview);
