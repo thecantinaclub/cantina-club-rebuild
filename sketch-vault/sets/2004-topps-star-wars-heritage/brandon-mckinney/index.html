@@ -7,70 +7,50 @@
 <title>Brandon McKinney | 2004 Topps Star Wars Heritage | The Cantina Club</title>
 <style>
 :root {
-  --bg: #090b10;
-  --panel: #141923;
-  --gold: #e4c16f;
-  --text: #f3f0e8;
-  --muted: #a6adbb;
-  --border: #303746;
+  --bg:#090b10; --panel:#141923; --gold:#e4c16f;
+  --text:#f3f0e8; --muted:#a6adbb; --border:#303746;
 }
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,sans-serif; line-height:1.6;
 }
-header, main, footer {
-  width: min(100% - 32px, 1100px);
-  margin: auto;
-}
-header {
-  padding: 32px 0 20px;
-  border-bottom: 1px solid var(--border);
-}
-.brand {
-  color: var(--gold);
-  font-size: 13px;
-  letter-spacing: 3px;
-  font-weight: bold;
-}
-h1 { margin: 12px 0 4px; font-size: clamp(30px, 5vw, 44px); }
-h2 { color: var(--gold); margin-top: 30px; }
-p { color: var(--muted); }
-a { color: var(--gold); }
-.back { display: inline-block; margin: 8px 18px 0 0; }
+header,main,footer { width:min(100% - 32px,1100px); margin:auto; }
+header { padding:32px 0 20px; border-bottom:1px solid var(--border); }
+.brand { color:var(--gold); font-size:13px; letter-spacing:3px; font-weight:bold; }
+h1 { margin:12px 0 4px; font-size:clamp(30px,5vw,44px); }
+h2 { color:var(--gold); margin-top:30px; }
+p { color:var(--muted); }
+a { color:var(--gold); }
+.back { display:inline-block; margin:8px 18px 0 0; }
 .info {
-  margin-top: 24px;
-  padding: 20px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  margin-top:24px; padding:20px; background:var(--panel);
+  border:1px solid var(--border); border-radius:8px;
 }
-.info p { margin: 6px 0; }
+.info p { margin:6px 0; }
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin: 20px 0 40px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px; margin:20px 0 40px;
 }
+.card {
+  padding:16px; background:var(--panel);
+  border:1px solid var(--border); border-radius:8px;
+}
+.card h3 { color:var(--gold); margin:0 0 8px; }
+.photos { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.photos img {
+  width:100%; aspect-ratio:3/4; object-fit:contain;
+  background:#090b10; border:1px solid var(--border); border-radius:5px;
+}
+.photo-label { font-size:12px; color:var(--muted); margin:4px 0 10px; }
 .placeholder {
-  min-height: 210px;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  text-align: center;
-  background: var(--panel);
-  border: 1px dashed var(--border);
-  border-radius: 8px;
-  color: var(--muted);
+  padding:24px; text-align:center; background:var(--panel);
+  border:1px dashed var(--border); border-radius:8px; color:var(--muted);
 }
+#gallery-status { min-height:24px; }
 footer {
-  border-top: 1px solid var(--border);
-  padding: 20px 0 32px;
-  color: var(--muted);
-  font-size: 13px;
+  border-top:1px solid var(--border); padding:20px 0 32px;
+  color:var(--muted); font-size:13px;
 }
 </style>
 </head>
@@ -80,7 +60,6 @@ footer {
   <h1>Brandon McKinney</h1>
   <p>Star Wars Sketch Card Artist</p>
   <a class="back" href="../">← 2004 Heritage set</a>
-<!-- The old All artists link has been removed. -->
 </header>
 
 <main>
@@ -90,6 +69,7 @@ footer {
     <p><strong>Wave:</strong> Wave 1</p>
     <p><strong>Sketch Card Level:</strong> Level A</p>
   </section>
+
   <section class="info">
     <h2>Have a Brandon McKinney Sketch Card?</h2>
     <p>
@@ -98,28 +78,147 @@ footer {
       the 2004 Topps Star Wars Heritage set, we'd love
       to add it to the archive.
     </p>
-    <p>
-      Submissions are reviewed before they appear
-      in the public gallery.
-    </p>
+    <p>Submissions are reviewed before they appear in the public gallery.</p>
     <a class="back" href="../contribute.html"
-       style="display:inline-block; background:var(--gold); color:#090b10;
-       padding:10px 18px; border-radius:6px; font-weight:bold;
-       text-decoration:none;">
+       style="display:inline-block;background:var(--gold);color:#090b10;
+       padding:10px 18px;border-radius:6px;font-weight:bold;text-decoration:none;">
       Contribute a Card
     </a>
   </section>
+
   <section>
     <h2>Sketch Card Gallery</h2>
-    <p>Card images and individual card details will appear here as the archive develops.</p>
-    <div class="gallery">
-      <div class="placeholder">No sketch cards have been added to this gallery yet.</div>
+    <p id="gallery-status">Loading approved sketch cards…</p>
+    <div id="gallery" class="gallery">
+      <div class="placeholder">Loading gallery…</div>
     </div>
   </section>
 </main>
 
-<footer>
-  The Cantina Club · Star Wars Trading Card Archive
-</footer>
+<footer>The Cantina Club · Star Wars Trading Card Archive</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../../../../supabase-config.js"></script>
+<script>
+(async () => {
+  const gallery = document.getElementById("gallery");
+  const status = document.getElementById("gallery-status");
+  const SET_SLUG = "2004-topps-star-wars-heritage-brandon-mckinney-sketches";
+
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function addPhoto(container, label, url) {
+    if (!url) return;
+    const wrap = element("div");
+    const img = element("img");
+    img.src = url;
+    img.alt = label + " photograph";
+    img.loading = "lazy";
+    img.onerror = () => wrap.remove();
+    wrap.appendChild(img);
+    wrap.appendChild(element("div", "photo-label", label));
+    container.appendChild(wrap);
+  }
+
+  try {
+    if (!window.supabase || !window.CANTINA_SUPABASE_URL ||
+        !window.CANTINA_SUPABASE_KEY) {
+      throw new Error("Supabase configuration is unavailable.");
+    }
+
+    const client = window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
+
+    const { data, error } = await client
+      .from("approved_cards")
+      .select("card_number,card_data,front_image_path,back_image_path")
+      .eq("set_slug", SET_SLUG)
+      .order("card_number", { ascending: true });
+
+    if (error) throw error;
+
+    gallery.replaceChildren();
+
+    if (!data || data.length === 0) {
+      gallery.appendChild(element(
+        "div", "placeholder",
+        "No approved sketch cards have been added to this gallery yet."
+      ));
+      status.textContent = "Approved sketch cards will appear here.";
+      return;
+    }
+
+    for (const card of data) {
+      const details = card.card_data || {};
+      const box = element("article", "card");
+      const subject = details.subject || details.title || "Sketch Card";
+      box.appendChild(element("h3", "", subject));
+
+      if (card.card_number) {
+        box.appendChild(element("p", "", "Card reference: " + card.card_number));
+      }
+
+      if (details.artist) {
+        box.appendChild(element("p", "", "Artist: " + details.artist));
+      }
+
+      const photos = element("div", "photos");
+
+      for (const [side, path] of [
+        ["Front", card.front_image_path],
+        ["Back", card.back_image_path]
+      ]) {
+        if (!path) continue;
+
+        const { data: imageData } = client.storage
+  .from("approved-card-images")
+  .getPublicUrl(path);
+
+if (imageData && imageData.publicUrl) {
+  addPhoto(photos, side, imageData.publicUrl);
+}
+          .from("approved-card-images")
+          .createSignedUrl(path, 3600);
+
+        if (!imageError && imageData && imageData.signedUrl) {
+          addPhoto(photos, side, imageData.signedUrl);
+        } else {
+          console.warn("Could not load approved card photo:", side, imageError);
+        }
+      }
+
+      if (photos.childElementCount) {
+        box.appendChild(photos);
+      } else {
+        box.appendChild(element(
+          "p", "muted", "Photographs are not currently available."
+        ));
+      }
+
+      if (details.card_details) {
+        box.appendChild(element("p", "", details.card_details));
+      }
+
+      gallery.appendChild(box);
+    }
+
+    status.textContent = data.length + " approved sketch card(s) in the gallery.";
+  } catch (error) {
+    console.error("Gallery loading failed:", error);
+    gallery.replaceChildren(element(
+      "div", "placeholder",
+      "The gallery could not load right now. Please try again later."
+    ));
+    status.textContent = "Unable to load approved sketch cards.";
+  }
+})();
+</script>
 </body>
 </html>
