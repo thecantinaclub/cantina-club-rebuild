@@ -707,8 +707,10 @@
           if (error) throw error;
 
           await loadApprovedCards();
-        } catch (error) {
+                } catch (error) {
+          console.error("Delete failed:", error);
           message.textContent = "Delete failed: " + error.message;
+          alert("Delete failed: " + error.message);
           deleteButton.disabled = false;
         }
       });
