@@ -513,20 +513,6 @@
       if (error) throw error;
     }
 
-   
-    if (item.front_image_path || item.back_image_path) {
-      try {
-        await publishApprovedPhotos(item, number);
-      } catch (photoError) {
-        throw new Error(
-          "The card was approved, but its photos could not be published. " +
-          "Refresh submissions and use Publish approved photos to retry. " +
-          photoError.message
-        );
-      }
-    }
-}
-
     async function approveSubmission() {
       const { data: existingCards, error: listError } = await client
         .from("approved_cards")
