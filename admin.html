@@ -663,7 +663,39 @@
       card.appendChild(makeElement(
         "h3", "", item.set_slug + " — Card #" + item.card_number
       ));
+    const images = element("div", "approved-card-images");
 
+    for (const [label, path] of [
+      ["Front", item.front_image_path],
+      ["Back", item.back_image_path]
+    ]) {
+      const preview = element("div");
+      preview.appendChild(element("p", "", label));
+
+      if (path) {
+        const { data: imageData } = client.storage
+          .from("approved-card-images")
+          .getPublicUrl(path);
+
+        const img = document.createElement("img");
+        img.src = imageData.publicUrl;
+        img.alt = label + " of card #" + item.card_number;
+        img.style.width = "120px";
+        img.style.maxHeight = "170px";
+        img.style.objectFit = "contain";
+        img.style.display = "block";
+        preview.appendChild(img);
+      } else {
+        preview.appendChild(element("p", "", "No image"));
+      }
+
+      images.appendChild(preview);
+    }
+
+    images.style.display = "flex";
+    images.style.gap = "16px";
+    images.style.margin = "12px 0";
+    card.appendChild(images);
            const form = makeElement("form");
       const cardData = item.card_data || {};
 
