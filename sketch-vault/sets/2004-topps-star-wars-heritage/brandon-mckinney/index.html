@@ -98,7 +98,7 @@ footer {
 <footer>The Cantina Club · Star Wars Trading Card Archive</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../../../../../supabase-config.js"></script>
+<script src="/cantina-club-rebuild/supabase-config.js"></script>
 <script>
 (async () => {
   const gallery = document.getElementById("gallery");
@@ -169,7 +169,7 @@ footer {
         box.appendChild(element("p", "", "Artist: " + details.artist));
       }
 
-      const photos = element("div", "photos");
+           const photos = element("div", "photos");
 
       for (const [side, path] of [
         ["Front", card.front_image_path],
@@ -177,21 +177,22 @@ footer {
       ]) {
         if (!path) continue;
 
-      const { data: imageData } = client.storage
-  .from("approved-card-images")
-  .getPublicUrl(path);
+        const { data: imageData } = client.storage
+          .from("approved-card-images")
+          .getPublicUrl(path);
 
-if (imageData && imageData.publicUrl) {
-  addPhoto(photos, side, imageData.publicUrl);
-}
+        if (imageData && imageData.publicUrl) {
+          addPhoto(photos, side, imageData.publicUrl);
+        }
+      }
 
-if (photos.childElementCount) {
-  box.appendChild(photos);
-} else {
-  box.appendChild(element(
-    "p", "muted", "Photographs are not currently available."
-  ));
-}
+      if (photos.childElementCount) {
+        box.appendChild(photos);
+      } else {
+        box.appendChild(element(
+          "p", "muted", "Photographs are not currently available."
+        ));
+      }
       if (details.card_details) {
         box.appendChild(element("p", "", details.card_details));
       }
