@@ -705,7 +705,7 @@
             .from("approved_cards")
             .delete()
             .eq("id", item.id);
-
+alert("Supabase delete request returned.");
           if (error) throw error;
 
           await loadApprovedCards();
