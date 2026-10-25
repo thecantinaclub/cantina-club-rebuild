@@ -701,12 +701,23 @@
         message.textContent = "Deleting…";
 
         try {
-          const { error } = await client
-            .from("approved_cards")
-            .delete()
-            .eq("id", item.id);
-alert("Supabase delete request returned.");
-          if (error) throw error;
+          
+const { data, error } = await client
+  .from("approved_cards")
+  .delete()
+  .eq("id", item.id)
+  .select("id");
+
+if (error) throw error;
+
+if (!data || data.length === 0) {
+  throw new Error(
+    "Supabase did not delete any row. Check the table permissions (RLS)."
+  );
+}
+
+alert("Card deleted successfully.");
+
 
           await loadApprovedCards();
                 } catch (error) {
