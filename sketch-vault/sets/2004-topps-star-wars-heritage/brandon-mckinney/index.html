@@ -177,31 +177,21 @@ footer {
       ]) {
         if (!path) continue;
 
-        const { data: imageData } = client.storage
+      const { data: imageData } = client.storage
   .from("approved-card-images")
   .getPublicUrl(path);
 
 if (imageData && imageData.publicUrl) {
   addPhoto(photos, side, imageData.publicUrl);
 }
-          .from("approved-card-images")
-          .createSignedUrl(path, 3600);
 
-        if (!imageError && imageData && imageData.signedUrl) {
-          addPhoto(photos, side, imageData.signedUrl);
-        } else {
-          console.warn("Could not load approved card photo:", side, imageError);
-        }
-      }
-
-      if (photos.childElementCount) {
-        box.appendChild(photos);
-      } else {
-        box.appendChild(element(
-          "p", "muted", "Photographs are not currently available."
-        ));
-      }
-
+if (photos.childElementCount) {
+  box.appendChild(photos);
+} else {
+  box.appendChild(element(
+    "p", "muted", "Photographs are not currently available."
+  ));
+}
       if (details.card_details) {
         box.appendChild(element("p", "", details.card_details));
       }
