@@ -664,10 +664,64 @@
         "h3", "", item.set_slug + " — Card #" + item.card_number
       ));
 
-      const details = makeElement("pre", "muted");
-      details.style.whiteSpace = "pre-wrap";
-      details.textContent = JSON.stringify(item.card_data, null, 2);
-      card.appendChild(details);
+           const form = makeElement("form");
+      const cardData = item.card_data || {};
+
+      const numberLabel = makeElement("label", "", "Card number");
+      const numberInput = makeElement("input");
+      numberInput.value = item.card_number || "";
+      numberInput.required = true;
+      form.append(numberLabel, numberInput);
+
+      const fields = {};
+      Object.entries(cardData).forEach(([key, value]) => {
+        const label = makeElement("label", "", key.replace(/_/g, " "));
+        const input = makeElement("input");
+        input.value = value == null ? "" : String(value);
+        fields[key] = input;
+        form.append(label, input);
+      });
+
+      const saveButton = makeElement("button", "", "Save card edits");
+      saveButton.type = "submit";
+      form.appendChild(saveButton);
+
+      const message = makeElement("p", "status");
+      form.appendChild(message);
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        if (!confirm("Save changes to this approved card?")) return;
+
+        saveButton.disabled = true;
+        message.textContent = "Saving…";
+
+        try {
+          const updatedData = {};
+          Object.entries(fields).forEach(([key, input]) => {
+            updatedData[key] = input.value;
+          });
+          updatedData.card_number = numberInput.value.trim();
+
+          const { error } = await client
+            .from("approved_cards")
+            .update({
+              card_number: numberInput.value.trim(),
+              card_data: updatedData
+            })
+            .eq("id", item.id);
+
+          if (error) throw error;
+
+          message.textContent = "Card updated successfully.";
+          await loadApprovedCards();
+        } catch (error) {
+          message.textContent = "Save failed: " + error.message;
+          saveButton.disabled = false;
+        }
+      });
+
+      card.appendChild(form);
 
       container.appendChild(card);
     });
