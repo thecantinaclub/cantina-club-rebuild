@@ -162,8 +162,8 @@ footer {
       box.appendChild(element("h3", "", subject));
 
       if (card.card_number) {
-        box.appendChild(element("p", "", "Card reference: " + card.card_number));
-      }
+  box.appendChild(element("p", "", "Card number: #" + String(card.card_number).replace(/^#+/, "")));
+}
 
       if (details.artist) {
         box.appendChild(element("p", "", "Artist: " + details.artist));
