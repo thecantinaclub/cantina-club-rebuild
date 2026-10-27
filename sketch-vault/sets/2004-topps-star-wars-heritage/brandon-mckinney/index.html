@@ -35,9 +35,13 @@ a { color:var(--gold); }
 .card {
   padding:16px; background:var(--panel);
   border:1px solid var(--border); border-radius:8px;
+  min-width:0;
 }
 .card h3 { color:var(--gold); margin:0 0 8px; }
-.photos { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.photos {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+  gap:10px;
+}
 .photos img {
   width:100%; aspect-ratio:3/4; object-fit:contain;
   background:#090b10; border:1px solid var(--border); border-radius:5px;
@@ -48,6 +52,24 @@ a { color:var(--gold); }
   border:1px dashed var(--border); border-radius:8px; color:var(--muted);
 }
 #gallery-status { min-height:24px; }
+.card-details {
+  margin-top:14px; padding-top:12px; border-top:1px solid var(--border);
+}
+.detail-row {
+  padding:7px 0; border-bottom:1px solid var(--border);
+  overflow-wrap:anywhere;
+}
+.detail-row strong { color:var(--text); }
+.card-button {
+  display:inline-block; margin-top:12px; margin-right:6px;
+  padding:9px 13px; border:1px solid var(--gold); border-radius:6px;
+  background:transparent; color:var(--gold); font-weight:bold;
+  cursor:pointer;
+}
+.card-button.primary {
+  background:var(--gold); color:#090b10;
+}
+.card-button:hover { opacity:.85; }
 footer {
   border-top:1px solid var(--border); padding:20px 0 32px;
   color:var(--muted); font-size:13px;
@@ -114,15 +136,73 @@ footer {
 
   function addPhoto(container, label, url) {
     if (!url) return;
+
     const wrap = element("div");
     const img = element("img");
     img.src = url;
     img.alt = label + " photograph";
     img.loading = "lazy";
     img.onerror = () => wrap.remove();
+
     wrap.appendChild(img);
     wrap.appendChild(element("div", "photo-label", label));
     container.appendChild(wrap);
+  }
+
+  function photoPaths(value, label = "Additional photo") {
+    if (!value) return [];
+
+    if (typeof value === "string") {
+      return [{ label, path: value }];
+    }
+
+    if (Array.isArray(value)) {
+      return value.flatMap((item, index) =>
+        photoPaths(item, "Additional photo " + (index + 1))
+      );
+    }
+
+    if (typeof value === "object") {
+      const path = value.path || value.image_path || value.storage_path;
+      if (typeof path === "string") {
+        return [{
+          label: value.label || value.title || label,
+          path
+        }];
+      }
+    }
+
+    return [];
+  }
+
+  function getAdditionalPhotos(card, details) {
+    const candidates = [
+      card.additional_image_paths,
+      card.additional_photos,
+      details.additional_image_paths,
+      details.additional_photos,
+      details.photos
+    ];
+
+    const found = [];
+    const seen = new Set();
+
+    for (const candidate of candidates) {
+      for (const photo of photoPaths(candidate)) {
+        if (!photo.path || seen.has(photo.path)) continue;
+        seen.add(photo.path);
+        found.push(photo);
+      }
+    }
+
+    return found;
+  }
+
+  function displayValue(value) {
+    if (value === null || value === undefined || value === "") return "";
+    if (Array.isArray(value)) return value.map(displayValue).filter(Boolean).join(", ");
+    if (typeof value === "object") return JSON.stringify(value);
+    return String(value);
   }
 
   try {
@@ -138,7 +218,7 @@ footer {
 
     const { data, error } = await client
       .from("approved_cards")
-      .select("id,card_number,card_data,front_image_path,back_image_path")
+      .select("*")
       .eq("set_slug", SET_SLUG)
       .order("card_number", { ascending: true });
 
@@ -155,22 +235,26 @@ footer {
       return;
     }
 
-        for (const card of data) {
+    for (const card of data) {
       const details = card.card_data || {};
       const box = element("article", "card");
       box.dataset.cardId = card.id;
+
       const subject = details.subject || details.title || "Sketch Card";
       box.appendChild(element("h3", "", subject));
 
-      if (card.card_number) {
-  box.appendChild(element("p", "", "Card number: #" + String(card.card_number).replace(/^#+/, "")));
-}
+      if (card.card_number !== null && card.card_number !== undefined) {
+        box.appendChild(element(
+          "p", "",
+          "Card number: #" + String(card.card_number).replace(/^#+/, "")
+        ));
+      }
 
       if (details.artist) {
         box.appendChild(element("p", "", "Artist: " + details.artist));
       }
 
-           const photos = element("div", "photos");
+      const photos = element("div", "photos");
 
       for (const [side, path] of [
         ["Front", card.front_image_path],
@@ -191,29 +275,102 @@ footer {
         box.appendChild(photos);
       } else {
         box.appendChild(element(
-          "p", "muted", "Photographs are not currently available."
+          "p", "",
+          "Photographs are not currently available."
         ));
       }
-            if (details.card_details) {
-        box.appendChild(element("p", "", details.card_details));
+
+      const detailsPanel = element("section", "card-details");
+      detailsPanel.hidden = true;
+      detailsPanel.appendChild(element("h4", "", "Approved Card Details"));
+
+      const excludedKeys = new Set([
+        "subject", "title", "artist", "card_details",
+        "additional_image_paths", "additional_photos", "photos",
+        "front_image_path", "back_image_path"
+      ]);
+
+      let detailCount = 0;
+
+      for (const [key, value] of Object.entries(details)) {
+        if (excludedKeys.has(key)) continue;
+        const text = displayValue(value);
+        if (!text) continue;
+
+        const row = element("div", "detail-row");
+        const label = key
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, char => char.toUpperCase());
+
+        row.appendChild(element("strong", "", label + ": "));
+        row.appendChild(document.createTextNode(text));
+        detailsPanel.appendChild(row);
+        detailCount++;
       }
+
+      if (details.card_details) {
+        const row = element("div", "detail-row");
+        row.appendChild(element("strong", "", "Card Details: "));
+        row.appendChild(document.createTextNode(String(details.card_details)));
+        detailsPanel.appendChild(row);
+        detailCount++;
+      }
+
+      const additionalPhotos = getAdditionalPhotos(card, details);
+
+      if (additionalPhotos.length) {
+        detailsPanel.appendChild(element("h4", "", "Additional Approved Photos"));
+        const extraGallery = element("div", "photos");
+
+        for (const photo of additionalPhotos) {
+          const { data: imageData } = client.storage
+            .from("approved-card-images")
+            .getPublicUrl(photo.path);
+
+          if (imageData && imageData.publicUrl) {
+            addPhoto(extraGallery, photo.label, imageData.publicUrl);
+          }
+        }
+
+        if (extraGallery.childElementCount) {
+          detailsPanel.appendChild(extraGallery);
+        }
+      }
+
+      if (detailCount === 0 && additionalPhotos.length === 0) {
+        detailsPanel.appendChild(element(
+          "p", "",
+          "No additional approved details or photographs are available."
+        ));
+      }
+
+      const viewButton = element("button", "card-button primary", "View Card");
+      viewButton.type = "button";
+      viewButton.setAttribute("aria-expanded", "false");
+
+      viewButton.addEventListener("click", () => {
+        const opening = detailsPanel.hidden;
+        detailsPanel.hidden = !opening;
+        viewButton.textContent = opening ? "Hide Card Details" : "View Card";
+        viewButton.setAttribute("aria-expanded", String(opening));
+      });
+
+      box.appendChild(viewButton);
+      box.appendChild(detailsPanel);
 
       const contributeButton = element(
         "button",
-        "contribute-button",
+        "card-button",
         "Add Information / Photos"
       );
 
       contributeButton.type = "button";
       contributeButton.addEventListener("click", () => {
         window.location.href =
-          "../contribute.html?card_id=" +
-          encodeURIComponent(card.id);
+          "../contribute.html?card_id=" + encodeURIComponent(card.id);
       });
 
       box.appendChild(contributeButton);
-      gallery.appendChild(box);
-
       gallery.appendChild(box);
     }
 
