@@ -163,6 +163,19 @@
       </div>
       <div id="rejected-submissions"></div>
     </section>
+        <section aria-labelledby="contributions-heading">
+      <div class="section-heading">
+        <h2 id="contributions-heading">Existing Card Contributions</h2>
+        <span id="contributions-count" class="count">0</span>
+      </div>
+      <p class="muted">
+        Review additional information and photos submitted for existing cards.
+        Changes appear publicly only after approval.
+      </p>
+      <div id="card-contributions-list">
+  <p class="empty">Contribution review will be connected next.</p>
+</div>
+    </section>
   </section>
 </main>
 
@@ -911,7 +924,50 @@
       loading = false;
     }
   }
+  async function loadCardContributions() {
+    const container = document.getElementById("card-contributions-list");
+    const count = document.getElementById("contributions-count");
 
+    container.replaceChildren();
+    container.textContent = "Loading contributions…";
+
+    const { data, error } = await client
+      .from("card_contributions")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Could not load contributions:", error);
+      container.textContent = "Could not load contributions: " + error.message;
+      count.textContent = "0";
+      return;
+    }
+
+    container.replaceChildren();
+    count.textContent = String((data || []).length);
+
+    if (!data || data.length === 0) {
+      container.textContent = "No card contributions yet.";
+      return;
+    }
+
+    data.forEach(item => {
+      const card = makeElement("article", "submission");
+      card.appendChild(makeElement(
+        "h3", "", "Contribution — " + item.status
+      ));
+      card.appendChild(makeElement(
+        "p", "muted", "Submitted: " + formatDate(item.created_at)
+      ));
+      card.appendChild(makeElement(
+        "p", "", "Contributor: " + (item.contributor_name || "Anonymous")
+      ));
+      card.appendChild(makeElement(
+        "pre", "", JSON.stringify(item.suggested_details || {}, null, 2)
+      ));
+      container.appendChild(card);
+    });
+  }
   loginForm.addEventListener("submit", async event => {
     event.preventDefault();
     loginStatus.textContent = "Signing in…";
@@ -932,11 +988,15 @@
 
     showSignedIn(data.user);
     await loadSubmissions();
+    await loadCardContributions();
   });
 
   document.getElementById("refresh-button").addEventListener(
-    "click", loadSubmissions
-  );
+  "click", async () => {
+    await loadSubmissions();
+    await loadCardContributions();
+  }
+);
   document.getElementById("load-approved-cards").addEventListener(
     "click", loadApprovedCards
   );
@@ -961,6 +1021,7 @@
 
     showSignedIn(data.session.user);
     await loadSubmissions();
+    await loadCardContributions();
   });
 })();
 </script>
