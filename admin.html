@@ -788,7 +788,10 @@ for (const [index, card] of (remainingCards || []).entries()) {
     .update({ card_number: String(index + 1) })
     .eq("id", card.id);
 
-  if (error) throw error;
+  if (error) {
+    message.textContent = "Renumbering failed: " + error.message;
+    throw error;
+  }
 }
 
 message.textContent = "Card deleted and remaining cards renumbered.";
