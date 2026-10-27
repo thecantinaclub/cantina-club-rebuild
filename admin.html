@@ -1000,15 +1000,27 @@
       const fields = {};
 
       Object.entries(suggested).forEach(([key, value]) => {
-        const label = makeElement(
-          "label", "", key.replace(/_/g, " ")
-        );
-        const input = makeElement("input");
-        input.value = value == null ? "" : String(value);
-        input.dataset.fieldKey = key;
-        fields[key] = input;
-        form.append(label, input);
-      });
+  const fieldWrap = makeElement("div", "contribution-field");
+  fieldWrap.style.marginBottom = "12px";
+
+  const label = makeElement(
+    "label", "", key.replace(/_/g, " ")
+  );
+  label.style.display = "block";
+  label.style.marginBottom = "4px";
+  label.style.fontWeight = "600";
+
+  const input = makeElement("input");
+  input.value = value == null ? "" : String(value);
+  input.dataset.fieldKey = key;
+  input.style.display = "block";
+  input.style.width = "100%";
+  input.style.boxSizing = "border-box";
+
+  fields[key] = input;
+  fieldWrap.append(label, input);
+  form.appendChild(fieldWrap);
+});
 
       const notesLabel = makeElement("label", "", "Admin notes");
       const notesInput = makeElement("textarea");
