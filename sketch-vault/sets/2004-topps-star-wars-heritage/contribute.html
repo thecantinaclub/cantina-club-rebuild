@@ -156,14 +156,19 @@ if (targetCardId) {
     );
   }
 
+  
   function validatePhoto(file, required) {
-    if (!file) {
-      if (required) throw new Error("Please select a front photograph.");
+    if (!file || file.size === 0) {
+      if (required) {
+        throw new Error("Please select a front photograph.");
+      }
       return;
     }
+
     if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
       throw new Error("Photos must be JPEG, PNG or WebP files.");
     }
+
     if (file.size > MAX_SIZE) {
       throw new Error("Each photograph must be 10 MB or smaller.");
     }
