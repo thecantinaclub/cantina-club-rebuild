@@ -1008,6 +1008,27 @@
       photoSection.appendChild(photoStatus);
 
       form.appendChild(photoSection);
+            const photoColumns = makeElement("div", "photo-grid");
+      photoColumns.style.display = "grid";
+      photoColumns.style.gridTemplateColumns =
+        "repeat(auto-fit, minmax(180px, 1fr))";
+      photoColumns.style.gap = "16px";
+
+      photoSection.appendChild(photoColumns);
+
+      await addPhoto(
+        photoColumns,
+        "Front photo",
+        item.front_image_path
+      );
+
+      await addPhoto(
+        photoColumns,
+        "Back photo",
+        item.back_image_path
+      );
+
+      photoStatus.remove();
       Object.entries(suggested).forEach(([key, value]) => {
   const fieldWrap = makeElement("div", "contribution-field");
   fieldWrap.style.marginBottom = "12px";
