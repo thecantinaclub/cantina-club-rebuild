@@ -267,7 +267,9 @@ const backFile = selectedBack && selectedBack.size > 0
           .from("card_contributions")
           .insert({
             approved_card_id: targetCardId,
-            contributor_name: String(data.get("display_name") || "").trim(),
+            contributor_name: String(
+  form.elements.namedItem("display_name")?.value || ""
+).trim(),
             suggested_details: {
               subject: String(data.get("subject") || "").trim(),
               subject_type: String(data.get("subject_type") || ""),
