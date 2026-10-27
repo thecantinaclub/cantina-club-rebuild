@@ -76,8 +76,8 @@ footer {
     <label for="artist">Artist</label>
     <input id="artist" name="artist" value="Brandon McKinney" readonly>
 
-    <label for="subject">Character or subject *</label>
-    <input id="subject" name="subject" required maxlength="200"
+    <label for="subject">Character or subject <span class="muted">(required for new cards)</span></label>
+    <input id="subject" name="subject" maxlength="200"
            placeholder="e.g. Darth Vader">
 
     <label for="subject_type">Subject type</label>
@@ -100,7 +100,7 @@ footer {
 
     <label for="front_photo">Front photograph * (required)</label>
     <input id="front_photo" name="front_photo" type="file"
-           accept="image/jpeg,image/png,image/webp" required>
+           accept="image/jpeg,image/png,image/webp">
     <p class="muted">JPEG, PNG or WebP. Maximum 10 MB.</p>
 
     <label for="back_photo">Back photograph (optional)</label>
@@ -175,18 +175,22 @@ if (targetCardId) {
     return "jpg";
   }
 
-  async function uploadPhoto(client, submissionId, side, file) {
-    if (!file) return null;
-    const path = submissionId + "/" + side + "." + extensionFor(file);
-    const { error } = await client.storage
-      .from("card-submissions")
-      .upload(path, file, {
-        upsert: false,
-        contentType: file.type
-      });
-    if (error) throw error;
-    return path;
-  }
+ async function uploadPhoto(client, submissionId, side, file) {
+  if (!file) return null;
+
+  const path = submissionId + "/" + side + "." + extensionFor(file);
+
+  const { error } = await client.storage
+    .from("card-submissions")
+    .upload(path, file, {
+      upsert: false,
+      contentType: file.type
+    });
+
+  if (error) throw error;
+
+  return path;
+}
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -203,7 +207,7 @@ if (targetCardId) {
       const frontFile = data.get("front_photo");
       const backFile = data.get("back_photo");
 
-      validatePhoto(frontFile, true);
+      validatePhoto(frontFile, !targetCardId);
       validatePhoto(backFile, false);
 
       client = getClient();
@@ -212,7 +216,7 @@ if (targetCardId) {
       frontPath = await uploadPhoto(client, submissionId, "front", frontFile);
       backPath = await uploadPhoto(client, submissionId, "back", backFile);
 
-      const submittedData = {
+            const submittedData = {
         year: "2004",
         set: "2004 Topps Star Wars Heritage",
         artist: "Brandon McKinney",
@@ -225,20 +229,42 @@ if (targetCardId) {
         submission_kind: "new_sketch"
       };
 
-      const { error } = await client
-        .from("card_submissions")
-        .insert({
-          id: submissionId,
-          set_slug: SET_SLUG,
-          card_number: "PENDING-" + submissionId,
-          submission_type: "new_sketch",
-          submitted_data: submittedData,
-          front_image_path: frontPath,
-          back_image_path: backPath,
-          status: "pending"
-        });
+      if (targetCardId) {
+        const { error } = await client
+          .from("card_contributions")
+          .insert({
+            approved_card_id: targetCardId,
+            contributor_name: String(data.get("display_name") || "").trim(),
+            suggested_details: {
+              subject: String(data.get("subject") || "").trim(),
+              subject_type: String(data.get("subject_type") || ""),
+              original_code: String(data.get("original_code") || "").trim(),
+              card_details: String(data.get("card_details") || "").trim(),
+              photo_notes: String(data.get("photo_notes") || "").trim()
+            },
+            front_image_path: frontPath,
+            back_image_path: backPath,
+            contributor_notes: String(data.get("card_details") || "").trim(),
+            status: "pending"
+          });
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        const { error } = await client
+          .from("card_submissions")
+          .insert({
+            id: submissionId,
+            set_slug: SET_SLUG,
+            card_number: "PENDING-" + submissionId,
+            submission_type: "new_sketch",
+            submitted_data: submittedData,
+            front_image_path: frontPath,
+            back_image_path: backPath,
+            status: "pending"
+          });
+
+        if (error) throw error;
+      }
 
       form.reset();
       showMessage(
