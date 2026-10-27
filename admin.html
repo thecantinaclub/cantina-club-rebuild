@@ -741,9 +741,9 @@ const { data, error } = await client
 
 if (error) throw error;
 
-if (!data || data.length === 0) {
+if (!data || data.length !== 1) {
   throw new Error(
-    "Supabase did not delete any row. Check the table permissions (RLS)."
+    "Supabase did not delete exactly one card. Check permissions (RLS)."
   );
 }
 
@@ -753,45 +753,51 @@ const { data: remainingCards, error: listError } = await client
   .eq(
     "set_slug",
     "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
-  )
-  .order("card_number", { ascending: true });
+  );
+
 if (listError) {
-  message.textContent = "Could not load cards for renumbering: " + listError.message;
-  throw listError;
+  throw new Error(
+    "Could not load cards for renumbering: " + listError.message
+  );
 }
 
-message.textContent = "Cards found for renumbering: " + (remainingCards || [])
-  .map(card => card.card_number)
-  .join(", ");
+const cardsToRenumber = (remainingCards || []).sort(
+  (a, b) => Number(a.card_number) - Number(b.card_number)
+);
 
-// Temporarily move remaining cards to unused numeric values.
-const numericNumbers = (remainingCards || [])
+const numericNumbers = cardsToRenumber
   .map(card => Number(card.card_number))
   .filter(number => Number.isFinite(number));
 
 const temporaryStart = Math.max(0, ...numericNumbers) + 1000;
 
-for (const [index, card] of (remainingCards || []).entries()) {
-  const { error } = await client
+// Move each remaining card to a temporary number first.
+for (const [index, card] of cardsToRenumber.entries()) {
+  const { data: updated, error: updateError } = await client
     .from("approved_cards")
     .update({ card_number: String(temporaryStart + index) })
-.select("id")
-    .eq("id", card.id);
+    .eq("id", card.id)
+    .select("id");
 
-  if (error) throw error;
+  if (updateError) throw updateError;
+
+  if (!updated || updated.length !== 1) {
+    throw new Error("Temporary renumbering failed for card ID " + card.id);
+  }
 }
 
-// Renumber consecutively from 1.
-for (const [index, card] of (remainingCards || []).entries()) {
-  const { error } = await client
+// Assign consecutive numbers starting at 1.
+for (const [index, card] of cardsToRenumber.entries()) {
+  const { data: updated, error: updateError } = await client
     .from("approved_cards")
     .update({ card_number: String(index + 1) })
-.select("id")
-    .eq("id", card.id);
+    .eq("id", card.id)
+    .select("id");
 
-  if (error) {
-    message.textContent = "Renumbering failed: " + error.message;
-    throw error;
+  if (updateError) throw updateError;
+
+  if (!updated || updated.length !== 1) {
+    throw new Error("Final renumbering failed for card ID " + card.id);
   }
 }
 
@@ -799,7 +805,6 @@ message.textContent = "Card deleted and remaining cards renumbered.";
 await loadApprovedCards();
 
 
-          await loadApprovedCards();
                 } catch (error) {
           console.error("Delete failed:", error);
           message.textContent = "Delete failed: " + error.message;
