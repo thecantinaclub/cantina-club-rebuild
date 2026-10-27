@@ -775,6 +775,7 @@ for (const [index, card] of (remainingCards || []).entries()) {
   const { error } = await client
     .from("approved_cards")
     .update({ card_number: String(temporaryStart + index) })
+.select("id")
     .eq("id", card.id);
 
   if (error) throw error;
