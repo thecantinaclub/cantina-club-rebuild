@@ -181,7 +181,7 @@ if (targetCardId) {
   }
 
  async function uploadPhoto(client, submissionId, side, file) {
-  if (!file) return null;
+    if (!file || file.size === 0) return null;
 
   const path = submissionId + "/" + side + "." + extensionFor(file);
 
