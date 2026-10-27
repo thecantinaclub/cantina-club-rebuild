@@ -998,7 +998,16 @@
           : {};
 
       const fields = {};
+      const photoSection = makeElement("div", "contribution-photos");
+      photoSection.style.marginBottom = "16px";
 
+      const photoHeading = makeElement("h4", "", "Submitted Photos");
+      photoSection.appendChild(photoHeading);
+
+      const photoStatus = makeElement("p", "muted", "Checking submitted photos...");
+      photoSection.appendChild(photoStatus);
+
+      form.appendChild(photoSection);
       Object.entries(suggested).forEach(([key, value]) => {
   const fieldWrap = makeElement("div", "contribution-field");
   fieldWrap.style.marginBottom = "12px";
