@@ -180,22 +180,37 @@ if (targetCardId) {
     return "jpg";
   }
 
- async function uploadPhoto(client, submissionId, side, file) {
-    if (!file || file.size === 0) return null;
+ 
+async function uploadPhoto(client, submissionId, side, file) {
+  if (!file || file.size === 0) return null;
 
-  const path = submissionId + "/" + side + "." + extensionFor(file);
+  const extension = extensionFor(file);
+  const contentTypes = {
+    jpg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp"
+  };
+
+  const contentType = contentTypes[extension];
+
+  if (!contentType) {
+    throw new Error("Photos must be JPEG, PNG or WebP files.");
+  }
+
+  const path = submissionId + "/" + side + "." + extension;
 
   const { error } = await client.storage
     .from("card-submissions")
     .upload(path, file, {
       upsert: false,
-      contentType: file.type
+      contentType: contentType
     });
 
   if (error) throw error;
 
   return path;
 }
+
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
