@@ -748,7 +748,39 @@ if (!data || data.length === 0) {
   );
 }
 
-alert("Card deleted successfully.");
+const { data: remainingCards, error: listError } = await client
+  .from("approved_cards")
+  .select("id, card_number")
+  .eq(
+    "set_slug",
+    "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
+  )
+  .order("card_number", { ascending: true });
+
+if (listError) throw listError;
+
+// First use temporary numbers to avoid numbering conflicts.
+for (const card of remainingCards || []) {
+  const { error } = await client
+    .from("approved_cards")
+    .update({ card_number: "temp-" + card.id })
+    .eq("id", card.id);
+
+  if (error) throw error;
+}
+
+// Now assign consecutive numbers starting at 1.
+for (const [index, card] of (remainingCards || []).entries()) {
+  const { error } = await client
+    .from("approved_cards")
+    .update({ card_number: String(index + 1) })
+    .eq("id", card.id);
+
+  if (error) throw error;
+}
+
+message.textContent = "Card deleted and remaining cards renumbered.";
+await loadApprovedCards();
 
 
           await loadApprovedCards();
