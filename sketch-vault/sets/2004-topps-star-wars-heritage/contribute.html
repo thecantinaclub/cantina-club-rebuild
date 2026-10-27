@@ -209,8 +209,16 @@ if (targetCardId) {
 
     try {
       const data = new FormData(form);
-      const frontFile = data.get("front_photo");
-      const backFile = data.get("back_photo");
+      const selectedFront = data.get("front_photo");
+      const selectedBack = data.get("back_photo");
+
+const frontFile = selectedFront && selectedFront.size > 0
+  ? selectedFront
+  : null;
+
+const backFile = selectedBack && selectedBack.size > 0
+  ? selectedBack
+  : null;
 
       if (!targetCardId) {
   validatePhoto(frontFile, true);
