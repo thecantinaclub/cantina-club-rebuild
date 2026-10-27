@@ -290,10 +290,16 @@
 
     if (url) {
       const img = makeElement("img");
-      img.src = url;
-      img.alt = label;
-      img.loading = "lazy";
-      column.appendChild(img);
+img.src = url;
+img.alt = label;
+img.loading = "lazy";
+img.style.display = "block";
+img.style.width = "100%";
+img.style.maxWidth = "240px";
+img.style.maxHeight = "240px";
+img.style.objectFit = "contain";
+img.style.height = "auto";
+column.appendChild(img);
 
       const link = makeElement("a", "", "Open full-size photo");
       link.href = url;
