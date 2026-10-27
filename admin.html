@@ -759,17 +759,23 @@ const { data: remainingCards, error: listError } = await client
 
 if (listError) throw listError;
 
-// First use temporary numbers to avoid numbering conflicts.
-for (const card of remainingCards || []) {
+// Temporarily move remaining cards to unused numeric values.
+const numericNumbers = (remainingCards || [])
+  .map(card => Number(card.card_number))
+  .filter(number => Number.isFinite(number));
+
+const temporaryStart = Math.max(0, ...numericNumbers) + 1000;
+
+for (const [index, card] of (remainingCards || []).entries()) {
   const { error } = await client
     .from("approved_cards")
-    .update({ card_number: "temp-" + card.id })
+    .update({ card_number: String(temporaryStart + index) })
     .eq("id", card.id);
 
   if (error) throw error;
 }
 
-// Now assign consecutive numbers starting at 1.
+// Renumber consecutively from 1.
 for (const [index, card] of (remainingCards || []).entries()) {
   const { error } = await client
     .from("approved_cards")
