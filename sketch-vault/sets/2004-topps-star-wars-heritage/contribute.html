@@ -59,7 +59,7 @@ footer {
 
 <main>
 <section class="panel">
-  <h2>Contribute a Card</h2>
+  <h2 id="form-title">Contribute a Card</h2>
   <p>
     Share the details and photographs of your sketch card.
     Submissions are reviewed by an administrator before appearing
@@ -133,7 +133,13 @@ footer {
   const message = document.getElementById("message");
   const MAX_SIZE = 10 * 1024 * 1024;
   const SET_SLUG = "2004-topps-star-wars-heritage-brandon-mckinney-sketches";
+  const params = new URLSearchParams(window.location.search);
+  const targetCardId = params.get("card_id");
+  const title = document.getElementById("form-title");
 
+if (targetCardId) {
+  title.textContent = "Add Information / Photos to an Existing Card";
+}
   function showMessage(text, isError = false) {
     message.textContent = text;
     message.style.color = isError ? "#ff9b9b" : "var(--gold)";
