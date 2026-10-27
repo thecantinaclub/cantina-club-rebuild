@@ -723,95 +723,92 @@
       form.appendChild(deleteButton);
 
       deleteButton.addEventListener("click", async () => {
-        if (!confirm(
-          "Permanently delete card #" + item.card_number +
-          " from the approved cards database? This cannot be undone."
-        )) return;
+  if (!confirm(
+    "Permanently delete card #" + item.card_number +
+    " from the approved cards database? This cannot be undone."
+  )) return;
 
-        deleteButton.disabled = true;
-        message.textContent = "Deleting…";
+  deleteButton.disabled = true;
+  message.textContent = "Deleting…";
 
-        try {
-          
-const { data, error } = await client
-  .from("approved_cards")
-  .delete()
-  .eq("id", item.id)
-  .select("id");
+  try {
+    // Delete the selected card.
+    const { data: deleted, error: deleteError } = await client
+      .from("approved_cards")
+      .delete()
+      .eq("id", item.id)
+      .select("id");
 
-if (error) throw error;
+    if (deleteError) throw deleteError;
 
-if (!data || data.length !== 1) {
-  throw new Error(
-    "Supabase did not delete exactly one card. Check permissions (RLS)."
-  );
-}
+    if (!deleted || deleted.length !== 1) {
+      throw new Error("The card was not deleted. Check admin permissions.");
+    }
 
-const { data: remainingCards, error: listError } = await client
-  .from("approved_cards")
-  .select("id, card_number")
-  .eq(
-    "set_slug",
-    "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
-  );
+    // Load the remaining cards for this set.
+    const { data: remainingCards, error: listError } = await client
+      .from("approved_cards")
+      .select("id, card_number")
+      .eq(
+        "set_slug",
+        "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
+      );
 
-if (listError) {
-  throw new Error(
-    "Could not load cards for renumbering: " + listError.message
-  );
-}
+    if (listError) {
+      throw new Error("Could not load remaining cards: " + listError.message);
+    }
 
-const cardsToRenumber = (remainingCards || []).sort(
-  (a, b) => Number(a.card_number) - Number(b.card_number)
-);
+    // Sort by the current card number, numerically.
+    const cards = (remainingCards || []).sort(
+      (a, b) => Number(a.card_number) - Number(b.card_number)
+    );
 
-const numericNumbers = cardsToRenumber
-  .map(card => Number(card.card_number))
-  .filter(number => Number.isFinite(number));
+    // Move all cards to temporary numbers first to avoid number conflicts.
+    const numbers = cards
+      .map(card => Number(card.card_number))
+      .filter(Number.isFinite);
 
-const temporaryStart = Math.max(0, ...numericNumbers) + 1000;
+    const temporaryStart = Math.max(0, ...numbers) + 1000;
 
-// Move each remaining card to a temporary number first.
-for (const [index, card] of cardsToRenumber.entries()) {
-  const { data: updated, error: updateError } = await client
-    .from("approved_cards")
-    .update({ card_number: String(temporaryStart + index) })
-    .eq("id", card.id)
-    .select("id");
+    for (const [index, card] of cards.entries()) {
+      const { data: updated, error } = await client
+        .from("approved_cards")
+        .update({ card_number: String(temporaryStart + index) })
+        .eq("id", card.id)
+        .select("id");
 
-  if (updateError) throw updateError;
+      if (error) throw error;
 
-  if (!updated || updated.length !== 1) {
-    throw new Error("Temporary renumbering failed for card ID " + card.id);
+      if (!updated || updated.length !== 1) {
+        throw new Error("Could not temporarily renumber card ID " + card.id);
+      }
+    }
+
+    // Assign consecutive card numbers starting at 1.
+    for (const [index, card] of cards.entries()) {
+      const { data: updated, error } = await client
+        .from("approved_cards")
+        .update({ card_number: String(index + 1) })
+        .eq("id", card.id)
+        .select("id");
+
+      if (error) throw error;
+
+      if (!updated || updated.length !== 1) {
+        throw new Error("Could not assign the final number to card ID " + card.id);
+      }
+    }
+
+    message.textContent = "Card deleted and remaining cards renumbered.";
+    await loadApprovedCards();
+
+  } catch (error) {
+    console.error("Delete failed:", error);
+    message.textContent = "Delete/renumbering error: " + error.message;
+    alert("Delete/renumbering error: " + error.message);
+    deleteButton.disabled = false;
   }
-}
-
-// Assign consecutive numbers starting at 1.
-for (const [index, card] of cardsToRenumber.entries()) {
-  const { data: updated, error: updateError } = await client
-    .from("approved_cards")
-    .update({ card_number: String(index + 1) })
-    .eq("id", card.id)
-    .select("id");
-
-  if (updateError) throw updateError;
-
-  if (!updated || updated.length !== 1) {
-    throw new Error("Final renumbering failed for card ID " + card.id);
-  }
-}
-
-message.textContent = "Card deleted and remaining cards renumbered.";
-await loadApprovedCards();
-
-
-                } catch (error) {
-          console.error("Delete failed:", error);
-          message.textContent = "Delete failed: " + error.message;
-          alert("Delete failed: " + error.message);
-          deleteButton.disabled = false;
-        }
-      });
+});
 
       form.addEventListener("submit", async event => {
         event.preventDefault();
