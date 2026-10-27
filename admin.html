@@ -924,6 +924,7 @@
       loading = false;
     }
   }
+  
   async function loadCardContributions() {
     const container = document.getElementById("card-contributions-list");
     const count = document.getElementById("contributions-count");
@@ -938,7 +939,8 @@
 
     if (error) {
       console.error("Could not load contributions:", error);
-      container.textContent = "Could not load contributions: " + error.message;
+      container.textContent =
+        "Could not load contributions: " + error.message;
       count.textContent = "0";
       return;
     }
@@ -951,23 +953,225 @@
       return;
     }
 
-    data.forEach(item => {
+    for (const item of data) {
       const card = makeElement("article", "submission");
-      card.appendChild(makeElement(
-        "h3", "", "Contribution — " + item.status
-      ));
+      const heading = makeElement(
+        "h3", "", "Existing Card Contribution — " + item.status
+      );
+      card.appendChild(heading);
+
       card.appendChild(makeElement(
         "p", "muted", "Submitted: " + formatDate(item.created_at)
       ));
       card.appendChild(makeElement(
         "p", "", "Contributor: " + (item.contributor_name || "Anonymous")
       ));
+
+      const { data: approvedCard, error: cardError } = await client
+        .from("approved_cards")
+        .select("id, set_slug, card_number, card_data")
+        .eq("id", item.approved_card_id)
+        .maybeSingle();
+
+      if (cardError || !approvedCard) {
+        card.appendChild(makeElement(
+          "p", "status",
+          "Could not load the original card. " +
+          (cardError ? cardError.message : "The card was not found.")
+        ));
+        container.appendChild(card);
+        continue;
+      }
+
       card.appendChild(makeElement(
-        "pre", "", JSON.stringify(item.suggested_details || {}, null, 2)
+        "p", "muted",
+        "Original card: " + approvedCard.set_slug +
+        " — #" + approvedCard.card_number
       ));
+
+      const form = makeElement("form");
+      const suggested =
+        item.suggested_details &&
+        typeof item.suggested_details === "object" &&
+        !Array.isArray(item.suggested_details)
+          ? item.suggested_details
+          : {};
+
+      const fields = {};
+
+      Object.entries(suggested).forEach(([key, value]) => {
+        const label = makeElement(
+          "label", "", key.replace(/_/g, " ")
+        );
+        const input = makeElement("input");
+        input.value = value == null ? "" : String(value);
+        input.dataset.fieldKey = key;
+        fields[key] = input;
+        form.append(label, input);
+      });
+
+      const notesLabel = makeElement("label", "", "Admin notes");
+      const notesInput = makeElement("textarea");
+      notesInput.value = item.admin_notes || "";
+      form.append(notesLabel, notesInput);
+
+      const message = makeElement("p", "status");
+      message.setAttribute("role", "status");
+
+      const actions = makeElement("div", "actions");
+      const saveButton = makeElement("button", "", "Save corrections");
+      saveButton.type = "submit";
+
+      const approveButton = makeElement("button", "", "Approve");
+      approveButton.type = "button";
+
+      const rejectButton = makeElement("button", "reject", "Reject");
+      rejectButton.type = "button";
+
+      const isPending = item.status === "pending";
+      approveButton.disabled = !isPending;
+      rejectButton.disabled = !isPending;
+      saveButton.disabled = !isPending;
+
+      actions.append(saveButton, approveButton, rejectButton);
+      form.append(actions, message);
+      card.appendChild(form);
       container.appendChild(card);
-    });
+
+      let busy = false;
+
+      function editedDetails() {
+        const result = {};
+        Object.entries(fields).forEach(([key, input]) => {
+          result[key] = input.value.trim();
+        });
+        return result;
+      }
+
+      async function runContributionAction(action, successText) {
+        if (busy || item.status !== "pending") return;
+
+        busy = true;
+        saveButton.disabled = true;
+        approveButton.disabled = true;
+        rejectButton.disabled = true;
+        message.textContent = "Saving…";
+
+        try {
+          await action();
+          message.textContent = successText;
+          await loadCardContributions();
+        } catch (err) {
+          console.error("Contribution review failed:", err);
+          message.textContent =
+            "Action failed: " + (err.message || "Please try again.");
+          busy = false;
+          saveButton.disabled = false;
+          approveButton.disabled = false;
+          rejectButton.disabled = false;
+        }
+      }
+
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+
+        runContributionAction(async () => {
+          const { error: saveError } = await client
+            .from("card_contributions")
+            .update({
+              suggested_details: editedDetails(),
+              admin_notes: notesInput.value.trim()
+            })
+            .eq("id", item.id)
+            .eq("status", "pending");
+
+          if (saveError) throw saveError;
+        }, "Corrections saved.");
+      });
+
+      approveButton.addEventListener("click", () => {
+        if (!confirm(
+          "Approve these details and apply them to the existing public card? " +
+          "Photos will not be published by this action."
+        )) return;
+
+        runContributionAction(async () => {
+          const updatedDetails = editedDetails();
+          const originalData =
+            approvedCard.card_data &&
+            typeof approvedCard.card_data === "object" &&
+            !Array.isArray(approvedCard.card_data)
+              ? approvedCard.card_data
+              : {};
+
+          const mergedData = { ...originalData, ...updatedDetails };
+
+          const { data: updatedRows, error: updateError } = await client
+            .from("approved_cards")
+            .update({ card_data: mergedData })
+            .eq("id", approvedCard.id)
+            .select("id");
+
+          if (updateError) throw updateError;
+          if (!updatedRows || updatedRows.length !== 1) {
+            throw new Error("The original card was not updated.");
+          }
+
+          const { data: reviewedRows, error: reviewError } = await client
+            .from("card_contributions")
+            .update({
+              suggested_details: updatedDetails,
+              admin_notes: notesInput.value.trim(),
+              status: "approved",
+              reviewed_at: new Date().toISOString()
+            })
+            .eq("id", item.id)
+            .eq("status", "pending")
+            .select("id");
+
+          if (reviewError) {
+            throw new Error(
+              "The card details were updated, but the contribution status " +
+              "could not be saved. Check the contribution before retrying. " +
+              reviewError.message
+            );
+          }
+
+          if (!reviewedRows || reviewedRows.length !== 1) {
+            throw new Error(
+              "The card details were updated, but the contribution status " +
+              "was not changed. Refresh and check its status."
+            );
+          }
+        }, "Contribution approved and card details updated.");
+      });
+
+      rejectButton.addEventListener("click", () => {
+        if (!confirm("Reject this contribution? The public card will remain unchanged.")) {
+          return;
+        }
+
+        runContributionAction(async () => {
+          const { data: rejectedRows, error: rejectError } = await client
+            .from("card_contributions")
+            .update({
+              admin_notes: notesInput.value.trim(),
+              status: "rejected",
+              reviewed_at: new Date().toISOString()
+            })
+            .eq("id", item.id)
+            .eq("status", "pending")
+            .select("id");
+
+          if (rejectError) throw rejectError;
+          if (!rejectedRows || rejectedRows.length !== 1) {
+            throw new Error("The contribution status was not changed.");
+          }
+        }, "Contribution rejected. The public card was not changed.");
+      });
+    }
   }
+
   loginForm.addEventListener("submit", async event => {
     event.preventDefault();
     loginStatus.textContent = "Signing in…";
