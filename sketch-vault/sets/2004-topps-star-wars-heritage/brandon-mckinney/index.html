@@ -194,9 +194,25 @@ footer {
           "p", "muted", "Photographs are not currently available."
         ));
       }
-      if (details.card_details) {
+            if (details.card_details) {
         box.appendChild(element("p", "", details.card_details));
       }
+
+      const contributeButton = element(
+        "button",
+        "contribute-button",
+        "Add Information / Photos"
+      );
+
+      contributeButton.type = "button";
+      contributeButton.addEventListener("click", () => {
+        window.location.href =
+          "../contribute.html?card_id=" +
+          encodeURIComponent(card.id);
+      });
+
+      box.appendChild(contributeButton);
+      gallery.appendChild(box);
 
       gallery.appendChild(box);
     }
