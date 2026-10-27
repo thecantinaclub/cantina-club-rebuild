@@ -138,7 +138,7 @@ footer {
 
     const { data, error } = await client
       .from("approved_cards")
-      .select("card_number,card_data,front_image_path,back_image_path")
+      .select("id,card_number,card_data,front_image_path,back_image_path")
       .eq("set_slug", SET_SLUG)
       .order("card_number", { ascending: true });
 
@@ -155,9 +155,10 @@ footer {
       return;
     }
 
-    for (const card of data) {
+        for (const card of data) {
       const details = card.card_data || {};
       const box = element("article", "card");
+      box.dataset.cardId = card.id;
       const subject = details.subject || details.title || "Sketch Card";
       box.appendChild(element("h3", "", subject));
 
