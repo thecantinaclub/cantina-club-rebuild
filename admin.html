@@ -756,8 +756,14 @@ const { data: remainingCards, error: listError } = await client
     "2004-topps-star-wars-heritage-brandon-mckinney-sketches"
   )
   .order("card_number", { ascending: true });
+if (listError) {
+  message.textContent = "Could not load cards for renumbering: " + listError.message;
+  throw listError;
+}
 
-if (listError) throw listError;
+message.textContent = "Cards found for renumbering: " + (remainingCards || [])
+  .map(card => card.card_number)
+  .join(", ");
 
 // Temporarily move remaining cards to unused numeric values.
 const numericNumbers = (remainingCards || [])
