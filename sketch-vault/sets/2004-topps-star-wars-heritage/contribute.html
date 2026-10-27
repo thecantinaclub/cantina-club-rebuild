@@ -207,8 +207,13 @@ if (targetCardId) {
       const frontFile = data.get("front_photo");
       const backFile = data.get("back_photo");
 
-      validatePhoto(frontFile, !targetCardId);
-      validatePhoto(backFile, false);
+      if (!targetCardId) {
+  validatePhoto(frontFile, true);
+  validatePhoto(backFile, false);
+} else {
+  validatePhoto(frontFile, false);
+  validatePhoto(backFile, false);
+}
 
       client = getClient();
       submissionId = crypto.randomUUID();
