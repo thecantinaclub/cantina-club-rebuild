@@ -1023,9 +1023,18 @@
 });
 
       const notesLabel = makeElement("label", "", "Admin notes");
-      const notesInput = makeElement("textarea");
-      notesInput.value = item.admin_notes || "";
-      form.append(notesLabel, notesInput);
+notesLabel.style.display = "block";
+notesLabel.style.marginTop = "12px";
+notesLabel.style.marginBottom = "4px";
+notesLabel.style.fontWeight = "600";
+
+const notesInput = makeElement("textarea");
+notesInput.value = item.admin_notes || "";
+notesInput.style.display = "block";
+notesInput.style.width = "100%";
+notesInput.style.boxSizing = "border-box";
+
+form.append(notesLabel, notesInput);
 
       const message = makeElement("p", "status");
       message.setAttribute("role", "status");
