@@ -623,28 +623,36 @@ column.appendChild(img);
       runAction(saveCorrections, "Corrections saved.");
     });
 
-    approveButton.addEventListener("click", () => {
-      if (!confirm(
-        "Approve this submission and publish its photos to the public " +
-        "archive? Only approved photos will be copied to the public bucket."
-      )) return;
+          approveButton.addEventListener("click", () => {
+        if (!confirm(
+          "Approve these corrected details and apply them to the existing public card? " +
+          "Photos will not be published by this action."
+        )) return;
 
-      runAction(
-        approveSubmission,
-        "Approved successfully. Approved photos have been published."
-      );
-    });
+        runContributionAction(async () => {
+          const updatedDetails = editedDetails();
 
-    publishButton.addEventListener("click", () => {
-      if (!confirm(
-        "Publish or republish the photos for this already-approved card?"
-      )) return;
+          const originalData =
+            approvedCard.card_data &&
+            typeof approvedCard.card_data === "object" &&
+            !Array.isArray(approvedCard.card_data)
+              ? approvedCard.card_data
+              : {};
 
-      runAction(
-        () => publishApprovedPhotos(item, numberInput.value.trim()),
-        "Approved photos published successfully."
-      );
-    });
+          const mergedData = { ...originalData, ...updatedDetails };
+
+          const { error: approvalError } = await client.rpc(
+            "approve_card_contribution",
+            {
+              p_contribution_id: item.id,
+              p_card_data: mergedData,
+              p_admin_notes: notesInput.value.trim()
+            }
+          );
+
+          if (approvalError) throw approvalError;
+        }, "Contribution approved and card details updated.");
+      });
 
     rejectButton.addEventListener("click", () => {
       if (!confirm("Reject this submission?")) return;
