@@ -382,55 +382,69 @@ column.appendChild(img);
   }
 
   async function publishApprovedPhotos(item, cardNumber) {
-    if (!item.front_image_path && !item.back_image_path) {
-      throw new Error("This submission has no saved front or back photo.");
-    }
-
-    const setSlug = safePathPart(item.set_slug);
-    const safeNumber = safePathPart(cardNumber);
-
-    if (!setSlug || !safeNumber) {
-      throw new Error("The set name or card number is missing.");
-    }
-
-    const basePath = setSlug + "/card-" + safeNumber + "/" + item.id;
-
-    let frontPath = null;
-    let backPath = null;
-
-    if (item.front_image_path) {
-      const ext = getExtension(item.front_image_path);
-      frontPath = await copyApprovedPhoto(
-        item.front_image_path,
-        basePath + "-front." + ext
-      );
-    }
-
-    if (item.back_image_path) {
-      const ext = getExtension(item.back_image_path);
-      backPath = await copyApprovedPhoto(
-        item.back_image_path,
-        basePath + "-back." + ext
-      );
-    }
-
-    const update = {};
-    if (frontPath) update.front_image_path = frontPath;
-    if (backPath) update.back_image_path = backPath;
-
-    const { error: updateError } = await client
-      .from("approved_cards")
-      .update(update)
-      .eq("set_slug", item.set_slug)
-      .eq("card_number", String(cardNumber).trim());
-
-    if (updateError) {
-      throw new Error(
-        "Photos were uploaded, but the approved record could not be updated: " +
-        updateError.message
-      );
-    }
+  if (!item.front_image_path && !item.back_image_path) {
+    throw new Error("This submission has no saved front or back photo.");
   }
+
+  if (!item.approved_card_id) {
+    throw new Error("The approved card ID is missing.");
+  }
+
+  const setSlug = safePathPart(item.set_slug);
+  const safeNumber = safePathPart(cardNumber);
+
+  if (!setSlug || !safeNumber) {
+    throw new Error("The set name or card number is missing.");
+  }
+
+  const basePath = setSlug + "/card-" + safeNumber + "/" + item.id;
+  const photos = [];
+
+  if (item.front_image_path) {
+    const ext = getExtension(item.front_image_path);
+    const frontPath = await copyApprovedPhoto(
+      item.front_image_path,
+      basePath + "-front." + ext
+    );
+
+    photos.push({
+      approved_card_id: item.approved_card_id,
+      image_path: frontPath,
+      image_side: "front",
+      status: "approved",
+      contributor_name: item.contributor_name || "",
+      reviewed_at: new Date().toISOString()
+    });
+  }
+
+  if (item.back_image_path) {
+    const ext = getExtension(item.back_image_path);
+    const backPath = await copyApprovedPhoto(
+      item.back_image_path,
+      basePath + "-back." + ext
+    );
+
+    photos.push({
+      approved_card_id: item.approved_card_id,
+      image_path: backPath,
+      image_side: "back",
+      status: "approved",
+      contributor_name: item.contributor_name || "",
+      reviewed_at: new Date().toISOString()
+    });
+  }
+
+  const { error } = await client
+    .from("card_gallery_photos")
+    .insert(photos);
+
+  if (error) {
+    throw new Error(
+      "Photos were copied, but gallery records could not be saved: " +
+      error.message
+    );
+  }
+}
 
   async function makeSubmissionCard(item) {
     const card = makeElement("article", "submission");
@@ -627,7 +641,7 @@ column.appendChild(img);
 approveButton.addEventListener("click", () => {
   if (!confirm(
     "Approve these corrected details and apply them to the existing public card? " +
-    "The uploaded photos will also be published."
+    "The uploaded photos will also be added to the gallery."
   )) return;
 
   runContributionAction(async () => {
@@ -646,6 +660,7 @@ approveButton.addEventListener("click", () => {
       await publishApprovedPhotos(
         {
           ...item,
+          approved_card_id: approvedCard.id,
           set_slug: approvedCard.set_slug
         },
         approvedCard.card_number
@@ -662,7 +677,7 @@ approveButton.addEventListener("click", () => {
     );
 
     if (approvalError) throw approvalError;
-  }, "Contribution approved, card details updated, and photos published.");
+  }, "Contribution approved, card details updated, and photos added to the gallery.");
 });
 
     rejectButton.addEventListener("click", () => {
@@ -1121,7 +1136,7 @@ publishButton.disabled = isPending ||
       publishButton.addEventListener("click", async () => {
   if (busy || item.status === "pending") return;
 
-  if (!confirm("Publish photos to the existing public card?")) return;
+  if (!confirm("Publish additional photos to the card gallery?")) return;
 
   busy = true;
   publishButton.disabled = true;
@@ -1129,11 +1144,15 @@ publishButton.disabled = isPending ||
 
   try {
     await publishApprovedPhotos(
-      { ...item, set_slug: approvedCard.set_slug },
+      {
+        ...item,
+        approved_card_id: approvedCard.id,
+        set_slug: approvedCard.set_slug
+      },
       approvedCard.card_number
     );
 
-    message.textContent = "Photos published successfully.";
+    message.textContent = "Photos added to the gallery successfully.";
     await loadCardContributions();
   } catch (err) {
     console.error("Photo publishing failed:", err);
