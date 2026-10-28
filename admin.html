@@ -1156,61 +1156,46 @@ form.append(notesLabel, notesInput);
       });
 
       approveButton.addEventListener("click", () => {
-        if (!confirm(
-          "Approve these details and apply them to the existing public card? " +
-          "Photos will not be published by this action."
-        )) return;
+  if (!confirm(
+    "Approve these details and apply them to the existing public card? " +
+    "The uploaded photos will also be published."
+  )) return;
 
-        runContributionAction(async () => {
-          const updatedDetails = editedDetails();
-          const originalData =
-            approvedCard.card_data &&
-            typeof approvedCard.card_data === "object" &&
-            !Array.isArray(approvedCard.card_data)
-              ? approvedCard.card_data
-              : {};
+  runContributionAction(async () => {
+    const updatedDetails = editedDetails();
 
-          const mergedData = { ...originalData, ...updatedDetails };
+    const originalData =
+      approvedCard.card_data &&
+      typeof approvedCard.card_data === "object" &&
+      !Array.isArray(approvedCard.card_data)
+        ? approvedCard.card_data
+        : {};
 
-          const { data: updatedRows, error: updateError } = await client
-            .from("approved_cards")
-            .update({ card_data: mergedData })
-            .eq("id", approvedCard.id)
-            .select("id");
+    const mergedData = { ...originalData, ...updatedDetails };
 
-          if (updateError) throw updateError;
-          if (!updatedRows || updatedRows.length !== 1) {
-            throw new Error("The original card was not updated.");
-          }
+    // Publish the contribution's photos to the existing card.
+    if (item.front_image_path || item.back_image_path) {
+      await publishApprovedPhotos(
+        {
+          ...item,
+          set_slug: approvedCard.set_slug
+        },
+        approvedCard.card_number
+      );
+    }
 
-          const { data: reviewedRows, error: reviewError } = await client
-            .from("card_contributions")
-            .update({
-              suggested_details: updatedDetails,
-              admin_notes: notesInput.value.trim(),
-              status: "approved",
-              reviewed_at: new Date().toISOString()
-            })
-            .eq("id", item.id)
-            .eq("status", "pending")
-            .select("id");
+    const { error: approvalError } = await client.rpc(
+      "approve_card_contribution",
+      {
+        p_contribution_id: item.id,
+        p_card_data: mergedData,
+        p_admin_notes: notesInput.value.trim()
+      }
+    );
 
-          if (reviewError) {
-            throw new Error(
-              "The card details were updated, but the contribution status " +
-              "could not be saved. Check the contribution before retrying. " +
-              reviewError.message
-            );
-          }
-
-          if (!reviewedRows || reviewedRows.length !== 1) {
-            throw new Error(
-              "The card details were updated, but the contribution status " +
-              "was not changed. Refresh and check its status."
-            );
-          }
-        }, "Contribution approved and card details updated.");
-      });
+    if (approvalError) throw approvalError;
+  }, "Contribution approved, card details updated, and photos published.");
+});
 
       rejectButton.addEventListener("click", () => {
         if (!confirm("Reject this contribution? The public card will remain unchanged.")) {
