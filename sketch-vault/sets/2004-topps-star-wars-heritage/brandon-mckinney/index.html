@@ -350,8 +350,22 @@ footer {
         viewButton.setAttribute("aria-expanded", String(opening));
       });
 
-      box.appendChild(viewButton);
+            box.appendChild(viewButton);
       box.appendChild(detailsPanel);
+
+      const galleryButton = element(
+        "button",
+        "card-button",
+        "Gallery"
+      );
+
+      galleryButton.type = "button";
+      galleryButton.addEventListener("click", () => {
+        window.location.href =
+          "../card-gallery.html?card_id=" + encodeURIComponent(card.id);
+      });
+
+      box.appendChild(galleryButton);
 
       const contributeButton = element(
         "button",
