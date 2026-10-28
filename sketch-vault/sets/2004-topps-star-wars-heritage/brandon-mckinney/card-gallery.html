@@ -75,10 +75,10 @@
     import { createClient } from
       "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    const SUPABASE_URL = window.CANTINA_SUPABASE_URL;
-    const SUPABASE_ANON_KEY = window.CANTINA_SUPABASE_ANON_KEY;
-
-    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const client = createClient(
+  window.CANTINA_SUPABASE_URL,
+  window.CANTINA_SUPABASE_ANON_KEY
+);
     const gallery = document.getElementById("gallery");
     const message = document.getElementById("message");
     const cardId = new URLSearchParams(location.search).get("card_id");
