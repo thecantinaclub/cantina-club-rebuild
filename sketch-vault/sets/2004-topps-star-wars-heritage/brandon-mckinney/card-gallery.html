@@ -71,14 +71,13 @@
     <section id="gallery"></section>
   </main>
 
-  <script type="module">
-    import { createClient } from
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-    const client = createClient(
-    window.CANTINA_SUPABASE_URL,
-  window.CANTINA_SUPABASE_KEY
-);
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/cantina-club-rebuild/supabase-config.js"></script>
+<script>
+    const client = window.supabase.createClient(
+      window.CANTINA_SUPABASE_URL,
+      window.CANTINA_SUPABASE_KEY
+    );
     const gallery = document.getElementById("gallery");
     const message = document.getElementById("message");
     const cardId = new URLSearchParams(location.search).get("card_id");
