@@ -280,27 +280,36 @@ footer {
         ));
       }
 
-      const detailsPanel = element("section", "card-details");
+           const detailsPanel = element("section", "card-details");
       detailsPanel.hidden = true;
       detailsPanel.appendChild(element("h4", "", "Approved Card Details"));
 
-      const excludedKeys = new Set([
-        "subject", "title", "artist", "card_details",
-        "additional_image_paths", "additional_photos", "photos",
-        "front_image_path", "back_image_path"
-      ]);
+      const publicFields = [
+        ["subject", "Subject"],
+        ["title", "Card Title"],
+        ["artist", "Artist"],
+        ["character", "Character"],
+        ["characters", "Characters"],
+        ["card_type", "Card Type"],
+        ["subject_type", "Subject Type"],
+        ["original_code", "Original Code"],
+        ["variation", "Variation"],
+        ["rarity", "Rarity"],
+        ["card_details", "Card Details"]
+      ];
 
       let detailCount = 0;
 
-      for (const [key, value] of Object.entries(details)) {
-        if (excludedKeys.has(key)) continue;
-        const text = displayValue(value);
+      for (const [key, label] of publicFields) {
+        const text = displayValue(details[key]);
         if (!text) continue;
 
         const row = element("div", "detail-row");
-        const label = key
-          .replace(/_/g, " ")
-          .replace(/\b\w/g, char => char.toUpperCase());
+        row.appendChild(element("strong", "", label + ": "));
+        row.appendChild(document.createTextNode(text));
+        detailsPanel.appendChild(row);
+        detailCount++;
+      }
 
         row.appendChild(element("strong", "", label + ": "));
         row.appendChild(document.createTextNode(text));
