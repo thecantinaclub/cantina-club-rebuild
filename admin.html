@@ -623,36 +623,47 @@ column.appendChild(img);
       runAction(saveCorrections, "Corrections saved.");
     });
 
-          approveButton.addEventListener("click", () => {
-        if (!confirm(
-          "Approve these corrected details and apply them to the existing public card? " +
-          "Photos will not be published by this action."
-        )) return;
+          
+approveButton.addEventListener("click", () => {
+  if (!confirm(
+    "Approve these corrected details and apply them to the existing public card? " +
+    "The uploaded photos will also be published."
+  )) return;
 
-        runContributionAction(async () => {
-          const updatedDetails = editedDetails();
+  runContributionAction(async () => {
+    const updatedDetails = editedDetails();
 
-          const originalData =
-            approvedCard.card_data &&
-            typeof approvedCard.card_data === "object" &&
-            !Array.isArray(approvedCard.card_data)
-              ? approvedCard.card_data
-              : {};
+    const originalData =
+      approvedCard.card_data &&
+      typeof approvedCard.card_data === "object" &&
+      !Array.isArray(approvedCard.card_data)
+        ? approvedCard.card_data
+        : {};
 
-          const mergedData = { ...originalData, ...updatedDetails };
+    const mergedData = { ...originalData, ...updatedDetails };
 
-          const { error: approvalError } = await client.rpc(
-            "approve_card_contribution",
-            {
-              p_contribution_id: item.id,
-              p_card_data: mergedData,
-              p_admin_notes: notesInput.value.trim()
-            }
-          );
+    if (item.front_image_path || item.back_image_path) {
+      await publishApprovedPhotos(
+        {
+          ...item,
+          set_slug: approvedCard.set_slug
+        },
+        approvedCard.card_number
+      );
+    }
 
-          if (approvalError) throw approvalError;
-        }, "Contribution approved and card details updated.");
-      });
+    const { error: approvalError } = await client.rpc(
+      "approve_card_contribution",
+      {
+        p_contribution_id: item.id,
+        p_card_data: mergedData,
+        p_admin_notes: notesInput.value.trim()
+      }
+    );
+
+    if (approvalError) throw approvalError;
+  }, "Contribution approved, card details updated, and photos published.");
+});
 
     rejectButton.addEventListener("click", () => {
       if (!confirm("Reject this submission?")) return;
