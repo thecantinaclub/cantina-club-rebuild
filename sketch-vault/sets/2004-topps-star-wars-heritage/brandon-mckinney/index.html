@@ -298,7 +298,7 @@ footer {
         ["card_details", "Card Details"]
       ];
 
-      let detailCount = 0;
+            let detailCount = 0;
 
       for (const [key, label] of publicFields) {
         const text = displayValue(details[key]);
@@ -307,20 +307,6 @@ footer {
         const row = element("div", "detail-row");
         row.appendChild(element("strong", "", label + ": "));
         row.appendChild(document.createTextNode(text));
-        detailsPanel.appendChild(row);
-        detailCount++;
-      }
-
-        row.appendChild(element("strong", "", label + ": "));
-        row.appendChild(document.createTextNode(text));
-        detailsPanel.appendChild(row);
-        detailCount++;
-      }
-
-      if (details.card_details) {
-        const row = element("div", "detail-row");
-        row.appendChild(element("strong", "", "Card Details: "));
-        row.appendChild(document.createTextNode(String(details.card_details)));
         detailsPanel.appendChild(row);
         detailCount++;
       }
@@ -349,7 +335,7 @@ footer {
       if (detailCount === 0 && additionalPhotos.length === 0) {
         detailsPanel.appendChild(element(
           "p", "",
-          "No additional approved details or photographs are available."
+          "No additional approved card details or photographs are available."
         ));
       }
 
