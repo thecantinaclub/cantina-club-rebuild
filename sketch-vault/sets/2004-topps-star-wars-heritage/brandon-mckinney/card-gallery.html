@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sketch Card Gallery | The Cantina Club</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #090b10;
+      color: #eee;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    a {
+      color: #e4c16f;
+    }
+
+    h1 {
+      color: #e4c16f;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .photo {
+      padding: 14px;
+      background: #141923;
+      border: 1px solid #303747;
+      border-radius: 10px;
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .photo h2 {
+      font-size: 1rem;
+      color: #e4c16f;
+    }
+
+    #message {
+      color: #ccc;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p>
+      <a href="./index.html">← Back to Brandon McKinney</a>
+    </p>
+
+    <h1>Sketch Card Gallery</h1>
+    <p>Additional photos approved by The Cantina Club team.</p>
+
+    <p id="message">Loading gallery photos…</p>
+    <section id="gallery"></section>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = window.CANTINA_SUPABASE_URL;
+    const SUPABASE_ANON_KEY = window.CANTINA_SUPABASE_ANON_KEY;
+
+    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const gallery = document.getElementById("gallery");
+    const message = document.getElementById("message");
+    const cardId = new URLSearchParams(location.search).get("card_id");
+
+    async function loadGallery() {
+      if (!cardId) {
+        message.textContent = "No card was selected.";
+        return;
+      }
+
+      const { data, error } = await client
+        .from("card_gallery_photos")
+        .select("image_path, image_side, created_at")
+        .eq("approved_card_id", cardId)
+        .eq("status", "approved")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        message.textContent = "Gallery photos could not be loaded.";
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        message.textContent = "No additional approved photos yet.";
+        return;
+      }
+
+      message.textContent = "";
+
+      for (const photo of data) {
+        const { data: urlData } = client.storage
+          .from("approved-card-images")
+          .getPublicUrl(photo.image_path);
+
+        const article = document.createElement("article");
+        article.className = "photo";
+
+        const heading = document.createElement("h2");
+        heading.textContent =
+          photo.image_side.charAt(0).toUpperCase() +
+          photo.image_side.slice(1);
+
+        const image = document.createElement("img");
+        image.src = urlData.publicUrl;
+        image.alt = "Additional " + photo.image_side + " sketch card photo";
+        image.loading = "lazy";
+
+        article.append(heading, image);
+        gallery.appendChild(article);
+      }
+    }
+
+    loadGallery();
+  </script>
+</body>
+</html>
