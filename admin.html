@@ -1106,11 +1106,43 @@ form.append(notesLabel, notesInput);
       rejectButton.type = "button";
 
       const isPending = item.status === "pending";
-      approveButton.disabled = !isPending;
-      rejectButton.disabled = !isPending;
-      saveButton.disabled = !isPending;
+approveButton.disabled = !isPending;
+rejectButton.disabled = !isPending;
+saveButton.disabled = !isPending;
 
-      actions.append(saveButton, approveButton, rejectButton);
+const publishButton = makeElement(
+  "button", "secondary", "Publish approved photos"
+);
+publishButton.type = "button";
+publishButton.disabled = isPending ||
+  (!item.front_image_path && !item.back_image_path);
+
+      actions.append(saveButton, approveButton, rejectButton, publishButton);
+      publishButton.addEventListener("click", async () => {
+  if (busy || item.status === "pending") return;
+
+  if (!confirm("Publish photos to the existing public card?")) return;
+
+  busy = true;
+  publishButton.disabled = true;
+  message.textContent = "Publishing photos…";
+
+  try {
+    await publishApprovedPhotos(
+      { ...item, set_slug: approvedCard.set_slug },
+      approvedCard.card_number
+    );
+
+    message.textContent = "Photos published successfully.";
+    await loadCardContributions();
+  } catch (err) {
+    console.error("Photo publishing failed:", err);
+    message.textContent =
+      "Photo publishing failed: " + (err.message || "Please try again.");
+    busy = false;
+    publishButton.disabled = false;
+  }
+});
       form.append(actions, message);
       card.appendChild(form);
       container.appendChild(card);
@@ -1166,10 +1198,10 @@ form.append(notesLabel, notesInput);
         }, "Corrections saved.");
       });
 
-      approveButton.addEventListener("click", () => {
+      
+approveButton.addEventListener("click", () => {
   if (!confirm(
-    "Approve these details and apply them to the existing public card? " +
-    "The uploaded photos will also be published."
+    "Approve these details and apply them to the existing public card?"
   )) return;
 
   runContributionAction(async () => {
@@ -1184,17 +1216,6 @@ form.append(notesLabel, notesInput);
 
     const mergedData = { ...originalData, ...updatedDetails };
 
-    // Publish the contribution's photos to the existing card.
-    if (item.front_image_path || item.back_image_path) {
-      await publishApprovedPhotos(
-        {
-          ...item,
-          set_slug: approvedCard.set_slug
-        },
-        approvedCard.card_number
-      );
-    }
-
     const { error: approvalError } = await client.rpc(
       "approve_card_contribution",
       {
@@ -1205,7 +1226,7 @@ form.append(notesLabel, notesInput);
     );
 
     if (approvalError) throw approvalError;
-  }, "Contribution approved, card details updated, and photos published.");
+  }, "Contribution approved and card details updated.");
 });
 
       rejectButton.addEventListener("click", () => {
