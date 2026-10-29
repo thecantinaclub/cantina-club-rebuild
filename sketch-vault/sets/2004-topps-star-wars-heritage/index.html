@@ -288,16 +288,62 @@ footer {
   th, td { padding: 8px 5px; font-size: .85rem; }
   td:first-child { width: 55%; }
 }
+  .brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.brand {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.tagline {
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.nav-link.active {
+  color: var(--gold);
+  border-color: var(--gold);
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <a class="brand" href="/cantina-club-rebuild/">THE CANTINA CLUB — A GALAXY OF CARDS</a>
+  <div class="container header-inner">
+    <div class="brand-block">
+      <a class="brand" href="/cantina-club-rebuild/">THE CANTINA CLUB</a>
+      <a class="tagline" href="/cantina-club-rebuild/">A GALAXY OF CARDS</a>
+    </div>
+
     <nav aria-label="Main navigation">
-      <a href="/cantina-club-rebuild/">Home</a>
-      <a class="active" href="/cantina-club-rebuild/sketch-vault/">Sketch Vault</a>
+      <a class="nav-link" href="/cantina-club-rebuild/">Home</a>
+      <a class="nav-link active" href="/cantina-club-rebuild/sketch-vault/">Sketch Vault</a>
     </nav>
   </div>
 </header>
