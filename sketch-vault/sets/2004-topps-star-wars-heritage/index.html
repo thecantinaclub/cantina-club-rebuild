@@ -111,12 +111,53 @@ h3 {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 17px 20px;
-  margin-bottom: 34px;
+  padding: 10px 14px;
+  margin-bottom: 24px;
 }
 
-.set-summary p { margin: 5px 0; }
+.set-summary p {
+  margin: 3px 0;
+  font-size: 13px;
+}
 
+.summary-release {
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border);
+}
+
+.overall-odds {
+  margin-left: 8px;
+}
+
+.odds-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.odds-group h3 {
+  margin: 8px 0 4px;
+  font-size: 14px;
+}
+
+.odds-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px 10px;
+  margin-top: 7px;
+  font-size: 12px;
+}
+
+.odds-grid span {
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .odds-columns {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
 .wave-section {
   margin-top: 38px;
   scroll-margin-top: 20px;
