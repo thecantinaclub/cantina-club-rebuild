@@ -139,6 +139,26 @@ h1 {
   border-radius: 8px;
   transition: border-color 0.2s, background 0.2s;
 }
+  .sketch-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.sketch-stats span {
+  background: rgba(228,193,111,0.08);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.sketch-stats span strong {
+  color: var(--gold);
+  font-size: 13px;
+}
 .archive-entry strong {
   color: var(--text);
   font-size: 19px;
@@ -207,12 +227,19 @@ footer {
     </div>
 
     <div class="archive-year">
-      <h2>2004</h2>
-      <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/">
-        <strong>Topps Star Wars Heritage</strong>
-        <span class="archive-arrow">Explore this sketch set →</span>
-      </a>
-    </div>
+  <h2>2004</h2>
+  <a class="archive-entry" href="/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-heritage/">
+    <strong>Topps Star Wars Heritage</strong>
+
+    <span class="sketch-stats">
+      <span><strong>2</strong> Waves</span>
+      <span><strong>35</strong> Artists</span>
+      <span><strong>≈1,426</strong> Sketch Cards</span>
+    </span>
+
+    <span class="archive-arrow">Explore this sketch set →</span>
+  </a>
+</div>
 
     <div class="archive-year">
       <h2>2005</h2>
