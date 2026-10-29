@@ -1,4 +1,4 @@
-const sketchVaultSearchIndex = [
+window.sketchVaultSearchIndex = [
   {
     type: "Page",
     name: "The Cantina Club Home",
