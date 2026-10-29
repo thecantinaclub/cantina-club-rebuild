@@ -210,19 +210,27 @@ footer {
   }
 
   function addPhoto(container, label, url) {
-    if (!url) return;
+  if (!url) return;
 
-    const wrap = element("div");
-    const img = element("img");
-    img.src = url;
-    img.alt = label + " photograph";
-    img.loading = "lazy";
-    img.onerror = () => wrap.remove();
+  const wrap = element("div");
+  const link = element("a");
+  const img = element("img");
 
-    wrap.appendChild(img);
-    wrap.appendChild(element("div", "photo-label", label));
-    container.appendChild(wrap);
-  }
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.title = "Open full-size image";
+
+  img.src = url;
+  img.alt = label + " photograph";
+  img.loading = "lazy";
+  img.onerror = () => wrap.remove();
+
+  link.appendChild(img);
+  wrap.appendChild(link);
+  wrap.appendChild(element("div", "photo-label", label));
+  container.appendChild(wrap);
+}
 
   function photoPaths(value, label = "Additional photo") {
     if (!value) return [];
