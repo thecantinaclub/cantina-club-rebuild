@@ -138,6 +138,47 @@ h3 {
 
 .overall-odds,
 .summary-stats,
+.odds-group {
+  background: #141923;
+  border: 1px solid #303746;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.overall-odds {
+  margin: 0;
+  font-size: 14px;
+  color: #f0f0f0;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.summary-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.summary-stats div strong {
+  color: #e4c16f;
+  font-size: 22px;
+}
+
+.summary-stats div span {
+  color: #aeb6c5;
+  font-size: 12px;
+}
+
+.odds-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
 .odds-group h3 {
   margin: 0 0 8px;
   font-size: 18px;
@@ -172,6 +213,29 @@ h3 {
   white-space: nowrap;
 }
 
+.estimate-note {
+  color: #aeb6c5;
+  font-size: 12px;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .odds-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-stats {
+    gap: 8px;
+  }
+
+  .summary-stats div strong {
+    font-size: 18px;
+  }
+
+  .level-odds p {
+    white-space: normal;
+  }
+}
 .summary-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
