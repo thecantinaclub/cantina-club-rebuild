@@ -809,6 +809,7 @@ function renderWave(waveNumber, containerId) {
     });
 }
 
+
 renderWave(1, "wave1Artists");
 renderWave(2, "wave2Artists");
 
@@ -816,18 +817,20 @@ const artistSearch = document.getElementById("artistSearch");
 
 artistSearch.addEventListener("input", () => {
   const query = artistSearch.value.trim().toLowerCase();
-  const isSetSearch =
-    "2004 topps star wars heritage".includes(query) && query !== "";
 
   document.querySelectorAll(".artist-card").forEach((card) => {
-    const artistName = card.querySelector("h3").textContent.toLowerCase();
+    const artistName =
+      card.querySelector("h3").textContent.toLowerCase();
+
+    const setName = "2004 topps star wars heritage";
 
     card.hidden =
       query !== "" &&
       !artistName.includes(query) &&
-      !isSetSearch;
+      !setName.includes(query);
   });
 });
+  
 </script>
 
 </body>
