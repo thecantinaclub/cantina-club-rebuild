@@ -160,25 +160,61 @@ footer {
   <p>Star Wars Sketch Card Artist</p>
   <a class="back" href="../">← 2004 Heritage set</a>
 
-  <section class="info">
-  <h2>Artist Information</h2>
-  <div class="info-row">
-    <p><strong>Set:</strong> 2004 Topps Star Wars Heritage</p>
-    <p><strong>Wave:</strong> Wave 1</p>
-    <p><strong>Level:</strong> A</p>
-  </div>
-</section>
+  <style>
+  .info-windows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0;
+  }
 
-<section class="info">
-  <h2>Level A — Odds &amp; Estimates</h2>
-  <div class="info-row">
-    <p><strong>Odds:</strong> 1:731 packs</p>
-    <p><strong>Artists:</strong> 7</p>
-    <p><strong>Per artist:</strong> ≈7 cards</p>
-    <p><strong>Level total:</strong> ≈49 cards</p>
-    <p><strong>Wave 1 per artist:</strong> ≈7 cards</p>
-  </div>
-</section>
+  .info-windows .info {
+    margin: 0;
+    padding: 16px;
+    background: #141923;
+    border: 1px solid #303746;
+    border-radius: 10px;
+  }
+
+  .info-windows .info h2 {
+    margin: 0 0 14px;
+    color: #e4c16f;
+  }
+
+  .info-windows .info-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px 24px;
+  }
+
+  .info-windows .info-row p {
+    margin: 0;
+  }
+</style>
+
+<div class="info-windows">
+  <section class="info">
+    <h2>Artist Information</h2>
+    <div class="info-row">
+      <p><strong>Set:</strong> 2004 Topps Star Wars Heritage</p>
+      <p><strong>Wave:</strong> Wave 1</p>
+      <p><strong>Level:</strong> A</p>
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>Level A — Odds &amp; Estimates</h2>
+    <div class="info-row">
+      <p><strong>Odds:</strong> 1:731 packs</p>
+      <p><strong>Artists:</strong> 7</p>
+      <p><strong>Per artist:</strong> ≈7 cards</p>
+      <p><strong>Level total:</strong> ≈49 cards</p>
+      <p><strong>Wave 1 per artist:</strong> ≈7 cards</p>
+    </div>
+  </section>
+</div>
   <section class="info">
     <h2>Have a Brandon McKinney Sketch Card?</h2>
     <p>
