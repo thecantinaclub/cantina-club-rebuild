@@ -1233,7 +1233,12 @@ approveButton.addEventListener("click", () => {
         ? approvedCard.card_data
         : {};
 
-    const mergedData = { ...originalData, ...updatedDetails };
+    const nonEmptyDetails = Object.fromEntries(
+  Object.entries(updatedDetails).filter(([key, value]) =>
+    value !== "" && value !== null && value !== undefined
+  )
+);
+const mergedData = { ...originalData, ...nonEmptyDetails };
 
     const { error: approvalError } = await client.rpc(
       "approve_card_contribution",
