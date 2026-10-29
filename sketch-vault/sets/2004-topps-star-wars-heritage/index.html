@@ -506,6 +506,15 @@ nav {
     alphabetically within each wave. Expand an artist's details to see the
     supplied odds and estimated card quantities.
   </p>
+  
+  <div class="artist-search">
+  <input
+    type="search"
+    id="artistSearch"
+    placeholder="Search artists or sets..."
+    aria-label="Search artists or sets"
+  >
+</div>
 
   <div class="set-summary">
   <p class="overall-odds">
@@ -801,6 +810,23 @@ function renderWave(waveNumber, containerId) {
 
 renderWave(1, "wave1Artists");
 renderWave(2, "wave2Artists");
+
+const artistSearch = document.getElementById("artistSearch");
+
+artistSearch.addEventListener("input", () => {
+  const query = artistSearch.value.trim().toLowerCase();
+  const isSetSearch =
+    "2004 topps star wars heritage".includes(query) && query !== "";
+
+  document.querySelectorAll(".artist-card").forEach((card) => {
+    const artistName = card.querySelector("h3").textContent.toLowerCase();
+
+    card.hidden =
+      query !== "" &&
+      !artistName.includes(query) &&
+      !isSetSearch;
+  });
+});
 </script>
 
 </body>
