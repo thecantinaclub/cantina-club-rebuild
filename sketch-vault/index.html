@@ -581,5 +581,22 @@ footer {
 <footer>
   The Cantina Club — A Galaxy of Cards
 </footer>
+  <script>
+const setSearch = document.getElementById("setSearch");
+
+setSearch.addEventListener("input", () => {
+  const query = setSearch.value.trim().toLowerCase();
+
+  document.querySelectorAll(".archive-year").forEach((entry) => {
+    const year = entry.querySelector("h2").textContent.toLowerCase();
+    const setName = entry.querySelector(".archive-entry strong").textContent.toLowerCase();
+
+    entry.hidden =
+      query !== "" &&
+      !year.includes(query) &&
+      !setName.includes(query);
+  });
+});
+</script>
 </body>
 </html>
