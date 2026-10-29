@@ -121,12 +121,19 @@
           photo.image_side.charAt(0).toUpperCase() +
           photo.image_side.slice(1);
 
-        const image = document.createElement("img");
-        image.src = urlData.publicUrl;
-        image.alt = "Additional " + photo.image_side + " sketch card photo";
-        image.loading = "lazy";
+        const link = document.createElement("a");
+link.href = urlData.publicUrl;
+link.target = "_blank";
+link.rel = "noopener noreferrer";
+link.title = "Open full-size image";
 
-        article.append(heading, image);
+const image = document.createElement("img");
+image.src = urlData.publicUrl;
+image.alt = "Additional " + photo.image_side + " sketch card photo";
+image.loading = "lazy";
+
+link.appendChild(image);
+article.append(heading, link);
         gallery.appendChild(article);
       }
     }
