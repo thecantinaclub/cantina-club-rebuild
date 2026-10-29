@@ -138,15 +138,38 @@ h3 {
 
 .overall-odds,
 .summary-stats,
-.odds-group {
-  background: #141923;
-  border: 1px solid #303746;
-  border-radius: 10px;
-  padding: 16px;
+.odds-group h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #e4c16f;
 }
 
-.overall-odds {
+.odds-group > p {
+  display: inline;
   margin: 0;
+  font-size: 12px;
+}
+
+.odds-group > p + p::before {
+  content: " · ";
+  color: #aeb6c5;
+}
+
+.odds-group > strong {
+  display: block;
+  border-top: 1px solid #303746;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.level-odds {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.level-odds p {
+  margin: 8px 0;
+  white-space: nowrap;
 }
 
 .summary-stats {
