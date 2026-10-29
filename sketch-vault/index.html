@@ -618,12 +618,25 @@ setSearch.addEventListener("input", () => {
   );
 
   matches.forEach((item) => {
-    const link = document.createElement("a");
-    link.href = item.url;
-    link.textContent = `${item.type}: ${item.name}`;
-    link.style.cssText = "display:block; padding:10px; margin-top:6px; border:1px solid var(--border); border-radius:6px; color:var(--gold);";
-    results.appendChild(link);
-  });
+  const card = document.createElement("div");
+
+  card.style.cssText =
+    "padding:14px; margin-top:10px; border:1px solid var(--gold); border-radius:8px; background:var(--panel);";
+
+  const title = document.createElement("strong");
+  title.textContent = item.name;
+  title.style.cssText = "display:block; color:var(--gold); margin-bottom:6px;";
+
+  const details = document.createElement("div");
+  details.textContent =
+    item.type === "Artist"
+      ? `${item.set || ""}${item.wave ? " · Wave " + item.wave : ""}${item.level ? " · Level " + item.level : ""}`
+      : `${item.type}${item.year ? " · " + item.year : ""}`;
+
+  card.appendChild(title);
+  card.appendChild(details);
+  results.appendChild(card);
+});
 
   if (!matches.length) {
     results.textContent = "No matching sets or artists found.";
