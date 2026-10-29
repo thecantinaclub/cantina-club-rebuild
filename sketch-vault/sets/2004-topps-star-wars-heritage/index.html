@@ -757,7 +757,10 @@ heading.appendChild(artistLink);
     "assumes an equal share within this level.";
 
   panel.append(table, note);
-
+panel.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+  
   button.addEventListener("click", () => {
     const isOpening = panel.hidden;
     panel.hidden = !isOpening;
