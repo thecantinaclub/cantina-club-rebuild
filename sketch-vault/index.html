@@ -618,23 +618,60 @@ setSearch.addEventListener("input", () => {
   );
 
   matches.forEach((item) => {
-  const card = document.createElement("div");
+  const card = document.createElement("article");
+  card.className = "artist-card";
 
-  card.style.cssText =
-    "padding:14px; margin-top:10px; border:1px solid var(--gold); border-radius:8px; background:var(--panel);";
+  const top = document.createElement("div");
+  top.className = "artist-top";
 
-  const title = document.createElement("strong");
-  title.textContent = item.name;
-  title.style.cssText = "display:block; color:var(--gold); margin-bottom:6px;";
+  const heading = document.createElement("h3");
+  heading.textContent = item.name;
 
-  const details = document.createElement("div");
-  details.textContent =
-    item.type === "Artist"
-      ? `${item.set || ""}${item.wave ? " · Wave " + item.wave : ""}${item.level ? " · Level " + item.level : ""}`
-      : `${item.type}${item.year ? " · " + item.year : ""}`;
+  const setName = document.createElement("div");
+  setName.className = "artist-set";
+  setName.textContent = item.set || `${item.type}${item.year ? " · " + item.year : ""}`;
 
-  card.appendChild(title);
-  card.appendChild(details);
+  top.append(heading, setName);
+
+  if (item.type === "Artist") {
+    const levelLabel = document.createElement("div");
+    levelLabel.className = "level-label";
+    levelLabel.textContent =
+      `${item.wave || ""}${item.level ? " · Level " + item.level : ""}`;
+
+    const button = document.createElement("button");
+    button.className = "details-button";
+    button.type = "button";
+    button.textContent = "View details +";
+    button.setAttribute("aria-expanded", "false");
+
+    const panel = document.createElement("div");
+    panel.className = "details-panel";
+    panel.hidden = true;
+
+    const link = document.createElement("a");
+    link.href = item.url;
+    link.textContent = "Open artist page →";
+    link.style.color = "var(--gold)";
+
+    panel.appendChild(link);
+
+    button.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      button.textContent = panel.hidden ? "View details +" : "Hide details −";
+      button.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+
+    top.appendChild(levelLabel);
+    card.append(top, button, panel);
+  } else {
+    const link = document.createElement("a");
+    link.href = item.url;
+    link.textContent = "Explore this sketch set →";
+    link.style.color = "var(--gold)";
+    card.append(top, link);
+  }
+
   results.appendChild(card);
 });
 
