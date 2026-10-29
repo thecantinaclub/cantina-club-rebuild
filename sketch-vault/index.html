@@ -581,11 +581,13 @@ footer {
 <footer>
   The Cantina Club — A Galaxy of Cards
 </footer>
-  <script>
+  <script src="/cantina-club-rebuild/sketch-vault/search-index.js"></script>
+<script>
 const setSearch = document.getElementById("setSearch");
 
 setSearch.addEventListener("input", () => {
   const query = setSearch.value.trim().toLowerCase();
+  const index = window.sketchVaultSearchIndex || [];
 
   document.querySelectorAll(".archive-year").forEach((entry) => {
     const year = entry.querySelector("h2").textContent.toLowerCase();
@@ -596,6 +598,36 @@ setSearch.addEventListener("input", () => {
       !year.includes(query) &&
       !setName.includes(query);
   });
+
+  let results = document.getElementById("globalSearchResults");
+
+  if (!results) {
+    results = document.createElement("div");
+    results.id = "globalSearchResults";
+    setSearch.parentElement.insertAdjacentElement("afterend", results);
+  }
+
+  results.innerHTML = "";
+
+  if (!query) return;
+
+  const matches = index.filter((item) =>
+    `${item.name} ${item.year || ""} ${item.keywords || ""} ${item.set || ""}`
+      .toLowerCase()
+      .includes(query)
+  );
+
+  matches.forEach((item) => {
+    const link = document.createElement("a");
+    link.href = item.url;
+    link.textContent = `${item.type}: ${item.name}`;
+    link.style.cssText = "display:block; padding:10px; margin-top:6px; border:1px solid var(--border); border-radius:6px; color:var(--gold);";
+    results.appendChild(link);
+  });
+
+  if (!matches.length) {
+    results.textContent = "No matching sets or artists found.";
+  }
 });
 </script>
 </body>
