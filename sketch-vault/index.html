@@ -37,26 +37,53 @@ header {
   gap: 20px;
   flex-wrap: wrap;
 }
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .brand {
   color: var(--gold);
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: 2px;
+  text-decoration: none;
 }
-.brand small {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 3px;
-  font-weight: normal;
+
+.tagline {
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-decoration: none;
 }
+
 nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  font-size: 13px;
+  align-items: center;
+  gap: 8px;
 }
-nav a:hover { color: var(--gold); }
+
+.nav-link {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.nav-link.active {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.nav-link:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
 main {
   max-width: 1000px;
   margin: auto;
