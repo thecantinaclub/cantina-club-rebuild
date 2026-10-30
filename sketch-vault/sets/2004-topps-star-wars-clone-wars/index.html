@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2004 Topps Star Wars Clone Wars Sketch Vault | The Cantina Club</title>
+
+<style>
+:root {
+  --bg: #090b10;
+  --panel: #121620;
+  --gold: #e9bd68;
+  --text: #f3f0e8;
+  --muted: #a6adbb;
+  --border: #303746;
+  --gold-dark: #806333;
+  --background: var(--bg);
+  --panel-light: #1b2230;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+a { color: var(--gold); }
+
+header {
+  background: #0d1017;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 20px;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.brand {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.tagline {
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav-link {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.nav-link.active {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 45px 20px 70px;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.7rem);
+  line-height: 1.2;
+  margin: 8px 0 14px;
+}
+
+h2 {
+  color: var(--gold);
+  margin: 0 0 8px;
+  font-size: 1.65rem;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.intro {
+  color: var(--muted);
+  max-width: 760px;
+  margin-bottom: 26px;
+}
+
+.artist-search {
+  margin-bottom: 18px;
+}
+
+.set-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.overall-odds,
+.summary-stats,
+.odds-group {
+  background: #141923;
+  border: 1px solid #303746;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.overall-odds {
+  margin: 0;
+  font-size: 14px;
+  color: #f0f0f0;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.summary-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.summary-stats div strong {
+  color: #e4c16f;
+  font-size: 22px;
+}
+
+.summary-stats div span {
+  color: #aeb6c5;
+  font-size: 12px;
+}
+
+.odds-group h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #e4c16f;
+}
+
+.odds-group p {
+  margin: 6px 0;
+  font-size: 13px;
+}
+
+.level-odds {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.level-odds p {
+  margin: 8px 0;
+}
+
+.estimate-note {
+  color: #aeb6c5;
+  font-size: 12px;
+  margin: 0;
+}
+
+.level-section {
+  margin-top: 38px;
+  scroll-margin-top: 20px;
+}
+
+.level-heading {
+  border-bottom: 1px solid var(--gold-dark);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.level-description {
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.artist-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.artist-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 16px 18px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.artist-card:hover {
+  background: #1b2230;
+  border-color: var(--gold);
+}
+
+.artist-top {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.artist-set {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.level-label {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 5px;
+  border: 1px solid var(--gold-dark);
+  border-radius: 5px;
+  padding: 3px 8px;
+  color: var(--gold);
+  font-size: .83rem;
+}
+
+.details-button {
+  margin-top: 13px;
+  padding: 8px 13px;
+  background: #252117;
+  border: 1px solid var(--gold-dark);
+  border-radius: 5px;
+  color: var(--gold);
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background: #342b1b;
+}
+
+.details-panel {
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.details-panel[hidden] {
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 8px;
+  border-bottom: 1px solid #39342a;
+}
+
+th {
+  color: var(--gold);
+  font-weight: bold;
+}
+
+td:first-child { width: 58%; }
+
+.method-note {
+  margin-top: 30px;
+  padding: 15px 17px;
+  background: #171717;
+  border-left: 3px solid var(--gold-dark);
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 22px 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+@media (max-width: 600px) {
+  .summary-stats {
+    gap: 8px;
+  }
+
+  .summary-stats div strong {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  main { padding: 22px 13px 45px; }
+  .artist-list { grid-template-columns: 1fr; }
+  .artist-card { padding: 14px; }
+  th, td { padding: 8px 5px; font-size: .85rem; }
+  td:first-child { width: 55%; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="brand-block">
+      <a class="brand" href="/cantina-club-rebuild/">THE CANTINA CLUB</a>
+      <a class="tagline" href="/cantina-club-rebuild/">A GALAXY OF CARDS</a>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <a class="nav-link" href="/cantina-club-rebuild/">Home</a>
+      <a class="nav-link active" href="/cantina-club-rebuild/sketch-vault/">Sketch Vault</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <h1>2004 Topps Star Wars Clone Wars</h1>
+
+  <p class="intro">
+    Explore the sketch-card artists associated with 2004 Topps Star Wars
+    Clone Wars. The set features 13 artists, organized into seven levels
+    according to their published sketch-card odds. Expand an artist's
+    details to see the odds and estimated card quantities.
+  </p>
+
+  <div class="artist-search">
+    <div id="siteSearchMount"></div>
+  </div>
+
+  <a href="/cantina-club-rebuild/sketch-vault/">← Back to Sketch Vault</a>
+
+  <div class="set-summary">
+
+    <p class="overall-odds">
+      <strong>Overall pack odds:</strong> 1:36 hobby packs
+    </p>
+
+    <div class="summary-stats">
+      <div>
+        <strong>≈76,000</strong>
+        <span>Estimated hobby packs</span>
+      </div>
+      <div>
+        <strong>≈2,111</strong>
+        <span>Estimated sketch cards</span>
+      </div>
+      <div>
+        <strong>13</strong>
+        <span>Unique artists</span>
+      </div>
+    </div>
+
+    <div class="odds-group">
+      <h3>Sketch Card Level Odds</h3>
+      <div class="level-odds">
+        <p>A — 1:76 · B — 1:231 · C — 1:286</p>
+        <p>D — 1:318 · E — 1:582 · F — 1:606</p>
+        <p>G — 1:1,945</p>
+      </div>
+    </div>
+
+    <p class="estimate-note">
+      Pack production and sketch-card totals are unconfirmed estimates.
+      Sketch cards were hobby-pack exclusives.
+    </p>
+
+  </div>
+
+  <div id="levelSections"></div>
+
+  <div class="method-note">
+    <strong>About the estimates:</strong>
+    These figures are collector estimates calculated from approximately
+    76,000 hobby packs and the published odds for each level.
+    Estimated cards per artist assume an equal share among artists
+    assigned to the same level. Actual artist allocations may differ.
+    Exact artist print runs were not released by Topps.
+  </div>
+
+</main>
+
+<footer>
+  THE CANTINA CLUB · A GALAXY OF CARDS
+</footer>
+
+<script>
+const setPacks = 76000;
+
+const levelData = {
+  A: {
+    odds: 76,
+    artists: [
+      "Joe Corroney",
+      "Davide Fabbri",
+      "John McCrea"
+    ]
+  },
+
+  B: {
+    odds: 231,
+    artists: [
+      "Robert Teranishi",
+      "Doug Wheatley"
+    ]
+  },
+
+  C: {
+    odds: 286,
+    artists: [
+      "Pop Mhan"
+    ]
+  },
+
+  D: {
+    odds: 318,
+    artists: [
+      "Tomas Giarello",
+      "Rafael Kayanan",
+      "Kilian Plunkett"
+    ]
+  },
+
+  E: {
+    odds: 582,
+    artists: [
+      "Paul Rudish"
+    ]
+  },
+
+  F: {
+    odds: 606,
+    artists: [
+      "Rodolfo Migliari",
+      "Genndy Tartakovsky"
+    ]
+  },
+
+  G: {
+    odds: 1945,
+    artists: [
+      "Dave Dorman"
+    ]
+  }
+};
+
+function roundedEstimate(value) {
+  return Math.round(value).toLocaleString("en-US");
+}
+
+function artistSlug(name) {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function makeArtistCard(name, level) {
+  const info = levelData[level];
+
+  const estimatedLevelTotal = setPacks / info.odds;
+  const estimatedPerArtist = estimatedLevelTotal / info.artists.length;
+
+  const card = document.createElement("article");
+  card.className = "artist-card";
+
+  const top = document.createElement("div");
+  top.className = "artist-top";
+
+  const heading = document.createElement("h3");
+
+  const artistLink = document.createElement("a");
+  artistLink.textContent = name;
+  artistLink.href =
+    "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-clone-wars/" +
+    artistSlug(name) + "/";
+  artistLink.style.color = "var(--gold)";
+  artistLink.style.textDecoration = "none";
+
+  heading.appendChild(artistLink);
+
+  const setName = document.createElement("div");
+  setName.className = "artist-set";
+  setName.textContent = "2004 Topps Star Wars Clone Wars";
+
+  const levelLabel = document.createElement("div");
+  levelLabel.className = "level-label";
+  levelLabel.textContent = "Level " + level + " Sketch Card";
+
+  top.append(heading, setName, levelLabel);
+
+  const button = document.createElement("button");
+  button.className = "details-button";
+  button.type = "button";
+  button.textContent = "View details +";
+  button.setAttribute("aria-expanded", "false");
+
+  const panel = document.createElement("div");
+  panel.className = "details-panel";
+  panel.hidden = true;
+
+  const table = document.createElement("table");
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Detail</th>
+        <th>Information</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Odds</td>
+        <td>1:${info.odds.toLocaleString("en-US")} hobby packs</td>
+      </tr>
+      <tr>
+        <td>Artists in Level ${level}</td>
+        <td>${info.artists.length}</td>
+      </tr>
+      <tr>
+        <td>Estimated Cards per Artist</td>
+        <td>≈ ${roundedEstimate(estimatedPerArtist)}</td>
+      </tr>
+      <tr>
+        <td>Estimated Total Cards (Level ${level})</td>
+        <td>≈ ${roundedEstimate(estimatedLevelTotal)}</td>
+      </tr>
+      <tr>
+        <td>Estimated Cards by Artist</td>
+        <td>≈ ${roundedEstimate(estimatedPerArtist)}</td>
+      </tr>
+    </tbody>
+  `;
+
+  const note = document.createElement("p");
+  note.className = "estimate-note";
+  note.textContent =
+    "Collector estimate based on approximately 76,000 hobby packs. " +
+    "Topps did not release exact artist print runs. The per-artist " +
+    "figure assumes an equal share within this level.";
+
+  panel.append(table, note);
+
+  panel.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
+  button.addEventListener("click", () => {
+    const isOpening = panel.hidden;
+    panel.hidden = !isOpening;
+    button.textContent = isOpening ? "Hide details −" : "View details +";
+    button.setAttribute("aria-expanded", String(isOpening));
+  });
+
+  card.style.cursor = "pointer";
+
+  card.addEventListener("click", (event) => {
+    if (event.target.closest("button")) return;
+    if (event.target.closest("a")) return;
+
+    window.location.href =
+      "/cantina-club-rebuild/sketch-vault/sets/2004-topps-star-wars-clone-wars/" +
+      artistSlug(name) + "/";
+  });
+
+  card.append(top, button, panel);
+  card.dataset.artist = artistSlug(name);
+
+  return card;
+}
+
+function renderLevels() {
+  const container = document.getElementById("levelSections");
+
+  Object.entries(levelData).forEach(([level, info]) => {
+    const section = document.createElement("section");
+    section.className = "level-section";
+    section.id = "level-" + level.toLowerCase();
+
+    const heading = document.createElement("div");
+    heading.className = "level-heading";
+
+    const title = document.createElement("h2");
+    title.textContent = "Level " + level;
+
+    heading.appendChild(title);
+
+    const description = document.createElement("p");
+    description.className = "level-description";
+    description.textContent =
+      "Odds: 1:" + info.odds.toLocaleString("en-US") +
+      " hobby packs · " + info.artists.length +
+      (info.artists.length === 1 ? " artist" : " artists");
+
+    const artistList = document.createElement("div");
+    artistList.className = "artist-list";
+
+    info.artists
+      .slice()
+      .sort((a, b) => a.localeCompare(b))
+      .forEach((name) => {
+        artistList.appendChild(makeArtistCard(name, level));
+      });
+
+    section.append(heading, description, artistList);
+    container.appendChild(section);
+  });
+}
+
+renderLevels();
+</script>
+
+<script src="/cantina-club-rebuild/sketch-vault/search.js"></script>
+
+</body>
+</html>
