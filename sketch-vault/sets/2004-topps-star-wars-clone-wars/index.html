@@ -617,12 +617,9 @@ function renderLevels() {
     const artistList = document.createElement("div");
     artistList.className = "artist-list";
 
-    info.artists
-      .slice()
-      .sort((a, b) => a.localeCompare(b))
-      .forEach((name) => {
-        artistList.appendChild(makeArtistCard(name, level));
-      });
+    info.artists.forEach((name) => {
+  artistList.appendChild(makeArtistCard(name, level));
+});
 
     section.appendChild(artistList);
     container.appendChild(section);
