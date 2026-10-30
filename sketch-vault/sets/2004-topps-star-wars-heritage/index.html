@@ -806,26 +806,8 @@ function renderWave(waveNumber, containerId) {
 
 renderWave(1, "wave1Artists");
 renderWave(2, "wave2Artists");
-
-const artistSearch = document.getElementById("artistSearch");
-
-artistSearch.addEventListener("input", () => {
-  const query = artistSearch.value.trim().toLowerCase();
-
-  document.querySelectorAll(".artist-card").forEach((card) => {
-    const artistName =
-      card.querySelector("h3").textContent.toLowerCase();
-
-    const setName = "2004 topps star wars heritage";
-
-    card.hidden =
-      query !== "" &&
-      !artistName.includes(query) &&
-      !setName.includes(query);
-  });
-});
   
 </script>
-
+  <script src="/cantina-club-rebuild/sketch-vault/search.js"></script>
 </body>
 </html>
