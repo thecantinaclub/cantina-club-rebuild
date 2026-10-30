@@ -614,21 +614,6 @@ function renderLevels() {
     section.className = "level-section";
     section.id = "level-" + level.toLowerCase();
 
-    const heading = document.createElement("div");
-    heading.className = "level-heading";
-
-    const title = document.createElement("h2");
-    title.textContent = "Level " + level;
-
-    heading.appendChild(title);
-
-    const description = document.createElement("p");
-    description.className = "level-description";
-    description.textContent =
-      "Odds: 1:" + info.odds.toLocaleString("en-US") +
-      " hobby packs · " + info.artists.length +
-      (info.artists.length === 1 ? " artist" : " artists");
-
     const artistList = document.createElement("div");
     artistList.className = "artist-list";
 
@@ -639,7 +624,7 @@ function renderLevels() {
         artistList.appendChild(makeArtistCard(name, level));
       });
 
-    section.append(heading, description, artistList);
+    section.appendChild(artistList);
     container.appendChild(section);
   });
 }
