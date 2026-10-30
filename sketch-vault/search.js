@@ -20,14 +20,14 @@
     const searchArea = document.createElement("div");
     searchArea.id = "siteSearch";
     searchArea.style.cssText =
-      "position:relative; flex:1; max-width:420px; margin:0 15px;";
+      "position:relative; width:100%; max-width:700px; margin:30px auto;";
 
     const input = document.createElement("input");
     input.type = "search";
     input.placeholder = "Search all sets and artists...";
     input.setAttribute("aria-label", "Search all sets and artists");
     input.style.cssText =
-      "width:100%; box-sizing:border-box; padding:11px 14px; " +
+      "width:100%; box-sizing:border-box; padding:18px 20px; " +
       "border:1px solid var(--gold); border-radius:7px; " +
       "background:var(--panel); color:var(--text); font-size:15px;";
 
