@@ -616,21 +616,16 @@ function makeArtistCard(name, level) {
 function renderLevels() {
   const container = document.getElementById("levelSections");
 
+  const artistList = document.createElement("div");
+  artistList.className = "artist-list";
+
   Object.entries(levelData).forEach(([level, info]) => {
-    const section = document.createElement("section");
-    section.className = "level-section";
-    section.id = "level-" + level.toLowerCase();
-
-    const artistList = document.createElement("div");
-    artistList.className = "artist-list";
-
     info.artists.forEach((name) => {
-  artistList.appendChild(makeArtistCard(name, level));
-});
-
-    section.appendChild(artistList);
-    container.appendChild(section);
+      artistList.appendChild(makeArtistCard(name, level));
+    });
   });
+
+  container.appendChild(artistList);
 }
 
 renderLevels();
