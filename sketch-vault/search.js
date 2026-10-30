@@ -13,8 +13,7 @@
   document.head.appendChild(indexScript);
 
   function createSearch() {
-    const header = document.querySelector(".header-inner") ||
-                   document.querySelector("header");
+    const header = document.getElementById("siteSearchMount");
 
     if (!header || document.getElementById("siteSearch")) return;
 
